@@ -6,7 +6,6 @@ const useInputSocket = (message: string) => {
   const { activeChat, messages } = useAppSelector((state) => state.chatSlice);
   const { uid } = useAppSelector((state) => state.sessionSlice);
   const { socket } = useSocketContext();
-  
 
   const msg: message = useMemo(() => {
     return {
@@ -17,13 +16,10 @@ const useInputSocket = (message: string) => {
   }, [message, uid, activeChat.uid]);
   const setTypingEvent = useCallback(() => {
     socket?.emit("typing", msg);
-  }, [message, msg, socket]);
+  }, [msg, socket]);
 
   const submitEvent = useCallback(() => {
-    socket?.emit("personal-message", {
-      msg: msg,
-      activeChatUid: activeChat.uid,
-    });
+    socket?.emit("personal-message", msg);
   }, [socket, msg]);
 
   const seenEvent = useCallback(() => {

@@ -7,8 +7,9 @@ import {
   activeChat,
   message,
 } from "../../types/message/message";
+
 import { friend } from "../../types/session/session";
-import { messageToServer } from "../../types/message/message";
+
 const initialState: ChatState = {
   messages: [],
   friends: [],

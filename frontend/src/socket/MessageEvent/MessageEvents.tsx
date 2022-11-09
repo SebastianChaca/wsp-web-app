@@ -7,11 +7,7 @@ import {
   updateSeenMessages,
 } from "../../redux/chat/chatSlice";
 import { useSocketContext } from "../SocketContext/SocketContext";
-import {
-  serverMessageResponse,
-  message,
-  messageToServer,
-} from "../../types/message/message";
+import { serverMessageResponse, message } from "../../types/message/message";
 
 import {
   sanitizeMessages,
