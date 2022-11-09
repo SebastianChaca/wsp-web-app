@@ -1,5 +1,5 @@
-import React from "react";
-import { useField } from "formik";
+import React from 'react';
+import { useField, ErrorMessage as Errormsg } from 'formik';
 import {
   FormLabel,
   Input,
@@ -7,14 +7,14 @@ import {
   IconButton,
   InputRightElement,
   useDisclosure,
-} from "@chakra-ui/react";
-import { HiEye, HiEyeOff } from "react-icons/hi";
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
-import { ErrorMessage as Errormsg } from "formik";
+} from '@chakra-ui/react';
+import { HiEye, HiEyeOff } from 'react-icons/hi';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+
 interface Props {
   label: string;
   name: string;
-  type?: "text" | "email" | "password";
+  type?: 'text' | 'email' | 'password';
   placeholder?: string;
   [x: string]: any;
 }
@@ -24,7 +24,7 @@ const FormikInput = React.forwardRef<Ref, Props>(({ label, ...props }, ref) => {
   const [field, meta] = useField(props);
   const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: false });
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const isPassword = props.name === "password";
+  const isPassword = props.name === 'password';
   const onClickReveal = () => {
     onToggle();
     if (inputRef.current) {
@@ -34,13 +34,13 @@ const FormikInput = React.forwardRef<Ref, Props>(({ label, ...props }, ref) => {
 
   return (
     <>
-      <FormLabel mt={"10px"}>{label}</FormLabel>
+      <FormLabel mt="10px">{label}</FormLabel>
       <InputGroup>
-        {props.name === "password" && (
+        {props.name === 'password' && (
           <InputRightElement>
             <IconButton
               variant="link"
-              aria-label={isOpen ? "Mask password" : "Reveal password"}
+              aria-label={isOpen ? 'Mask password' : 'Reveal password'}
               icon={isOpen ? <HiEyeOff /> : <HiEye />}
               onClick={onClickReveal}
             />
@@ -51,7 +51,7 @@ const FormikInput = React.forwardRef<Ref, Props>(({ label, ...props }, ref) => {
           {...props}
           isInvalid={!!meta.touched && !!meta.error}
           ref={isPassword ? inputRef : ref}
-          type={isPassword && !isOpen ? "password" : props.type}
+          type={isPassword && !isOpen ? 'password' : props.type}
         />
       </InputGroup>
 
@@ -60,4 +60,5 @@ const FormikInput = React.forwardRef<Ref, Props>(({ label, ...props }, ref) => {
   );
 });
 
+FormikInput.displayName = 'FormikInput';
 export default FormikInput;

@@ -1,18 +1,18 @@
+import { Button, Checkbox, HStack } from '@chakra-ui/react';
+import { Formik, Form } from 'formik';
 import {
   ContainerBox,
   Header,
   FormContainer,
-} from "../../../components/Session";
-import { Button, Checkbox, HStack } from "@chakra-ui/react";
-import { Formik, Form } from "formik";
+} from '../../../components/Session';
 
-import { FormikInput, ErrorMessage } from "../../../components/FormComponents";
+import { FormikInput, ErrorMessage } from '../../../components/FormComponents';
 
-import { validationSchema } from "./ValidationSchema";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { fetchSignIn } from "../../../services/session/signIn";
+import { validationSchema } from './ValidationSchema';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { fetchSignIn } from '../../../services/session/signIn';
 
-const SignIn = () => {
+function SignIn() {
   const dispatch = useAppDispatch();
   const { error, isLoading } = useAppSelector((state) => state.sessionSlice);
 
@@ -23,21 +23,21 @@ const SignIn = () => {
       <FormContainer>
         <Formik
           initialValues={{
-            email: "",
-            password: "",
+            email: '',
+            password: '',
           }}
           onSubmit={async (values) => {
             dispatch(fetchSignIn(values));
           }}
           validationSchema={validationSchema}
         >
-          {(props) => (
+          {({ isValid }) => (
             <Form>
               {error && <ErrorMessage>{error}</ErrorMessage>}
-              <FormikInput label={"Email"} name="email" type="text" />
-              <FormikInput label={"Password"} name="password" type="text" />
+              <FormikInput label="Email" name="email" type="text" />
+              <FormikInput label="Password" name="password" type="text" />
 
-              <HStack justify="space-between" mt={"20px"}>
+              <HStack justify="space-between" mt="20px">
                 <Checkbox defaultChecked>Remember me</Checkbox>
                 <Button variant="link" colorScheme="blue" size="sm">
                   Forgot password?
@@ -45,12 +45,12 @@ const SignIn = () => {
               </HStack>
 
               <Button
-                bg={"#692b8f"}
+                bg="#692b8f"
                 color="white"
                 type="submit"
-                w={"100%"}
+                w="100%"
                 mt="20px"
-                disabled={!props.isValid || isLoading}
+                disabled={!isValid || isLoading}
                 isLoading={isLoading}
               >
                 Sign in
@@ -61,6 +61,6 @@ const SignIn = () => {
       </FormContainer>
     </ContainerBox>
   );
-};
+}
 
 export default SignIn;

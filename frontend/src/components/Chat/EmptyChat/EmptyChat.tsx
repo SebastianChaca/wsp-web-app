@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
-const EmptyChat = () => {
+function EmptyChat() {
   return <div>EmptyChat</div>;
-};
+}
 
 export default EmptyChat;

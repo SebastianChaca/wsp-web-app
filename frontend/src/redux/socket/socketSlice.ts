@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Socket } from "socket.io-client";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Socket } from 'socket.io-client';
+
 interface initialStateType {
   socket: Socket | undefined | null;
   online: boolean;
@@ -11,13 +12,13 @@ const initialState: initialStateType = {
 };
 
 export const socketSlice = createSlice({
-  name: "socket",
+  name: 'socket',
   initialState,
   reducers: {
     getUserStatus: (state, action: PayloadAction<boolean>) => {
       state.online = action.payload;
     },
-    //cuando agrego el type socket se rompe porque redux agrega le agrega un type draft
+    // cuando agrego el type socket se rompe porque redux agrega le agrega un type draft
     connectSocket: (state, action: PayloadAction<any>) => {
       state.socket = action.payload;
     },

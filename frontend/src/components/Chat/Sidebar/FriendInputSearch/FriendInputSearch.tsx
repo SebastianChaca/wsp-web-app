@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
-const FriendInputSearch = () => {
+function FriendInputSearch() {
   return <div>FriendInputSearch</div>;
-};
+}
 
 export default FriendInputSearch;

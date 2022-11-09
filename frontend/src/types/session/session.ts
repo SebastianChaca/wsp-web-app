@@ -11,11 +11,11 @@ export interface SessionAPIResponse {
   token: string;
   usuario: user;
 }
-//redux
+// redux
 export interface sessionState extends user {
   token: string | null;
   error: string | null | undefined;
-  status: "idle" | "loading" | "failed";
+  status: 'idle' | 'loading' | 'failed';
   isLoading: boolean;
 }
 

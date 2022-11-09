@@ -1,4 +1,4 @@
-import { user, friend } from "../../types/session/session";
+import { user, friend } from '../session/session';
 
 export interface message {
   to: string | null;

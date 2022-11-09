@@ -1,9 +1,9 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import ChatRouter from "../pages/Chat/ChatRouter";
-import SessionRouter from "../pages/Session/SessionRouter/SessionRouter";
+import { Routes, Route, Navigate } from 'react-router-dom';
+import ChatRouter from '../pages/Chat/ChatRouter';
+import SessionRouter from '../pages/Session/SessionRouter/SessionRouter';
 
-const Router = () => {
-  //TODO: mejor forma de implementar ?
+function Router() {
+  // TODO: mejor forma de implementar ?
   return (
     <Routes>
       {SessionRouter}
@@ -11,6 +11,6 @@ const Router = () => {
       <Route path="*" element={<Navigate to="/session/signin" replace />} />
     </Routes>
   );
-};
+}
 
 export default Router;

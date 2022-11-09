@@ -1,19 +1,21 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
-import Avatar from "../../../Avatar/Avatar";
+import { Box, Flex, Text } from '@chakra-ui/react';
+import Avatar from '../../../Avatar/Avatar';
 
-import LastMessage from "./LastMessage";
-import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
+import LastMessage from './LastMessage';
+import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import {
   resetNotifications,
   setActiveChat,
-} from "../../../../redux/chat/chatSlice";
-import { friend } from "../../../../types/session/session";
+} from '../../../../redux/chat/chatSlice';
+import { friend as FriendInterface } from '../../../../types/session/session';
 
 interface Props {
-  friend: friend;
+  friend: FriendInterface;
 }
-const SidebarItem = ({ friend }: Props) => {
-  const { name, email, uid, online, lastActive } = friend.user;
+function SidebarItem({ friend }: Props) {
+  const {
+    name, email, uid, online, lastActive,
+  } = friend.user;
 
   const { activeChat } = useAppSelector((state) => state.chatSlice);
 
@@ -28,55 +30,55 @@ const SidebarItem = ({ friend }: Props) => {
         email,
         isTyping: false,
         lastActive,
-      })
+      }),
     );
     dispatch(resetNotifications({ uid }));
   };
   return (
-    //TODO: re hacer este layout
+    // TODO: re hacer este layout
     <Flex
-      justifyContent={"center"}
+      justifyContent="center"
       alignItems="center"
       _hover={{
-        bg: selected ? "gray.400" : "gray.300",
+        bg: selected ? 'gray.400' : 'gray.300',
       }}
-      bg={selected ? "gray.400" : "transparent"}
+      bg={selected ? 'gray.400' : 'transparent'}
       onClick={handleClick}
     >
       <Avatar online={online} name={name} hasBadge />
       <Flex
-        borderBottom={"1px solid #c4c4c4"}
+        borderBottom="1px solid #c4c4c4"
         cursor="pointer"
-        margin={"0px"}
+        margin="0px"
         padding="18px 16px 10px"
-        overflow={"hidden"}
+        overflow="hidden"
         alignItems="start"
-        justifyContent={"space-between"}
+        justifyContent="space-between"
         w="100%"
       >
         <Box>
-          <Text fontSize={"16px"} fontWeight="600">
+          <Text fontSize="16px" fontWeight="600">
             {name}
           </Text>
           <LastMessage />
         </Box>
 
         <Box>
-          <Text fontSize={"12px"} fontWeight="600" color={"gray.500"} mt="5px">
+          <Text fontSize="12px" fontWeight="600" color="gray.500" mt="5px">
             3:18 pm
           </Text>
           {friend.notifications > 0 && (
             <Flex
-              bg={"red.600"}
-              color={"white"}
-              borderRadius={"50%"}
+              bg="red.600"
+              color="white"
+              borderRadius="50%"
               w="20px"
               h="20px"
-              justifyContent={"center"}
+              justifyContent="center"
               alignItems="center"
               mt="4px"
             >
-              <Text fontSize={"10px"} m="uto">
+              <Text fontSize="10px" m="uto">
                 {friend.notifications}
               </Text>
             </Flex>
@@ -85,6 +87,6 @@ const SidebarItem = ({ friend }: Props) => {
       </Flex>
     </Flex>
   );
-};
+}
 
 export default SidebarItem;

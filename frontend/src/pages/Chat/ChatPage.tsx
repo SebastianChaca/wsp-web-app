@@ -1,14 +1,14 @@
+import { Grid } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import {
   LeftContainer,
   RightContainer,
-} from "../../components/AppLayoutContainers";
-import { Chat } from "../../components/Chat";
-import { Grid } from "@chakra-ui/react";
-import { useAppSelector, useAppDispatch } from "../../redux/hooks";
-import { useEffect } from "react";
-import { getMessages } from "../../services/messages/getMessages";
+} from '../../components/AppLayoutContainers';
+import { Chat } from '../../components/Chat';
+import { useAppSelector, useAppDispatch } from '../../redux/hooks';
+import { getMessages } from '../../services/messages/getMessages';
 
-const ChatPage = () => {
+function ChatPage() {
   const { activeChat } = useAppSelector((state) => state.chatSlice);
   const activeChatSelected = activeChat.uid;
   const dispatch = useAppDispatch();
@@ -20,9 +20,9 @@ const ChatPage = () => {
   }, [activeChatSelected, dispatch]);
 
   return (
-    <Grid templateColumns={"30% 70%"} height={"100vh"} overflow="hidden">
+    <Grid templateColumns="30% 70%" height="100vh" overflow="hidden">
       <LeftContainer>
-        {/* 
+        {/*
         <LeftUtilitySidebar/>
         */}
         <Chat.UserTopBar />
@@ -39,12 +39,12 @@ const ChatPage = () => {
         ) : (
           <Chat.EmptyState />
         )}
-        {/* 
+        {/*
         <RightUtilitySidebar/>
         */}
       </RightContainer>
     </Grid>
   );
-};
+}
 
 export default ChatPage;

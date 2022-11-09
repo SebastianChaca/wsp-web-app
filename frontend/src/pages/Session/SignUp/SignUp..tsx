@@ -1,16 +1,16 @@
+import { Button } from '@chakra-ui/react';
+import { Formik, Form } from 'formik';
 import {
   ContainerBox,
   Header,
   FormContainer,
-} from "../../../components/Session";
-import { Button } from "@chakra-ui/react";
-import { Formik, Form } from "formik";
-import { FormikInput, ErrorMessage } from "../../../components/FormComponents/";
-import { validationSchema } from "../SignIn/ValidationSchema";
-import { fetchSignUp } from "../../../services/session/signUp";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+} from '../../../components/Session';
+import { FormikInput, ErrorMessage } from '../../../components/FormComponents';
+import { validationSchema } from '../SignIn/ValidationSchema';
+import { fetchSignUp } from '../../../services/session/signUp';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 
-const SignUp = () => {
+function SignUp() {
   const dispatch = useAppDispatch();
   const { error, isLoading } = useAppSelector((state) => state.sessionSlice);
   return (
@@ -19,29 +19,29 @@ const SignUp = () => {
       <FormContainer>
         <Formik
           initialValues={{
-            email: "",
-            name: "",
-            password: "",
+            email: '',
+            name: '',
+            password: '',
           }}
           onSubmit={async (values) => {
             dispatch(fetchSignUp(values));
           }}
           validationSchema={validationSchema}
         >
-          {(props) => (
+          {({ isValid }) => (
             <Form>
               {error && <ErrorMessage>{error}</ErrorMessage>}
-              <FormikInput label={"name"} name="name" type="text" />
-              <FormikInput label={"Email"} name="email" type="text" />
-              <FormikInput label={"Password"} name="password" type="text" />
+              <FormikInput label="name" name="name" type="text" />
+              <FormikInput label="Email" name="email" type="text" />
+              <FormikInput label="Password" name="password" type="text" />
 
               <Button
-                bg={"#692b8f"}
+                bg="#692b8f"
                 color="white"
                 type="submit"
-                w={"100%"}
+                w="100%"
                 mt="20px"
-                disabled={!props.isValid || isLoading}
+                disabled={!isValid || isLoading}
                 isLoading={isLoading}
               >
                 Sign in
@@ -52,6 +52,6 @@ const SignUp = () => {
       </FormContainer>
     </ContainerBox>
   );
-};
+}
 
 export default SignUp;

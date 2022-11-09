@@ -1,7 +1,8 @@
-import { Route } from "react-router-dom";
-import PublicRoute from "../../../routers/Routes/PublicRoute";
-import SignIn from "../SignIn/SignIn";
-import SignUp from "../SignUp/SignUp.";
+import { Route } from 'react-router-dom';
+import PublicRoute from '../../../routers/Routes/PublicRoute';
+import SignIn from '../SignIn/SignIn';
+import SignUp from '../SignUp/SignUp.';
+
 const SessionRouter = (
   <Route path="/session" element={<PublicRoute />}>
     <Route path="signin" element={<SignIn />} />

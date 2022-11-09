@@ -1,14 +1,14 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getMessages } from "../../services/messages/index";
-import { addFriend } from "../../services/friends";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { getMessages } from '../../services/messages/index';
+import { addFriend } from '../../services/friends';
 import {
   ChatState,
   messageUI,
   activeChat,
   message,
-} from "../../types/message/message";
+} from '../../types/message/message';
 
-import { friend } from "../../types/session/session";
+import { friend } from '../../types/session/session';
 
 const initialState: ChatState = {
   messages: [],
@@ -17,22 +17,22 @@ const initialState: ChatState = {
   error: null,
 
   activeChat: {
-    name: "",
+    name: '',
     email: null,
     online: false,
     uid: null,
     isTyping: false,
-    lastActive: "",
+    lastActive: '',
   },
 };
 export const chatSlice = createSlice({
-  name: "chat",
+  name: 'chat',
   initialState,
   reducers: {
     setFriendsList: (state, action: PayloadAction<friend[]>) => {
       state.friends = action.payload;
     },
-    //chat selecionado por el usuario
+    // chat selecionado por el usuario
     setActiveChat: (state, action: PayloadAction<activeChat>) => {
       if (state.activeChat.uid === action.payload.uid) return;
       state.activeChat = action.payload;
@@ -40,24 +40,24 @@ export const chatSlice = createSlice({
     },
     setMessages: (state, action: PayloadAction<messageUI>) => {
       if (
-        state.activeChat.uid === action.payload.to ||
-        state.activeChat.uid === action.payload.from
+        state.activeChat.uid === action.payload.to
+        || state.activeChat.uid === action.payload.from
       ) {
         state.messages.push(action.payload);
       } else {
-        //TODO: si el mensaje no esta en active chat chequear si son amigos
-        //si lo son agrego notificacion
-        //si no son lo agrego a amigos con status 0 (requested)
-        //primero en la lista y con notificacion
-        //console.log(action.payload);
+        // TODO: si el mensaje no esta en active chat chequear si son amigos
+        // si lo son agrego notificacion
+        // si no son lo agrego a amigos con status 0 (requested)
+        // primero en la lista y con notificacion
+        // console.log(action.payload);
       }
     },
-    //si el usuario esta escribiendo un mensaje
+    // si el usuario esta escribiendo un mensaje
     setIsTyping: (state, action: PayloadAction<message>) => {
       if (action.payload.message.length > 0) {
         if (
-          state.activeChat.uid === action.payload.to ||
-          state.activeChat.uid === action.payload.from
+          state.activeChat.uid === action.payload.to
+          || state.activeChat.uid === action.payload.from
         ) {
           state.activeChat.isTyping = true;
         }
@@ -65,8 +65,8 @@ export const chatSlice = createSlice({
         state.activeChat.isTyping = false;
       }
     },
-    //si el usuario vio el mensaje
-    //se dispara cuando el mensaje esta en el active chat
+    // si el usuario vio el mensaje
+    // se dispara cuando el mensaje esta en el active chat
     updateSeenMessages: (state, action: PayloadAction<messageUI[]>) => {
       const elementsToDelete = action.payload.length;
 
@@ -76,44 +76,44 @@ export const chatSlice = createSlice({
       const newArr = state.messages.concat(action.payload);
       state.messages = newArr;
     },
-    //notificacion de mensaje cuando no esta en el chat activo
+    // notificacion de mensaje cuando no esta en el chat activo
     updateNotifications: (state, action: PayloadAction<messageUI>) => {
       if (action.payload.from !== state.activeChat.uid) {
-        if (state.friends?.length! > 0) {
-          state.friends!.forEach((friend) => {
-            if (action.payload.from === friend.user.uid) {
-              return (friend.notifications += 1);
-            } else {
-              return friend;
+        if (state.friends && state.friends.length > 0) {
+          state.friends.forEach((friendItem) => {
+            if (action.payload.from === friendItem.user.uid) {
+              (friendItem.notifications += 1);
+              return friendItem;
             }
+            return friendItem;
           });
         }
       }
     },
-    //cuando se selecciona el chat activo se resetean las notificaciones
+    // cuando se selecciona el chat activo se resetean las notificaciones
     resetNotifications: (
       state,
-      action: PayloadAction<{ uid: string | null }>
+      action: PayloadAction<{ uid: string | null }>,
     ) => {
-      state.friends?.forEach((friend) => {
-        if (action.payload.uid === friend.user.uid) {
-          return (friend.notifications = 0);
-        } else {
-          return friend;
+      state.friends?.forEach((friendItem) => {
+        if (action.payload.uid === friendItem.user.uid) {
+          friendItem.notifications = 0;
+          return friendItem;
         }
+        return friendItem;
       });
     },
     addFierndToList: (state, action) => {
       state.friends?.unshift(action.payload);
     },
-    //se dispara cuando un usuario se conecta o desconecta
+    // se dispara cuando un usuario se conecta o desconecta
     updateFriendStatus: (
       state,
-      action: PayloadAction<{ uid: string; online: boolean }>
+      action: PayloadAction<{ uid: string; online: boolean }>,
     ) => {
-      state.friends?.forEach((friend) => {
-        if (friend.user.uid === action.payload.uid) {
-          friend.user.online = action.payload.online;
+      state.friends?.forEach((friendItem) => {
+        if (friendItem.user.uid === action.payload.uid) {
+          friendItem.user.online = action.payload.online;
         }
       });
     },
@@ -125,13 +125,13 @@ export const chatSlice = createSlice({
         (state, action: PayloadAction<messageUI[]>) => {
           state.messages = action.payload;
           state.isLoading = false;
-        }
+        },
       )
       .addCase(getMessages.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(getMessages.rejected, (state) => {
-        state.error = "error";
+        state.error = 'error';
       })
       .addCase(addFriend.fulfilled, (state, action) => {
         state.friends?.unshift(action.payload);

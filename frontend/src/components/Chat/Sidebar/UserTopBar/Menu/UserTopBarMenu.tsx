@@ -4,10 +4,11 @@ import {
   MenuList,
   IconButton,
   useDisclosure,
-} from "@chakra-ui/react";
-import { FiChevronDown } from "react-icons/all";
-import { AddFriend, AddFriendModal, Signout } from "./MenuItems";
-const UserTopBarMenu = () => {
+} from '@chakra-ui/react';
+import { FiChevronDown } from 'react-icons/all';
+import { AddFriend, AddFriendModal, Signout } from './MenuItems';
+
+function UserTopBarMenu() {
   const { onOpen, onClose, isOpen } = useDisclosure();
   return (
     <>
@@ -15,7 +16,7 @@ const UserTopBarMenu = () => {
       <Menu isLazy>
         <MenuButton
           as={IconButton}
-          icon={<FiChevronDown fontSize={"24px"} />}
+          icon={<FiChevronDown fontSize="24px" />}
           variant="outline"
         />
 
@@ -26,6 +27,6 @@ const UserTopBarMenu = () => {
       </Menu>
     </>
   );
-};
+}
 
 export default UserTopBarMenu;

@@ -1,25 +1,25 @@
-import { Flex } from "@chakra-ui/react";
-import { useAppSelector } from "../../../../redux/hooks";
+import { Flex } from '@chakra-ui/react';
+import { useAppSelector } from '../../../../redux/hooks';
 
-import Avatar from "../../../Avatar/Avatar";
-import UserTopBarMenu from "./Menu/UserTopBarMenu";
+import Avatar from '../../../Avatar/Avatar';
+import UserTopBarMenu from './Menu/UserTopBarMenu';
 
-const UserTopBar = () => {
+function UserTopBar() {
   const { name } = useAppSelector((state) => state.sessionSlice);
 
   return (
     <Flex
-      overflow={"hidden"}
+      overflow="hidden"
       p="10px"
-      borderBottom={"1px solid #c4c4c4"}
+      borderBottom="1px solid #c4c4c4"
       h="80px"
-      justifyContent={"left"}
+      justifyContent="left"
       alignItems="center"
     >
       <Avatar name={name} />
       <UserTopBarMenu />
     </Flex>
   );
-};
+}
 
 export default UserTopBar;

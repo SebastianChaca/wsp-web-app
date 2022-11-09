@@ -1,6 +1,7 @@
-import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 
-import { sessionSlice, chatSlice } from "./index";
+import { sessionSlice, chatSlice } from './index';
+
 export const store = configureStore({
   reducer: {
     sessionSlice,
@@ -11,8 +12,8 @@ export const store = configureStore({
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
+ReturnType,
+RootState,
+unknown,
+Action<string>
 >;
