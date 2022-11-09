@@ -1,17 +1,17 @@
-import { useCallback, useEffect, useState } from "react";
-import io, { Socket } from "socket.io-client";
+import { useCallback, useEffect, useState } from 'react';
+import io, { Socket } from 'socket.io-client';
 
 export const useSocket = () => {
   const [online, setOnline] = useState(false);
   const [socket, setSocket] = useState<Socket | null>(null);
 
   const conectarSocket = useCallback((token: string) => {
-    const socketTemp = io(process.env.REACT_APP_API_URL || "", {
-      transports: ["websocket"],
+    const socketTemp = io(process.env.REACT_APP_API_URL || '', {
+      transports: ['websocket'],
       autoConnect: true,
       forceNew: true,
       query: {
-        "x-token": token,
+        'x-token': token,
       },
     });
 
@@ -27,11 +27,11 @@ export const useSocket = () => {
   }, [socket]);
 
   useEffect(() => {
-    socket?.on("connect", () => setOnline(true));
+    socket?.on('connect', () => setOnline(true));
   }, [socket]);
 
   useEffect(() => {
-    socket?.on("disconnect", () => setOnline(false));
+    socket?.on('disconnect', () => setOnline(false));
   }, [socket]);
 
   return {

@@ -1,1 +1,1 @@
-export { getMessages } from "./getMessages";
+export { getMessages } from './getMessages';
