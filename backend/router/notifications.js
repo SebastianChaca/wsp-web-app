@@ -10,6 +10,5 @@ const {
 } = require("../constrollers/notifications");
 const router = Router();
 
-router.post("/messages", validarJWT, updateNotificationsMessage);
 router.post("/messages/reset", validarJWT, resetNotificationsMessage);
 module.exports = router;

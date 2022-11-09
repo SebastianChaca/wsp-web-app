@@ -63,28 +63,26 @@ class Sockets {
 
       // obtener mensaje personal
       socket.on("personal-message", async (payload) => {
+        console.log(payload);
         //payload
         // {
-        //   msg: {
         //     from: '63643107da84feaed10653bf',
         //     to: '63643111da84feaed10653c2',
         //     message: 'sdfsdf'
-        //   },
-        //   activeChatUid: '63643111da84feaed10653c2'
-        // }
+        //   }
+        //
 
         //guardar como last message
-        if (payload.msg.to !== payload.activeChatUid) {
-          updateNotificationsMessage();
-        }
-        const message = await saveMessage(payload.msg);
+
+        const message = await saveMessage(payload);
+        await updateNotificationsMessage(uid, payload.to);
 
         //TODO: para guardar notificacion deberia chequear si to es active chat con un evento
 
         //emito mensaje al destinatario
-        this.io.to(payload.msg.to).emit("personal-message", message);
+        this.io.to(payload.to).emit("personal-message", message);
         //TODO: puedo hacer esto en la UI para evitar otra request
-        this.io.to(payload.msg.from).emit("personal-message", message);
+        this.io.to(payload.from).emit("personal-message", message);
       });
 
       socket.on("disconnect", async () => {
