@@ -56,9 +56,7 @@ function AddFriendModal({ isOpen, onClose }: Props) {
                 setIsloading(true);
                 setError(null);
                 const friend = await addFriendd({ email: values.email! });
-                const {
-                  name, email, uid, online, lastActive,
-                } = friend.user;
+                const { name, email, uid, online, lastActive } = friend.user;
                 dispatch(addFierndToList(friend));
                 onClose();
                 // TODO: cuando seteo el active chat no me hace focus en el input
@@ -70,7 +68,7 @@ function AddFriendModal({ isOpen, onClose }: Props) {
                     email,
                     isTyping: false,
                     lastActive,
-                  }),
+                  })
                 );
               } catch (errorMsg) {
                 setError(JSON.stringify(errorMsg));

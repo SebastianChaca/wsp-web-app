@@ -14,10 +14,10 @@ export const addFriend = createAsyncThunk(
       {
         data: email,
         method: 'post',
-      },
+      }
     );
     return response.friend;
-  },
+  }
 );
 export const addFriendd = async (email: { email: string }) => {
   const response = await makePrivateRequest<FriendApiResponse>(
@@ -25,7 +25,7 @@ export const addFriendd = async (email: { email: string }) => {
     {
       data: email,
       method: 'post',
-    },
+    }
   );
   return response.friend;
 };

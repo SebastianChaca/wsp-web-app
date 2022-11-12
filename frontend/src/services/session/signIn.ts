@@ -8,10 +8,11 @@ interface SignInProps {
   password: string;
 }
 
-export const signIn = (props: SignInProps): Promise<SessionAPIResponse> => makeRequest<SessionAPIResponse>('/api/login', {
-  data: props,
-  method: 'post',
-});
+export const signIn = (props: SignInProps): Promise<SessionAPIResponse> =>
+  makeRequest<SessionAPIResponse>('/api/login', {
+    data: props,
+    method: 'post',
+  });
 export const fetchSignIn = createAsyncThunk(
   'session/login',
   async (props: SignInProps) => {
@@ -22,5 +23,5 @@ export const fetchSignIn = createAsyncThunk(
 
     setUser(response.token, response.usuario.uid);
     return response;
-  },
+  }
 );

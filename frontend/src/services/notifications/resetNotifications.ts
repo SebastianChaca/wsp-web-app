@@ -1,15 +1,15 @@
 import { makePrivateRequest } from '../makePrivateRequest';
 
 interface response {
-  ok: true;
+  ok: boolean;
 }
-export const resetNotifications = async (uid: string) => {
+export const resetNotificationsAPI = async (uid: string) => {
   const response = await makePrivateRequest<response>(
     'notifications/messages/reset',
     {
       data: { uid },
       method: 'post',
-    },
+    }
   );
   return response;
 };

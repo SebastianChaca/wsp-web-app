@@ -40,8 +40,8 @@ export const chatSlice = createSlice({
     },
     setMessages: (state, action: PayloadAction<messageUI>) => {
       if (
-        state.activeChat.uid === action.payload.to
-        || state.activeChat.uid === action.payload.from
+        state.activeChat.uid === action.payload.to ||
+        state.activeChat.uid === action.payload.from
       ) {
         state.messages.push(action.payload);
       } else {
@@ -56,8 +56,8 @@ export const chatSlice = createSlice({
     setIsTyping: (state, action: PayloadAction<message>) => {
       if (action.payload.message.length > 0) {
         if (
-          state.activeChat.uid === action.payload.to
-          || state.activeChat.uid === action.payload.from
+          state.activeChat.uid === action.payload.to ||
+          state.activeChat.uid === action.payload.from
         ) {
           state.activeChat.isTyping = true;
         }
@@ -79,10 +79,10 @@ export const chatSlice = createSlice({
     // notificacion de mensaje cuando no esta en el chat activo
     updateNotifications: (state, action: PayloadAction<messageUI>) => {
       if (action.payload.from !== state.activeChat.uid) {
-        if (state.friends && state.friends.length > 0) {
+        if (state.friends) {
           state.friends.forEach((friendItem) => {
             if (action.payload.from === friendItem.user.uid) {
-              (friendItem.notifications += 1);
+              friendItem.notifications += 1;
               return friendItem;
             }
             return friendItem;
@@ -93,7 +93,7 @@ export const chatSlice = createSlice({
     // cuando se selecciona el chat activo se resetean las notificaciones
     resetNotifications: (
       state,
-      action: PayloadAction<{ uid: string | null }>,
+      action: PayloadAction<{ uid: string | null }>
     ) => {
       state.friends?.forEach((friendItem) => {
         if (action.payload.uid === friendItem.user.uid) {
@@ -109,7 +109,7 @@ export const chatSlice = createSlice({
     // se dispara cuando un usuario se conecta o desconecta
     updateFriendStatus: (
       state,
-      action: PayloadAction<{ uid: string; online: boolean }>,
+      action: PayloadAction<{ uid: string; online: boolean }>
     ) => {
       state.friends?.forEach((friendItem) => {
         if (friendItem.user.uid === action.payload.uid) {
@@ -125,7 +125,7 @@ export const chatSlice = createSlice({
         (state, action: PayloadAction<messageUI[]>) => {
           state.messages = action.payload;
           state.isLoading = false;
-        },
+        }
       )
       .addCase(getMessages.pending, (state) => {
         state.isLoading = true;

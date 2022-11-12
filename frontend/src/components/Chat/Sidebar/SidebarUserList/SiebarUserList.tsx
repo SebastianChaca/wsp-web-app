@@ -24,7 +24,9 @@ function SidebarUserList() {
         },
       }}
     >
-      {friends?.map((friend) => <SidebarItem key={friend.uid} friend={friend} />)}
+      {friends?.map((friend) => (
+        <SidebarItem key={friend.uid} friend={friend} />
+      ))}
     </Box>
   );
 }

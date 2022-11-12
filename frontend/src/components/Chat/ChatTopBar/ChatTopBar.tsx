@@ -5,9 +5,7 @@ import { getLastActive } from '../../../utils/date';
 
 function ChatTopBar() {
   const { activeChat } = useAppSelector((state) => state.chatSlice);
-  const {
-    name, online, isTyping, lastActive,
-  } = activeChat;
+  const { name, online, isTyping, lastActive } = activeChat;
 
   return (
     <Flex

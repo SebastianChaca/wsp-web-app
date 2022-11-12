@@ -13,9 +13,7 @@ interface Props {
   children: JSX.Element | JSX.Element[];
 }
 function SocketProvider({ children }: Props) {
-  const {
-    conectarSocket, desconectarSocket, socket, online,
-  } = useSocket();
+  const { conectarSocket, desconectarSocket, socket, online } = useSocket();
 
   const { token } = useAppSelector((state) => state.sessionSlice);
 

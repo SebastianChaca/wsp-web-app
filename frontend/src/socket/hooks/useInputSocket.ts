@@ -8,11 +8,14 @@ const useInputSocket = (messageProps: string) => {
   const { uid } = useAppSelector((state) => state.sessionSlice);
   const { socket } = useSocketContext();
 
-  const msg: message = useMemo(() => ({
-    from: uid,
-    to: activeChat.uid,
-    message: messageProps,
-  }), [messageProps, uid, activeChat.uid]);
+  const msg: message = useMemo(
+    () => ({
+      from: uid,
+      to: activeChat.uid,
+      message: messageProps,
+    }),
+    [messageProps, uid, activeChat.uid]
+  );
   const setTypingEvent = useCallback(() => {
     socket?.emit('typing', msg);
   }, [msg, socket]);
@@ -24,7 +27,7 @@ const useInputSocket = (messageProps: string) => {
   const seenEvent = useCallback(() => {
     // filtrar los mensajes que me mandaron y que seen === false y mandarlos al back
     const notSeenMessages = messages.filter(
-      (messg) => msg.to === uid && !messg.seen,
+      (messg) => msg.to === uid && !messg.seen
     );
 
     if (notSeenMessages.length > 0) {

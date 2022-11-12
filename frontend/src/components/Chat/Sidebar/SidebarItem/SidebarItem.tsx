@@ -13,9 +13,7 @@ interface Props {
   friend: FriendInterface;
 }
 function SidebarItem({ friend }: Props) {
-  const {
-    name, email, uid, online, lastActive,
-  } = friend.user;
+  const { name, email, uid, online, lastActive } = friend.user;
 
   const { activeChat } = useAppSelector((state) => state.chatSlice);
 
@@ -30,8 +28,10 @@ function SidebarItem({ friend }: Props) {
         email,
         isTyping: false,
         lastActive,
-      }),
+      })
     );
+    // agregar reset de notificaciones a la api
+    // quizas tendria que hacerlo en chat slice todo de una
     dispatch(resetNotifications({ uid }));
   };
   return (
@@ -67,7 +67,10 @@ function SidebarItem({ friend }: Props) {
           <Text fontSize="12px" fontWeight="600" color="gray.500" mt="5px">
             3:18 pm
           </Text>
-          {friend.notifications > 0 && (
+          {/*
+          TODO: agregar condicion que la tab este activa
+          */}
+          {friend.notifications > 0 && friend.uid !== activeChat.uid && (
             <Flex
               bg="red.600"
               color="white"

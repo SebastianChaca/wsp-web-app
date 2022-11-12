@@ -11,7 +11,7 @@ export const getMessages = createAsyncThunk(
   'chat/messages',
   async (uid: string) => {
     const response = await makePrivateRequest<MessageAPIresponse>(
-      `/messages/${uid}`,
+      `/messages/${uid}`
     );
 
     // TODO: ver si sirve modelizar esto para el front o usarlo como viene del back
@@ -19,5 +19,5 @@ export const getMessages = createAsyncThunk(
     const sanitMessages = sanitizeMessages(response.mensajes);
 
     return sanitMessages;
-  },
+  }
 );
