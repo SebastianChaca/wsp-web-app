@@ -72,12 +72,11 @@ class Sockets {
         //   }
         //
 
-        //guardar como last message
+        //TODO:guardar como last message
 
         const message = await saveMessage(payload);
+        //TODO: solo setea en 1, traer la cantidad de notif del front y sumar 1 en el tercer parametro
         await updateNotificationsMessage(uid, payload.to);
-
-        //TODO: para guardar notificacion deberia chequear si to es active chat con un evento
 
         //emito mensaje al destinatario
         this.io.to(payload.to).emit("personal-message", message);

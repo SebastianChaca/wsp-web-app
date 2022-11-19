@@ -8,6 +8,7 @@ import {
   setActiveChat,
 } from '../../../../redux/chat/chatSlice';
 import { friend as FriendInterface } from '../../../../types/session/session';
+import { resetNotificationsAPI } from '../../../../services/notifications/resetNotifications';
 
 interface Props {
   friend: FriendInterface;
@@ -19,7 +20,7 @@ function SidebarItem({ friend }: Props) {
 
   const selected = activeChat.uid === uid;
   const dispatch = useAppDispatch();
-  const handleClick = () => {
+  const handleClick = async () => {
     dispatch(
       setActiveChat({
         uid,
@@ -30,9 +31,12 @@ function SidebarItem({ friend }: Props) {
         lastActive,
       })
     );
-    // agregar reset de notificaciones a la api
-    // quizas tendria que hacerlo en chat slice todo de una
+    // seteo notificaciones en 0 en la UI
     dispatch(resetNotifications({ uid }));
+    if (uid) {
+      // seteo notificaciones en 0 en la bd
+      await resetNotificationsAPI(uid);
+    }
   };
   return (
     // TODO: re hacer este layout
