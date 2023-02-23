@@ -1,6 +1,7 @@
 const ChatUser = require("../models/usuario");
-
+//update de las notificaciones que le mando a un amigo cuando le escribo
 const updateNotificationsMessage = async (myId, friendId, notifCount) => {
+  //TODO traer la cantidad de notif que tiene el user para sumarle una
   await ChatUser.findOneAndUpdate(
     { _id: friendId },
     //TODO: esta logica tiene que sumar de a uno
@@ -31,15 +32,15 @@ const test = async (req, res) => {
     });
   }
 };
-
+//reseteo la notificaciones que tengo de un amigo
 const resetNotificationsMessage = async (req, res) => {
   const myId = req.uid;
   const friendId = req.body.uid;
 
   await ChatUser.findOneAndUpdate(
-    { _id: friendId },
+    { _id: myId },
 
-    { $set: { friends: { user: myId, notifications: 0 } } },
+    { $set: { friends: { user: friendId, notifications: 0 } } },
     { new: true }
   );
   return res.json({

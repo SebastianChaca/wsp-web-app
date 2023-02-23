@@ -75,7 +75,7 @@ class Sockets {
         //TODO:guardar como last message
 
         const message = await saveMessage(payload);
-        //TODO: solo setea en 1, traer la cantidad de notif del front y sumar 1 en el tercer parametro
+        //TODO: solo setea en 1
         await updateNotificationsMessage(uid, payload.to);
 
         //emito mensaje al destinatario
