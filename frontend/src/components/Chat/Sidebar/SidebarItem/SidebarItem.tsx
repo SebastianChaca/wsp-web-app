@@ -31,10 +31,10 @@ function SidebarItem({ friend }: Props) {
         lastActive,
       })
     );
-    // seteo notificaciones en 0 en la UI
+    // seteo notificaciones recibidas en 0 en la UI
     dispatch(resetNotifications({ uid }));
     if (uid) {
-      // seteo notificaciones en 0 en la bd
+      // seteo notificaciones recibidas en 0 en la bd
       await resetNotificationsAPI(uid);
     }
   };
