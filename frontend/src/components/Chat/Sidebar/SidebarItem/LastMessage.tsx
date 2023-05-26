@@ -1,7 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { BsCheckAll } from 'react-icons/all';
 
-function LastMessage() {
+const LastMessage = () => {
   return (
     <Flex alignItems="center" mt="5px">
       <BsCheckAll />
@@ -11,6 +11,6 @@ function LastMessage() {
       </Text>
     </Flex>
   );
-}
+};
 
 export default LastMessage;

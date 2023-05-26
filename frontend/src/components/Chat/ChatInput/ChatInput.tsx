@@ -3,7 +3,7 @@ import { Box, Input } from '@chakra-ui/react';
 import { useAppSelector } from '../../../redux/hooks';
 import useInputSocket from '../../../socket/hooks/useInputSocket';
 
-function ChatInput() {
+const ChatInput = () => {
   const [message, setMessage] = useState<string>('');
   const { activeChat, messages } = useAppSelector((state) => state.chatSlice);
   const { setTypingEvent, submitEvent, seenEvent } = useInputSocket(message);
@@ -58,6 +58,6 @@ function ChatInput() {
       </form>
     </Box>
   );
-}
+};
 
 export default ChatInput;

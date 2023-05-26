@@ -1,6 +1,6 @@
 import { chakra, HTMLChakraProps } from '@chakra-ui/react';
 
-function Logo(props: HTMLChakraProps<'svg'>) {
+const Logo = (props: HTMLChakraProps<'svg'>) => {
   return (
     <chakra.svg
       color="accent"
@@ -18,6 +18,6 @@ function Logo(props: HTMLChakraProps<'svg'>) {
       />
     </chakra.svg>
   );
-}
+};
 
 export default Logo;

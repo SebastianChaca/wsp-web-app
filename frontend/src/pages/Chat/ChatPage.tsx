@@ -8,7 +8,7 @@ import { Chat } from '../../components/Chat';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { getMessages } from '../../services/messages/getMessages';
 
-function ChatPage() {
+const ChatPage = () => {
   const { activeChat } = useAppSelector((state) => state.chatSlice);
   const activeChatSelected = activeChat.uid;
   const dispatch = useAppDispatch();
@@ -45,6 +45,6 @@ function ChatPage() {
       </RightContainer>
     </Grid>
   );
-}
+};
 
 export default ChatPage;

@@ -7,7 +7,7 @@ import { useAppDispatch } from './redux/hooks';
 import { refreshToken } from './services/session/refreshToken';
 import { getUser } from './services/session/utils/setUser';
 
-export function App() {
+export const App = () => {
   const dispatch = useAppDispatch();
 
   const user = getUser();
@@ -27,4 +27,4 @@ export function App() {
       </BrowserRouter>
     </ChakraProvider>
   );
-}
+};

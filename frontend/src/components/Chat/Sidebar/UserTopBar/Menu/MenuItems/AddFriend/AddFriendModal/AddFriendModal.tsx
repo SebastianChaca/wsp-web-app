@@ -5,18 +5,17 @@ import {
   ModalHeader,
   ModalBody,
   ModalCloseButton,
-  Button,
 } from '@chakra-ui/react';
-import { Formik, Form } from 'formik';
+import { Formik } from 'formik';
 import { useRef, useEffect, useState } from 'react';
 import * as Yup from 'yup';
-import { FormikInput } from '../../../../../FormComponents';
-import { useAppDispatch } from '../../../../../../redux/hooks';
-import { addFriendd } from '../../../../../../services/friends/addFriends';
+import { useAppDispatch } from '../../../../../../../../redux/hooks';
+import { addFriendd } from '../../../../../../../../services/friends/addFriends';
 import {
   addFierndToList,
   setActiveChat,
-} from '../../../../../../redux/chat/chatSlice';
+} from '../../../../../../../../redux/chat/chatSlice';
+import ModalForm from './components/ModalForm';
 
 interface Props {
   isOpen: boolean;
@@ -25,7 +24,7 @@ interface Props {
 interface initial {
   email: string | null;
 }
-function AddFriendModal({ isOpen, onClose }: Props) {
+const AddFriendModal = ({ isOpen, onClose }: Props) => {
   const dispatch = useAppDispatch();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsloading] = useState(false);
@@ -55,21 +54,23 @@ function AddFriendModal({ isOpen, onClose }: Props) {
               try {
                 setIsloading(true);
                 setError(null);
-                const friend = await addFriendd({ email: values.email! });
-                const { name, email, uid, online, lastActive } = friend.user;
-                dispatch(addFierndToList(friend));
-                onClose();
-                // TODO: cuando seteo el active chat no me hace focus en el input
-                dispatch(
-                  setActiveChat({
-                    uid,
-                    name,
-                    online,
-                    email,
-                    isTyping: false,
-                    lastActive,
-                  })
-                );
+                if (values.email) {
+                  const friend = await addFriendd({ email: values.email });
+                  const { name, email, uid, online, lastActive } = friend.user;
+                  dispatch(addFierndToList(friend));
+                  onClose();
+                  // TODO: cuando seteo el active chat no me hace focus en el input
+                  dispatch(
+                    setActiveChat({
+                      uid,
+                      name,
+                      online,
+                      email,
+                      isTyping: false,
+                      lastActive,
+                    })
+                  );
+                }
               } catch (errorMsg) {
                 setError(JSON.stringify(errorMsg));
               } finally {
@@ -79,22 +80,7 @@ function AddFriendModal({ isOpen, onClose }: Props) {
             validationSchema={validationSchema}
           >
             {({ isValid }) => (
-              <Form>
-                <FormikInput name="email" type="text" label="Email" ref={ref} />
-
-                <Button
-                  bg="#692b8f"
-                  color="white"
-                  type="submit"
-                  w="100%"
-                  mt="20px"
-                  // TODO: cuando tengo un solo input funciona mal la validacion
-                  disabled={!isValid}
-                  isLoading={isLoading}
-                >
-                  Send
-                </Button>
-              </Form>
+              <ModalForm isValid={isValid} isLoading={isLoading} ref={ref} />
             )}
           </Formik>
           {error && error}
@@ -102,6 +88,6 @@ function AddFriendModal({ isOpen, onClose }: Props) {
       </ModalContent>
     </Modal>
   );
-}
+};
 
 export default AddFriendModal;

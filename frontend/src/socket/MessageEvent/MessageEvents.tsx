@@ -17,7 +17,7 @@ import {
 interface Props {
   children?: JSX.Element | JSX.Element[];
 }
-function MessageEvents({ children }: Props) {
+const MessageEvents = ({ children }: Props) => {
   const { socket } = useSocketContext();
   const { activeChat } = useAppSelector((state) => state.chatSlice);
 
@@ -50,6 +50,6 @@ function MessageEvents({ children }: Props) {
   }, [socket, activeChat.uid, dispatch]);
 
   return <>{children}</>;
-}
+};
 
 export default MessageEvents;

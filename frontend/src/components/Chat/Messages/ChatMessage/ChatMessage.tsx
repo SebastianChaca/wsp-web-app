@@ -6,7 +6,7 @@ interface Props {
   msg: messageUI;
   isOutgoing: boolean;
 }
-function ChatMessage({ msg, isOutgoing }: Props) {
+const ChatMessage = ({ msg, isOutgoing }: Props) => {
   const { message } = msg;
 
   return (
@@ -29,6 +29,6 @@ function ChatMessage({ msg, isOutgoing }: Props) {
       </Box>
     </Flex>
   );
-}
+};
 
 export default ChatMessage;

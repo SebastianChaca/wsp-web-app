@@ -15,7 +15,7 @@ import ImageLogo from '../../../assets/owl-svgrepo-com.svg';
 interface Props {
   signIn?: boolean;
 }
-function Header({ signIn }: Props) {
+const Header = ({ signIn }: Props) => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
@@ -51,6 +51,6 @@ function Header({ signIn }: Props) {
       </Stack>
     </Stack>
   );
-}
+};
 
 export default Header;

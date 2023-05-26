@@ -8,7 +8,7 @@ import {
 import { FiChevronDown } from 'react-icons/all';
 import { AddFriend, AddFriendModal, Signout } from './MenuItems';
 
-function UserTopBarMenu() {
+const UserTopBarMenu = () => {
   const { onOpen, onClose, isOpen } = useDisclosure();
   return (
     <>
@@ -27,6 +27,6 @@ function UserTopBarMenu() {
       </Menu>
     </>
   );
-}
+};
 
 export default UserTopBarMenu;

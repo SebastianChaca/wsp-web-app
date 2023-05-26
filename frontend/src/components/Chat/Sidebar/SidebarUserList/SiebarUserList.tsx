@@ -3,7 +3,7 @@ import { Box } from '@chakra-ui/react';
 import SidebarItem from '../SidebarItem/SidebarItem';
 import { useAppSelector } from '../../../../redux/hooks';
 
-function SidebarUserList() {
+const SidebarUserList = () => {
   const { friends } = useAppSelector((state) => state.chatSlice);
   if (!friends) {
     return <h1>Users</h1>;
@@ -29,6 +29,6 @@ function SidebarUserList() {
       ))}
     </Box>
   );
-}
+};
 
 export default SidebarUserList;

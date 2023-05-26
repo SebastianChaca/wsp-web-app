@@ -16,7 +16,7 @@ interface Props {
   name: string;
   type?: 'text' | 'email' | 'password';
   placeholder?: string;
-  [x: string]: any;
+  // [x: string]: any;
 }
 type Ref = HTMLInputElement;
 

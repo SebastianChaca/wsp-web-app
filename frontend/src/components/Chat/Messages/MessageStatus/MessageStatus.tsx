@@ -1,21 +1,18 @@
-import { Flex, Text } from '@chakra-ui/react';
-import { BsCheckAll } from 'react-icons/all';
-import { getHour } from '../../../../utils/date';
+import { Flex } from '@chakra-ui/react';
+import { MessageCheck, MessageHour } from './components';
 
 interface Props {
   isOutgoing: boolean;
   date: string;
   seen: boolean;
 }
-function MessageStatus({ isOutgoing, date, seen }: Props) {
+const MessageStatus = ({ isOutgoing, date, seen }: Props) => {
   return (
     <Flex justifyContent="right">
-      <Text fontSize="10px" mr="4px">
-        {getHour(date)}
-      </Text>
-      {isOutgoing && <BsCheckAll color={seen ? 'blue' : 'white'} />}
+      <MessageHour date={date} />
+      <MessageCheck isOutgoing={isOutgoing} seen={seen} />
     </Flex>
   );
-}
+};
 
 export default MessageStatus;

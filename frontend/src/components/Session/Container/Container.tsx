@@ -3,7 +3,7 @@ import { Container, Stack } from '@chakra-ui/react';
 interface Props {
   children: JSX.Element | JSX.Element[];
 }
-function ContainerBox({ children }: Props) {
+const ContainerBox = ({ children }: Props) => {
   return (
     <Container
       maxW="lg"
@@ -13,5 +13,5 @@ function ContainerBox({ children }: Props) {
       <Stack spacing="8">{children}</Stack>
     </Container>
   );
-}
+};
 export default ContainerBox;

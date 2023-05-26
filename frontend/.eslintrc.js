@@ -21,6 +21,13 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
+    'react/function-component-definition': [
+      2,
+      {
+        namedComponents: 'arrow-function',
+        unnamedComponents: 'arrow-function',
+      },
+    ],
     'react/react-in-jsx-scope': 0,
     'import/prefer-default-export': 0,
     'react/require-default-props': 'off',

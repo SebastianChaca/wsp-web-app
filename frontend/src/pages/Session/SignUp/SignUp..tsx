@@ -10,7 +10,7 @@ import { validationSchema } from '../SignIn/ValidationSchema';
 import { fetchSignUp } from '../../../services/session/signUp';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 
-function SignUp() {
+const SignUp = () => {
   const dispatch = useAppDispatch();
   const { error, isLoading } = useAppSelector((state) => state.sessionSlice);
   return (
@@ -52,6 +52,6 @@ function SignUp() {
       </FormContainer>
     </ContainerBox>
   );
-}
+};
 
 export default SignUp;

@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import ChatMessage from './ChatMessage/ChatMessage';
 import { useAppSelector } from '../../../redux/hooks';
 
-function Messages() {
+const Messages = () => {
   const { messages } = useAppSelector((state) => state.chatSlice);
   const { uid } = useAppSelector((state) => state.sessionSlice);
   const ref = useRef<HTMLDivElement>(null);
@@ -36,6 +36,6 @@ function Messages() {
       <div ref={ref} />
     </Box>
   );
-}
+};
 
 export default Messages;

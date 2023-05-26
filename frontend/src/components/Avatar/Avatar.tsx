@@ -6,7 +6,7 @@ interface Props {
   name: string;
   hasBadge?: boolean;
 }
-function Avatar({ online, name, hasBadge }: Props) {
+const Avatar = ({ online, name, hasBadge }: Props) => {
   return (
     <Avt name={name} size="md" mx="10px">
       {hasBadge && (
@@ -14,6 +14,6 @@ function Avatar({ online, name, hasBadge }: Props) {
       )}
     </Avt>
   );
-}
+};
 
 export default Avatar;

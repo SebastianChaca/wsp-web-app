@@ -7,7 +7,7 @@ import { friend } from '../../types/session/session';
 interface Props {
   children?: JSX.Element | JSX.Element[];
 }
-function SidebarEvents({ children }: Props) {
+const SidebarEvents = ({ children }: Props) => {
   const { socket } = useSocketContext();
   const dispatch = useAppDispatch();
   const { uid } = useAppSelector((state) => state.sessionSlice);
@@ -29,6 +29,6 @@ function SidebarEvents({ children }: Props) {
   }, [socket, dispatch]);
 
   return <>{children}</>;
-}
+};
 
 export default SidebarEvents;

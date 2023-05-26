@@ -13,7 +13,7 @@ import { resetNotificationsAPI } from '../../../../services/notifications/resetN
 interface Props {
   friend: FriendInterface;
 }
-function SidebarItem({ friend }: Props) {
+const SidebarItem = ({ friend }: Props) => {
   const { name, email, uid, online, lastActive } = friend.user;
 
   const { activeChat } = useAppSelector((state) => state.chatSlice);
@@ -94,6 +94,6 @@ function SidebarItem({ friend }: Props) {
       </Flex>
     </Flex>
   );
-}
+};
 
 export default SidebarItem;

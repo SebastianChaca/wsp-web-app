@@ -4,7 +4,7 @@ import { useAppSelector } from '../../../../redux/hooks';
 import Avatar from '../../../Avatar/Avatar';
 import UserTopBarMenu from './Menu/UserTopBarMenu';
 
-function UserTopBar() {
+const UserTopBar = () => {
   const { name } = useAppSelector((state) => state.sessionSlice);
 
   return (
@@ -20,6 +20,6 @@ function UserTopBar() {
       <UserTopBarMenu />
     </Flex>
   );
-}
+};
 
 export default UserTopBar;

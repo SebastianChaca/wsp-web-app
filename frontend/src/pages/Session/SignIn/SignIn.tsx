@@ -12,7 +12,7 @@ import { validationSchema } from './ValidationSchema';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { fetchSignIn } from '../../../services/session/signIn';
 
-function SignIn() {
+const SignIn = () => {
   const dispatch = useAppDispatch();
   const { error, isLoading } = useAppSelector((state) => state.sessionSlice);
 
@@ -61,6 +61,6 @@ function SignIn() {
       </FormContainer>
     </ContainerBox>
   );
-}
+};
 
 export default SignIn;

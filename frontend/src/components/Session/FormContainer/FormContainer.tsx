@@ -3,7 +3,7 @@ import { Box, Stack, useColorModeValue } from '@chakra-ui/react';
 interface Props {
   children: JSX.Element | JSX.Element[];
 }
-function FormContainer({ children }: Props) {
+const FormContainer = ({ children }: Props) => {
   return (
     <Box
       py={{ base: '4', sm: '8' }}
@@ -17,6 +17,6 @@ function FormContainer({ children }: Props) {
       </Stack>
     </Box>
   );
-}
+};
 
 export default FormContainer;

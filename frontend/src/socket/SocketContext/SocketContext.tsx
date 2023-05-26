@@ -12,7 +12,7 @@ const SocketContext = createContext<SocketCont>({} as SocketCont);
 interface Props {
   children: JSX.Element | JSX.Element[];
 }
-function SocketProvider({ children }: Props) {
+const SocketProvider = ({ children }: Props) => {
   const { conectarSocket, desconectarSocket, socket, online } = useSocket();
 
   const { token } = useAppSelector((state) => state.sessionSlice);
@@ -35,6 +35,6 @@ function SocketProvider({ children }: Props) {
       {children}
     </SocketContext.Provider>
   );
-}
+};
 export default SocketProvider;
 export const useSocketContext = () => useContext(SocketContext);
