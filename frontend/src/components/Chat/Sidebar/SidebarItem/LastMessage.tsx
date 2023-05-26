@@ -6,7 +6,6 @@ const LastMessage = () => {
     <Flex alignItems="center" mt="5px">
       <BsCheckAll />
       <Text fontSize="12px" ml="5px">
-        {' '}
         Ultimo mensaje
       </Text>
     </Flex>
