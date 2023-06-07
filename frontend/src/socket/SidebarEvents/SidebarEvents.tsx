@@ -1,8 +1,12 @@
 import { useEffect } from 'react';
 import { useSocketContext } from '../SocketContext/SocketContext';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { setFriendsList, updateFriendStatus } from '../../redux/chat/chatSlice';
-import { friend } from '../../types/session/session';
+import {
+  addFierndToList,
+  setFriendsList,
+  updateFriendStatus,
+} from '../../redux/chat/chatSlice';
+import { friend, sessionState } from '../../types/session/session';
 
 interface Props {
   children?: JSX.Element | JSX.Element[];
@@ -20,12 +24,20 @@ const SidebarEvents = ({ children }: Props) => {
   }, [socket, dispatch, uid]);
 
   useEffect(() => {
+    // online / offline
     socket?.on(
       'friend-status',
       (friendStatus: { uid: string; online: boolean }) => {
         dispatch(updateFriendStatus(friendStatus));
       }
     );
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    socket?.on('request-friend', (session) => {
+      console.log(session);
+      // dispatch(addFierndToList(session));
+    });
   }, [socket, dispatch]);
 
   return <>{children}</>;

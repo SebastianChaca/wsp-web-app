@@ -18,6 +18,7 @@ export interface messageToServer extends message {
 
 export interface activeChat extends user {
   isTyping: boolean;
+  status: number | null;
 }
 export interface ChatState {
   messages: messageUI[];

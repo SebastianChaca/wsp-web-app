@@ -57,6 +57,7 @@ const AddFriendModal = ({ isOpen, onClose }: Props) => {
                 if (values.email) {
                   const friend = await addFriendd({ email: values.email });
                   const { name, email, uid, online, lastActive } = friend.user;
+                  // pongo al amigo agregado  primero en la lista de amigos
                   dispatch(addFierndToList(friend));
                   onClose();
                   // TODO: cuando seteo el active chat no me hace focus en el input
@@ -66,8 +67,9 @@ const AddFriendModal = ({ isOpen, onClose }: Props) => {
                       name,
                       online,
                       email,
-                      isTyping: false,
+                      isTyping: false, // TODO: revisar porque no es opcional
                       lastActive,
+                      status: friend.status,
                     })
                   );
                 }

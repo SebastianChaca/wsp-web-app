@@ -6,7 +6,7 @@ interface Props {
 const AddFriend = ({ onOpen }: Props) => {
   return (
     <>
-      <MenuItem onClick={onOpen}>AddFriend</MenuItem>
+      <MenuItem onClick={onOpen}>Add Friend</MenuItem>
     </>
   );
 };

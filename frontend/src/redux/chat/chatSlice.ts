@@ -23,6 +23,7 @@ const initialState: ChatState = {
     uid: null,
     isTyping: false,
     lastActive: '',
+    status: null,
   },
 };
 export const chatSlice = createSlice({
