@@ -90,15 +90,12 @@ class Sockets {
 
        try{
          const user= await getUser(payload.to, payload.from)
-        console.log(user[0])
+        
+       
          this.io.to(payload.to).emit('request-friend', {friendInfo: user[0].friend, msg: payload})
          //TODO: emitir el mensaje con 'personal message' desde aca ?
          //ej:  this.io.to(payload.to).emit("personal-message", message);   this.io.to(payload.from).emit("personal-message", message);
-
-          //emito mensaje al destinatario
-        // this.io.to(payload.to).emit("personal-message", payload);
-        // //TODO: puedo hacer esto en la UI para evitar otra request
-        // this.io.to(payload.from).emit("personal-message", payload);
+     
 
        }catch(error){
         console.log(error)

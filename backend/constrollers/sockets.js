@@ -52,31 +52,50 @@ const updateSeenMessages = async (messages) => {
 };
 
 const getUser=async(userId, friendId)=>{ 
-  
-    // return await ChatUser.findOne(
-    //   { _id: userId, 'friends.user': friendId }, // Find the user with the specified ID and friend with the specified ID
-    //   { 'friends.$': 1 } // Include only the matched friend in the response
-    // )
-    //  .select('-_id friends') // Exclude the _id field and include only the friends field in the response
-    //  .populate({
-    //     path: 'friends.user',
-    //     select: 'name email', // Include only the specific fields of the friend
-    //   })
     return await ChatUser.aggregate([
       { $match: { _id: mongoose.Types.ObjectId(userId) } }, // Find the user with the specified ID
-      { $unwind: '$friends' }, // Unwind the friends array
-      { $match: { 'friends.user': mongoose.Types.ObjectId(friendId) } }, // Find the friend with the specified ID
+      { $unwind: "$friends" }, // Unwind the friends array
+      { $match: { "friends.user": mongoose.Types.ObjectId(friendId) } }, // Find the friend with the specified ID
       {
         $lookup: {
-          from: 'chatusers', // Replace 'users' with the actual collection name for users
-          localField: 'friends.user',
-          foreignField: '_id',
-          as: 'friends.user',
+          from: "chatusers", // Replace 'users' with the actual collection name for users
+          localField: "friends.user",
+          foreignField: "_id",
+          as: "friend.user",
         },
       },
-      { $unwind: '$friends.user' },
-      { $project: { _id: 0, friend: '$friends' } }, // Include only the friend in the response
-    ])
+      { $unwind: "$friend.user" },
+      {
+        $project: {
+          _id: 0,
+          friend: {
+            _id: "$friends._id",
+            notifications: "$friends.notifications",
+            status: "$friends.status",
+            user: {
+              uid: "$friend.user._id",
+              name: "$friend.user.name",
+              email: "$friend.user.email",
+              online: "$friend.user.online",
+              lastActive: "$friend.user.lastActive",
+              __v: "$friend.user.__v",
+            },
+          },
+        },
+      },
+      {
+        $addFields: {
+          "friend.user._id": "$friend.user.uid",
+        },
+      },
+      {
+        $project: {
+          "friend.user._id": 0,
+        },
+      },
+    ]);
+ 
+   
 }
 
 const updateNotificacions = () => {};
