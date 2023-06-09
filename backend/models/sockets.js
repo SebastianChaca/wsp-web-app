@@ -1,7 +1,7 @@
 const {
   connectUser,
   disconnectUser,
-
+getUser,
   saveMessage,
   updateSeenMessages,
 } = require("../constrollers/sockets");
@@ -33,6 +33,7 @@ class Sockets {
       //busco lista de amigos
       const friends = await getFriends(uid);
 
+      
       const friendsIds = friends.map((friend) => friend.user._id.valueOf());
       //emitir lista de amigos
       this.io.to(uid).emit("friend-list", friends);
@@ -63,7 +64,7 @@ class Sockets {
 
       // obtener mensaje personal
       socket.on("personal-message", async (payload) => {
-        console.log(payload);
+        
         //payload
         // {
         //     from: '63643107da84feaed10653bf',
@@ -83,6 +84,28 @@ class Sockets {
         //TODO: puedo hacer esto en la UI para evitar otra request
         this.io.to(payload.from).emit("personal-message", message);
       });
+      //cuando agrego a un amigo y el status === 0, mando los datos de la persona que hace la peticion 
+      //para que se agregue al listado de amigos 
+      socket.on('request-friend', async(payload)=>{
+
+       try{
+         const user= await getUser(payload.to, payload.from)
+        console.log(user[0])
+         this.io.to(payload.to).emit('request-friend', {friendInfo: user[0].friend, msg: payload})
+         //TODO: emitir el mensaje con 'personal message' desde aca ?
+         //ej:  this.io.to(payload.to).emit("personal-message", message);   this.io.to(payload.from).emit("personal-message", message);
+
+          //emito mensaje al destinatario
+        // this.io.to(payload.to).emit("personal-message", payload);
+        // //TODO: puedo hacer esto en la UI para evitar otra request
+        // this.io.to(payload.from).emit("personal-message", payload);
+
+       }catch(error){
+        console.log(error)
+       }
+       
+
+      })
 
       socket.on("disconnect", async () => {
         console.log("desconectado");

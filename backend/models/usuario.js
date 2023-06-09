@@ -39,6 +39,7 @@ const UserSchema = Schema({
       },
       status: {
         type: Number,
+        default:0,
 
         enums: [
           0, //'requested',
