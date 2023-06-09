@@ -7,6 +7,7 @@ import {
   updateFriendStatus,
 } from '../../redux/chat/chatSlice';
 import { friend, sessionState } from '../../types/session/session';
+import { message } from '../../types/message/message';
 
 interface Props {
   children?: JSX.Element | JSX.Element[];
@@ -34,10 +35,13 @@ const SidebarEvents = ({ children }: Props) => {
   }, [socket, dispatch]);
 
   useEffect(() => {
-    socket?.on('request-friend', (session) => {
-      console.log(session);
-      // dispatch(addFierndToList(session));
-    });
+    socket?.on(
+      'request-friend',
+      ({ friendInfo, msg }: { friendInfo: friend; msg: message }) => {
+        console.log(friendInfo, msg);
+        dispatch(addFierndToList(friendInfo));
+      }
+    );
   }, [socket, dispatch]);
 
   return <>{children}</>;

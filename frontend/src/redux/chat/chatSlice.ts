@@ -104,8 +104,13 @@ export const chatSlice = createSlice({
         return friendItem;
       });
     },
-    addFierndToList: (state, action) => {
-      state.friends?.unshift(action.payload);
+    addFierndToList: (state, action: PayloadAction<friend>) => {
+      const checkIfFriendExists = state.friends?.find(
+        (f) => f.user.uid === action.payload.user.uid
+      );
+      if (!checkIfFriendExists) {
+        state.friends?.unshift(action.payload);
+      }
     },
     // se dispara cuando un usuario se conecta o desconecta
     updateFriendStatus: (

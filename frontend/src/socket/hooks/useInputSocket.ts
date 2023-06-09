@@ -25,6 +25,7 @@ const useInputSocket = (messageProps: string) => {
       // chequeo si el estado de amistad esta pendiente, si es asi mando al destinatario
       // los datos del usuario que le esta escribiendo para agregarlo a su listao de amigos
       socket?.emit('request-friend', msg);
+      return;
     }
     socket?.emit('personal-message', msg);
   }, [socket, msg, activeChat.status]);
