@@ -12,7 +12,7 @@ const SidebarUserList = () => {
   return (
     <UserListContainer>
       {friends.map((friend) => (
-        <SidebarItem key={friend.uid} friend={friend} />
+        <SidebarItem key={friend.user.uid} friend={friend} />
       ))}
     </UserListContainer>
   );

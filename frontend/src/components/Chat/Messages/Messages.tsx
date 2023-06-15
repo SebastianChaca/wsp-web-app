@@ -11,12 +11,15 @@ const Messages = () => {
   useEffect(() => {
     ref.current?.scrollIntoView();
   }, [messages]);
-
+  if (!messages.length) {
+    return <h1>test</h1>;
+  }
   return (
     <Box
       h="calc(100%-80px)"
       overflow="auto"
-      padding=" 0px 15px 90px 25px"
+      px="15px"
+      pt="90px"
       sx={{
         '&::-webkit-scrollbar': {
           width: '16px',

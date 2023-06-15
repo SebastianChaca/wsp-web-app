@@ -49,7 +49,7 @@ const FormikInput = React.forwardRef<Ref, Props>(({ label, ...props }, ref) => {
         <Input
           {...field}
           {...props}
-          isInvalid={!!meta.touched && !!meta.error}
+          isInvalid={meta.touched && !!meta.error}
           ref={isPassword ? inputRef : ref}
           type={isPassword && !isOpen ? 'password' : props.type}
         />

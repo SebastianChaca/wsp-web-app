@@ -17,7 +17,7 @@ const ChatInput = () => {
   useEffect(() => {
     // marcar mensaje como visto
     seenEvent();
-  }, [activeChat, messages, seenEvent]);
+  }, [activeChat.uid, messages.length, seenEvent]);
 
   useEffect(() => {
     // evento para saber si estoy escribiendo

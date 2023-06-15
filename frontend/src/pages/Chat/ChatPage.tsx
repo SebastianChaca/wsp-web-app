@@ -12,7 +12,7 @@ const ChatPage = () => {
   const { activeChat } = useAppSelector((state) => state.chatSlice);
 
   const activeChatSelected = activeChat.uid;
-  console.log(activeChatSelected);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {

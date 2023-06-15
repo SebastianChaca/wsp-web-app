@@ -6,7 +6,7 @@ export const sanitizeMessages = (messages: serverMessageResponse[]) =>
       to: msg.to,
       from: msg.from,
       message: msg.message,
-      date: msg.updatedAt,
+      date: msg.createdAt,
       seen: msg.seen,
       id: msg._id,
     }))
@@ -16,7 +16,7 @@ export const sanitizeMessage = (message: serverMessageResponse) => {
     message: message.message,
     to: message.to,
     from: message.from,
-    date: message.updatedAt,
+    date: message.createdAt,
     seen: message.seen,
     id: message._id,
   };

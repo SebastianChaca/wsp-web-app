@@ -15,7 +15,6 @@ interface Props {
 }
 const SidebarItem = ({ friend }: Props) => {
   const { name, email, uid, online, lastActive } = friend.user;
-  console.log(uid);
 
   const { activeChat } = useAppSelector((state) => state.chatSlice);
 

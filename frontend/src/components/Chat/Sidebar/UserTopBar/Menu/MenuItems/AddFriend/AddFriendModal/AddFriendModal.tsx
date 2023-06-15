@@ -30,7 +30,7 @@ const AddFriendModal = ({ isOpen, onClose }: Props) => {
   const [isLoading, setIsloading] = useState(false);
   const ref = useRef<HTMLInputElement>(null);
   const validationSchema = Yup.object().shape({
-    email: Yup.string().email('Invalid email').required('Required').nullable(),
+    email: Yup.string().email('Invalid email'),
   });
   useEffect(() => {
     if (ref.current) {
@@ -38,7 +38,7 @@ const AddFriendModal = ({ isOpen, onClose }: Props) => {
     }
   }, []);
   const initialValue: initial = {
-    email: null,
+    email: '',
   };
   return (
     <Modal isOpen={isOpen} onClose={onClose} initialFocusRef={ref}>
@@ -48,7 +48,6 @@ const AddFriendModal = ({ isOpen, onClose }: Props) => {
         <ModalCloseButton />
         <ModalBody>
           <Formik
-            validateOnMount={false}
             initialValues={initialValue}
             onSubmit={async (values) => {
               try {
