@@ -64,7 +64,7 @@ class Sockets {
 
       // obtener mensaje personal
       socket.on("personal-message", async (payload) => {
-        
+       
         //payload
         // {
         //     from: '63643107da84feaed10653bf',
@@ -76,6 +76,7 @@ class Sockets {
         //TODO:guardar como last message
 
         const message = await saveMessage(payload);
+        
         //TODO: solo setea en 1
         await updateNotificationsMessage(uid, payload.to);
 
@@ -89,15 +90,10 @@ class Sockets {
       socket.on('request-friend', async(payload)=>{
 
        try{
-         const user= await getUser(payload.to, payload.from)
-        
-       
+         const user= await getUser(payload.to, payload.from)      
          this.io.to(payload.to).emit('request-friend', {friendInfo: user[0].friend, msg: payload})
-         //TODO: emitir el mensaje con 'personal message' desde aca ?
-         //ej:  this.io.to(payload.to).emit("personal-message", message);   this.io.to(payload.from).emit("personal-message", message);
-     
-
-       }catch(error){
+   
+        }catch(error){
         console.log(error)
        }
        
