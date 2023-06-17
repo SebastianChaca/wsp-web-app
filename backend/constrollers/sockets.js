@@ -1,7 +1,7 @@
-const ChatUser = require("../models/usuario");
-const Message = require("../models/mensaje");
-const dayjs = require("dayjs");
-const mongoose = require("mongoose");
+const ChatUser = require('../models/usuario');
+const Message = require('../models/mensaje');
+const dayjs = require('dayjs');
+const mongoose = require('mongoose');
 const connectUser = async (uid) => {
   const filter = { _id: uid };
   const update = { online: true };
@@ -16,10 +16,18 @@ const disconnectUser = async (uid) => {
   return await ChatUser.findOneAndUpdate(filter, update, { new: true });
 };
 const getUsers = async () => {
-  const users = await ChatUser.find().sort("-online");
+  const users = await ChatUser.find().sort('-online');
 
   return users;
   //TODO:cambiar el sort para traerlos por ultimos mensajes
+};
+
+const addFriend = async (uid, friendId) => {
+  return await ChatUser.findOneAndUpdate(
+    { _id: uid },
+    { $push: { friends: { user: friendId, status: 0 } } },
+    { new: true }
+  );
 };
 
 const saveMessage = async (payload) => {
@@ -51,52 +59,50 @@ const updateSeenMessages = async (messages) => {
   return findMessages;
 };
 
-const getUser=async(userId, friendId)=>{ 
-    return await ChatUser.aggregate([
-      { $match: { _id: mongoose.Types.ObjectId(userId) } }, // Find the user with the specified ID
-      { $unwind: "$friends" }, // Unwind the friends array
-      { $match: { "friends.user": mongoose.Types.ObjectId(friendId) } }, // Find the friend with the specified ID
-      {
-        $lookup: {
-          from: "chatusers", // Replace 'users' with the actual collection name for users
-          localField: "friends.user",
-          foreignField: "_id",
-          as: "friend.user",
-        },
+const getUser = async (userId, friendId) => {
+  return await ChatUser.aggregate([
+    { $match: { _id: mongoose.Types.ObjectId(userId) } }, // Find the user with the specified ID
+    { $unwind: '$friends' }, // Unwind the friends array
+    { $match: { 'friends.user': mongoose.Types.ObjectId(friendId) } }, // Find the friend with the specified ID
+    {
+      $lookup: {
+        from: 'chatusers', // Replace 'users' with the actual collection name for users
+        localField: 'friends.user',
+        foreignField: '_id',
+        as: 'friend.user',
       },
-      { $unwind: "$friend.user" },
-      {
-        $project: {
-          _id: 0,
-          friend: {
-            _id: "$friends._id",
-            notifications: "$friends.notifications",
-            status: "$friends.status",
-            user: {
-              uid: "$friend.user._id",
-              name: "$friend.user.name",
-              email: "$friend.user.email",
-              online: "$friend.user.online",
-              lastActive: "$friend.user.lastActive",
-              __v: "$friend.user.__v",
-            },
+    },
+    { $unwind: '$friend.user' },
+    {
+      $project: {
+        _id: 0,
+        friend: {
+          _id: '$friends._id',
+          notifications: '$friends.notifications',
+          status: '$friends.status',
+          user: {
+            uid: '$friend.user._id',
+            name: '$friend.user.name',
+            email: '$friend.user.email',
+            online: '$friend.user.online',
+            lastActive: '$friend.user.lastActive',
+            __v: '$friend.user.__v',
           },
         },
       },
-      {
-        $addFields: {
-          "friend.user._id": "$friend.user.uid",
-        },
+    },
+    {
+      $addFields: {
+        'friend.user._id': '$friend.user.uid',
       },
-      {
-        $project: {
-          "friend.user._id": 0,
-        },
+    },
+    {
+      $project: {
+        'friend.user._id': 0,
       },
-    ]);
- 
-   
-}
+    },
+  ]);
+};
 
 const updateNotificacions = () => {};
 module.exports = {
@@ -105,5 +111,6 @@ module.exports = {
   getUsers,
   saveMessage,
   updateSeenMessages,
-  getUser
+  getUser,
+  addFriend,
 };
