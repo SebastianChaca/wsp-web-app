@@ -46,5 +46,6 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     // TODO: revisar como mejorar esto
     '@typescript-eslint/ban-types': 'off',
+    'react/prop-types': 0,
   },
 };

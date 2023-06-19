@@ -14,7 +14,7 @@ const ChatTopBarContainer = ({ children }: Props) => {
       h="80px"
       position="absolute"
       top={0}
-      w="100%"
+      w="70%"
       bg="#E2E8F0"
     >
       {children}
