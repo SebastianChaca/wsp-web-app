@@ -6,8 +6,7 @@ import {
   setFriendsList,
   updateFriendStatus,
 } from '../../redux/chat/chatSlice';
-import { friend, sessionState } from '../../types/session/session';
-import { message } from '../../types/message/message';
+import { friend } from '../../types/session/session';
 
 interface Props {
   children?: JSX.Element | JSX.Element[];
