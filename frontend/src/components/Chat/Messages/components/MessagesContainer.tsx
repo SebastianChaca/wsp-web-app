@@ -8,10 +8,9 @@ interface MessagesContainerProps {
 const MessagesContainer: FC<MessagesContainerProps> = ({ children }) => {
   return (
     <Box
-      h="calc(100%-80px)"
+      h="calc(100vh - 160px)"
       overflow="auto"
       px="15px"
-      pt="90px"
       sx={{
         '&::-webkit-scrollbar': {
           width: '16px',

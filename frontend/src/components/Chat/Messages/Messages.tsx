@@ -12,16 +12,13 @@ const Messages = () => {
   useEffect(() => {
     ref.current?.scrollIntoView();
   }, [messages]);
-  if (!messages.length) {
-    return <h1>test</h1>;
-  }
+
   return (
     <MessagesContainer>
       {messages.map((msg) => (
         <ChatMessage msg={msg} key={msg.id} isOutgoing={msg.from === uid} />
       ))}
 
-      <FriendRequest />
       <div ref={ref} />
     </MessagesContainer>
   );
