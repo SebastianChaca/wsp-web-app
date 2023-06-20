@@ -27,9 +27,9 @@ const SidebarItem = ({ friend }: Props) => {
         name,
         online,
         email,
-        isTyping: false,
         lastActive,
         status: friend.status,
+        isRequesting: friend.isRequesting,
       })
     );
     // seteo notificaciones recibidas en 0 en la UI

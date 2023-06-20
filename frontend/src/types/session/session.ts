@@ -23,6 +23,7 @@ export interface friend {
   user: user;
   notifications: number;
   status: number;
+  isRequesting: boolean;
   uid: string;
 }
 

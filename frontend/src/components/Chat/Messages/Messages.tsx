@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import ChatMessage from './ChatMessage/ChatMessage';
 import { useAppSelector } from '../../../redux/hooks';
 import MessagesContainer from './components/MessagesContainer';
-import FriendRequest from './FriendRequest/FriendRequest';
 
 const Messages = () => {
   const { messages } = useAppSelector((state) => state.chatSlice);

@@ -35,6 +35,7 @@ const SidebarEvents = ({ children }: Props) => {
 
   useEffect(() => {
     socket?.on('request-friend', ({ friendInfo }: { friendInfo: friend }) => {
+      console.log(friendInfo);
       dispatch(addFierndToList(friendInfo));
     });
   }, [socket, dispatch]);

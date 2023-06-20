@@ -17,6 +17,7 @@ const initialState: ChatState = {
   error: null,
 
   activeChat: {
+    isRequesting: false,
     name: '',
     email: null,
     online: false,

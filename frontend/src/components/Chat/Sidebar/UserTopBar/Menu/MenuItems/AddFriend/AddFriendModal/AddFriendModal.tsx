@@ -66,9 +66,9 @@ const AddFriendModal = ({ isOpen, onClose }: Props) => {
                       name,
                       online,
                       email,
-                      isTyping: false, // TODO: revisar porque no es opcional
                       lastActive,
                       status: friend.status,
+                      isRequesting: friend.isRequesting,
                     })
                   );
                 }

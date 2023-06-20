@@ -36,10 +36,11 @@ const ChatInput = () => {
     submitEvent();
     setMessage('');
   };
+
   return (
     <div>
-      {/* <FriendRequest /> */}
-      <Box borderTop=" 1px solid #c4c4c4" bg="gray.300" h="80px" p="20px">
+      <Box borderTop=" 1px solid #c4c4c4" bg="brand.gray2" p="20px">
+        <FriendRequest isRequesting={activeChat.isRequesting} />
         <form onSubmit={handleSubmit}>
           <Input
             placeholder="Escribe un mensaje aquí"

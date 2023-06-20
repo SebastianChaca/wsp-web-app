@@ -10,7 +10,10 @@ const Avatar = ({ online, name, hasBadge }: Props) => {
   return (
     <Avt name={name} size="md" mx="10px">
       {hasBadge && (
-        <AvatarBadge boxSize="20px" bg={online ? 'green.500' : 'red.500'} />
+        <AvatarBadge
+          boxSize="20px"
+          bg={online ? 'brand.online' : 'brand.offline'}
+        />
       )}
     </Avt>
   );

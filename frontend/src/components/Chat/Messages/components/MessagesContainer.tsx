@@ -1,16 +1,20 @@
 import { FC, ReactNode } from 'react';
 import { Box } from '@chakra-ui/react';
+import { useAppSelector } from '../../../../redux/hooks';
 
 interface MessagesContainerProps {
   children?: ReactNode;
 }
 
 const MessagesContainer: FC<MessagesContainerProps> = ({ children }) => {
+  const { activeChat } = useAppSelector((state) => state.chatSlice);
+  const height = activeChat.isRequesting ? '286px' : '160px';
   return (
     <Box
-      h="calc(100vh - 160px)"
+      h={`calc(100vh - ${height})`}
       overflow="auto"
       px="15px"
+      pt="80px"
       sx={{
         '&::-webkit-scrollbar': {
           width: '16px',
