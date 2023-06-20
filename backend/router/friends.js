@@ -5,7 +5,6 @@
 const { Router } = require('express');
 const {
   addFriend,
-  getFriends,
   getFriendAPI,
   acceptFriend,
   blockFriend,
@@ -17,5 +16,5 @@ const router = Router();
 router.post('/addfriend', validarJWT, addFriend);
 router.get('/getfriends', validarJWT, getFriendAPI);
 router.post('/aceptfriend', validarJWT, acceptFriend);
-router.post('/blockFrien', validarJWT, blockFriend);
+router.post('/blockFriend', validarJWT, blockFriend);
 module.exports = router;

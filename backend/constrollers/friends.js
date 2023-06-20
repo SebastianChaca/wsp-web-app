@@ -30,10 +30,14 @@ const addFriend = async (req, res) => {
         msg: 'Ya son amigos',
       });
     }
-    //agrego el amigo a mi lista de amigos y vice
+    //agrego el amigo a mi lista de amigos
     const addFriendFN = await User.findOneAndUpdate(
       { _id: myId },
-      { $push: { friends: { user: findFriend._id, status: 0 } } },
+      {
+        $push: {
+          friends: { user: findFriend._id, status: 0 },
+        },
+      },
       { new: true }
     );
 
@@ -56,11 +60,11 @@ const addFriend = async (req, res) => {
 const handleFriendStatus = async (myId, friendId, status) => {
   await User.findOneAndUpdate(
     { _id: myId, 'friends.user': friendId },
-    { $set: { 'friends.$.status': status } }
+    { $set: { 'friends.$.status': status, 'friends.$.isRequesting': false } }
   );
   await User.findOneAndUpdate(
     { _id: friendId, 'friends.user': myId },
-    { $set: { 'friends.$.status': status } }
+    { $set: { 'friends.$.status': status, 'friends.$.isRequesting': false } }
   );
 };
 const acceptFriend = async (req, res) => {
@@ -110,33 +114,37 @@ const getFriendAPI = async (req, res) => {
   }
 };
 const getFriends = async (id) => {
-  const user = await User.findById(id);
-  //   let user = await User.aggregate([
-  //     { $match: { _id: ObjectId(id) } },
-  //     {
-  //       $lookup: {
-  //         from: User.collection.name,
-  //         let: { friends: "$friends" },
-  //         pipeline: [
-  //           {
-  //             $match: {
-  //               "friends.status": 3,
-  //             },
-  //           },
-  //           {
-  //             $project: {
-  //               name: 1,
-  //               email: 1,
-  //               online: 1,
-  //             },
-  //           },
-  //         ],
-  //         as: "friends",
-  //       },
-  //     },
-  //   ]);
+  try {
+    const user = await User.findById(id);
+    //   let user = await User.aggregate([
+    //     { $match: { _id: ObjectId(id) } },
+    //     {
+    //       $lookup: {
+    //         from: User.collection.name,
+    //         let: { friends: "$friends" },
+    //         pipeline: [
+    //           {
+    //             $match: {
+    //               "friends.status": 3,
+    //             },
+    //           },
+    //           {
+    //             $project: {
+    //               name: 1,
+    //               email: 1,
+    //               online: 1,
+    //             },
+    //           },
+    //         ],
+    //         as: "friends",
+    //       },
+    //     },
+    //   ]);
 
-  return user.friends;
+    return user.friends;
+  } catch (error) {
+    return [];
+  }
 };
 
 module.exports = {

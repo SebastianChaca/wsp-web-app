@@ -23,11 +23,20 @@ const getUsers = async () => {
 };
 
 const addFriend = async (uid, friendId) => {
-  return await ChatUser.findOneAndUpdate(
-    { _id: uid },
-    { $push: { friends: { user: friendId, status: 0 } } },
-    { new: true }
-  );
+  try {
+    //TODO: como hacer esto en un solo paso ??
+    await ChatUser.findOneAndUpdate(
+      { _id: uid },
+      { $push: { friends: { user: friendId } } },
+      { new: true }
+    );
+    await ChatUser.findOneAndUpdate(
+      { _id: uid, 'friends.user': friendId },
+      { $set: { 'friends.$.isRequesting': true } }
+    );
+  } catch (error) {
+    throw new Error('error en find one and update');
+  }
 };
 
 const saveMessage = async (payload) => {
@@ -80,6 +89,7 @@ const getUser = async (userId, friendId) => {
           _id: '$friends._id',
           notifications: '$friends.notifications',
           status: '$friends.status',
+          isRequesting: '$friends.isRequesting',
           user: {
             uid: '$friend.user._id',
             name: '$friend.user.name',

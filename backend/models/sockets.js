@@ -37,6 +37,7 @@ class Sockets {
       const friendsIds = friends.map((friend) => friend.user._id.valueOf());
       //emitir lista de amigos
       this.io.to(uid).emit('friend-list', friends);
+
       //emitir a mis amigos que me conecte
       this.io.to(friendsIds).emit('friend-status', {
         uid: status._id.valueOf(),
@@ -88,8 +89,10 @@ class Sockets {
       //para que se agregue al listado de amigos
       socket.on('request-friend', async (payload) => {
         try {
+          //TODO: simplificar esto en una sola query
           await addFriend(payload.to, payload.from);
           const user = await getUser(payload.to, payload.from);
+
           this.io.to(payload.to).emit('request-friend', {
             friendInfo: user[0].friend,
           });
@@ -102,10 +105,12 @@ class Sockets {
         console.log('desconectado');
         // actualizo la db en el campo online
         const status = await disconnectUser(uid);
-        this.io.to(friendsIds).emit('friend-status', {
-          uid: status._id.valueOf(),
-          online: status.online,
-        });
+        if (status) {
+          this.io.to(friendsIds).emit('friend-status', {
+            uid: status._id.valueOf(),
+            online: status.online,
+          });
+        }
       });
     });
   }

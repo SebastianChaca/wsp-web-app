@@ -37,6 +37,10 @@ const UserSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'ChatMessage',
       },
+      isRequesting: {
+        type: Boolean,
+        default: false,
+      },
       status: {
         type: Number,
         default: 0,
