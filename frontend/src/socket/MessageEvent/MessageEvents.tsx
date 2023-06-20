@@ -49,6 +49,11 @@ const MessageEvents = ({ children }: Props) => {
     });
   }, [socket, activeChat.uid, dispatch]);
 
+  useEffect(() => {
+    socket?.on('update-friend-status', (friend) => {
+      console.log(friend);
+    });
+  }, [socket]);
   return <>{children}</>;
 };
 

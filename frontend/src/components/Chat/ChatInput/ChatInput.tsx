@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, Input, Flex } from '@chakra-ui/react';
+import { Box, Input } from '@chakra-ui/react';
 import { useAppSelector } from '../../../redux/hooks';
 import useInputSocket from '../../../socket/hooks/useInputSocket';
-import FriendRequest from '../Messages/FriendRequest/FriendRequest';
+import FriendRequest from './FriendRequest/FriendRequest';
 
 const ChatInput = () => {
   const [message, setMessage] = useState<string>('');
@@ -40,7 +40,10 @@ const ChatInput = () => {
   return (
     <div>
       <Box borderTop=" 1px solid #c4c4c4" bg="brand.gray2" p="20px">
-        <FriendRequest isRequesting={activeChat.isRequesting} />
+        <FriendRequest
+          isRequesting={activeChat.isRequesting}
+          activeChatId={activeChat.uid}
+        />
         <form onSubmit={handleSubmit}>
           <Input
             placeholder="Escribe un mensaje aquí"

@@ -21,7 +21,6 @@ const useInputSocket = (messageProps: string) => {
   }, [msg, socket]);
 
   const submitEvent = useCallback(() => {
-    // TODO: si el status es 0 y es el primer mensaje que manda
     if (activeChat.status === 0 && !messages.length) {
       // chequeo si el estado de amistad esta pendiente, si es asi mando al destinatario
       // los datos del usuario que le esta escribiendo para agregarlo a su listao de amigos
