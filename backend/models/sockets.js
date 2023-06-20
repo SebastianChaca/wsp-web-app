@@ -101,6 +101,10 @@ class Sockets {
         }
       });
 
+      socket.on('update-friend-status', async (payload) => {
+        console.log(payload);
+      });
+
       socket.on('disconnect', async () => {
         console.log('desconectado');
         // actualizo la db en el campo online
