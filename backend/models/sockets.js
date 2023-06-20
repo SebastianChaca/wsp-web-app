@@ -78,7 +78,7 @@ class Sockets {
         const message = await saveMessage(payload);
 
         //TODO: solo setea en 1
-        await updateNotificationsMessage(uid, payload.to);
+        //await updateNotificationsMessage(uid, payload.to);
 
         //emito mensaje al destinatario
         this.io.to(payload.to).emit('personal-message', message);
