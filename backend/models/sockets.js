@@ -6,7 +6,7 @@ const {
   updateSeenMessages,
   addFriend,
 } = require('../constrollers/sockets');
-const { getFriends } = require('../constrollers/friends');
+const { getFriends, handleFriendStatus } = require('../constrollers/friends');
 const { checkJWT } = require('../middlewares/validar-jwt');
 const { updateNotificationsMessage } = require('../constrollers/notifications');
 
@@ -97,12 +97,20 @@ class Sockets {
             friendInfo: user[0].friend,
           });
         } catch (error) {
-          console.log(error);
+          throw new Error(error);
         }
       });
 
       socket.on('update-friend-status', async (payload) => {
-        console.log(payload);
+        const { status, friendId, from } = payload;
+        try {
+          const user = await handleFriendStatus(from, friendId, status);
+          const friend = await handleFriendStatus(friendId, from, status);
+          this.io.to(from).emit('update-friend-status', user.friends[0]);
+          this.io.to(friendId).emit('update-friend-status', friend.friends[0]);
+        } catch (error) {
+          throw new Error(error);
+        }
       });
 
       socket.on('disconnect', async () => {

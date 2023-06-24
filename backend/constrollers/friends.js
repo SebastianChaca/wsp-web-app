@@ -58,20 +58,23 @@ const addFriend = async (req, res) => {
 };
 
 const handleFriendStatus = async (myId, friendId, status) => {
-  await User.findOneAndUpdate(
+  // return await User.findOneAndUpdate(
+  //   { _id: myId, 'friends.user': friendId },
+  //   { $set: { 'friends.$.status': status, 'friends.$.isRequesting': false } },
+  //   { new: true }
+  // );
+  return await User.findOneAndUpdate(
     { _id: myId, 'friends.user': friendId },
-    { $set: { 'friends.$.status': status, 'friends.$.isRequesting': false } }
-  );
-  await User.findOneAndUpdate(
-    { _id: friendId, 'friends.user': myId },
-    { $set: { 'friends.$.status': status, 'friends.$.isRequesting': false } }
+    { $set: { 'friends.$.status': status, 'friends.$.isRequesting': false } },
+    { new: true, projection: { friends: { $elemMatch: { user: friendId } } } }
   );
 };
 const acceptFriend = async (req, res) => {
   const myId = req.uid;
   const friendId = req.body.friendId;
   try {
-    const friend = await handleFriendStatus(myId, friendId, 1);
+    const user = await handleFriendStatus(friendId, myId, 2);
+    const friend = await handleFriendStatus(myId, friendId, 2);
     res.json({
       ok: true,
       friend,
@@ -87,6 +90,7 @@ const blockFriend = async (req, res) => {
   const myId = req.uid;
   const friendId = req.body.friendId;
   try {
+    const user = await handleFriendStatus(friendId, myId, 2);
     const friend = await handleFriendStatus(myId, friendId, 2);
     res.json({
       ok: true,
@@ -153,4 +157,5 @@ module.exports = {
   getFriendAPI,
   acceptFriend,
   blockFriend,
+  handleFriendStatus,
 };
