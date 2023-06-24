@@ -42,7 +42,7 @@ const FriendRequest: FC<FriendRequestProps> = ({
       bg="#E2E8F0"
     >
       <Box>
-        <Text>El Remitente no esta en tu lista de contactos</Text>
+        <Text>El Remitente no esta en tu lista de amigos</Text>
         <Flex justifyContent="center" p="10px">
           <Button
             mr="5px"

@@ -28,6 +28,7 @@ const SidebarEvents = ({ children }: Props) => {
     socket?.on(
       'friend-status',
       (friendStatus: { uid: string; online: boolean }) => {
+        // TODO: aca habria que actualizar todo el objecto de friend en vez de solo el online booleano
         dispatch(updateFriendStatus(friendStatus));
       }
     );
@@ -35,7 +36,6 @@ const SidebarEvents = ({ children }: Props) => {
 
   useEffect(() => {
     socket?.on('request-friend', ({ friendInfo }: { friendInfo: friend }) => {
-      console.log(friendInfo);
       dispatch(addFierndToList(friendInfo));
     });
   }, [socket, dispatch]);

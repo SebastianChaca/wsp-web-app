@@ -5,16 +5,21 @@ interface Props {
   online?: boolean;
   name: string;
   hasBadge?: boolean;
+  friendStatusApproved?: boolean;
 }
-const Avatar = ({ online, name, hasBadge }: Props) => {
+const Avatar = ({ online, name, hasBadge, friendStatusApproved }: Props) => {
+  const getStatusColor = (): string => {
+    if (friendStatusApproved) {
+      if (online) {
+        return 'brand.online';
+      }
+      return 'brand.offline';
+    }
+    return 'brand.gray';
+  };
   return (
     <Avt name={name} size="md" mx="10px">
-      {hasBadge && (
-        <AvatarBadge
-          boxSize="20px"
-          bg={online ? 'brand.online' : 'brand.offline'}
-        />
-      )}
+      {hasBadge && <AvatarBadge boxSize="20px" bg={getStatusColor()} />}
     </Avt>
   );
 };

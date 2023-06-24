@@ -14,7 +14,6 @@ const MessagesContainer: FC<MessagesContainerProps> = ({ children }) => {
       h={`calc(100vh - ${height})`}
       overflow="auto"
       px="15px"
-      pt="80px"
       sx={{
         '&::-webkit-scrollbar': {
           width: '16px',

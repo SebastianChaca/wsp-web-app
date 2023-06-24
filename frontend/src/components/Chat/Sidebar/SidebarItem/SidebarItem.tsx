@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
+import { on } from 'events';
 import Avatar from '../../../Avatar/Avatar';
 
 import LastMessage from './LastMessage';
@@ -17,9 +19,11 @@ const SidebarItem = ({ friend }: Props) => {
   const { name, email, uid, online, lastActive } = friend.user;
 
   const { activeChat } = useAppSelector((state) => state.chatSlice);
+  const friendStatusApproved = friend.status === 1;
 
   const selected = activeChat.uid === uid;
   const dispatch = useAppDispatch();
+
   const handleClick = async () => {
     dispatch(
       setActiveChat({
@@ -39,6 +43,7 @@ const SidebarItem = ({ friend }: Props) => {
       await resetNotificationsAPI(uid);
     }
   };
+
   return (
     // TODO: re hacer este layout
     <Flex
@@ -50,7 +55,12 @@ const SidebarItem = ({ friend }: Props) => {
       bg={selected ? 'gray.400' : 'transparent'}
       onClick={handleClick}
     >
-      <Avatar online={online} name={name} hasBadge />
+      <Avatar
+        online={online}
+        name={name}
+        hasBadge
+        friendStatusApproved={friendStatusApproved}
+      />
       <Flex
         borderBottom="1px solid #c4c4c4"
         cursor="pointer"

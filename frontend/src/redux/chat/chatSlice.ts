@@ -37,8 +37,9 @@ export const chatSlice = createSlice({
     // chat selecionado por el usuario
     setActiveChat: (state, action: PayloadAction<activeChat>) => {
       if (state.activeChat.uid === action.payload.uid) return;
+      console.log('if');
       state.activeChat = action.payload;
-      state.messages = [];
+      // state.messages = [];
     },
     setMessages: (state, action: PayloadAction<messageUI>) => {
       if (
@@ -124,6 +125,16 @@ export const chatSlice = createSlice({
         }
       });
     },
+    updateFriendsList: (state, action: PayloadAction<friend>) => {
+      const { isRequesting, status, user, notifications } = action.payload;
+      state.friends?.forEach((friendItem) => {
+        if (friendItem.user.uid === user.uid) {
+          friendItem.isRequesting = isRequesting;
+          friendItem.status = status;
+          friendItem.notifications = notifications;
+        }
+      });
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -163,5 +174,6 @@ export const {
   updateNotifications,
   resetNotifications,
   updateFriendStatus,
+  updateFriendsList,
 } = chatSlice.actions;
 export default chatSlice.reducer;

@@ -5,6 +5,7 @@ import {
   setMessages,
   updateNotifications,
   updateSeenMessages,
+  updateFriendsList,
 } from '../../redux/chat/chatSlice';
 import { useSocketContext } from '../SocketContext/SocketContext';
 import { serverMessageResponse, message } from '../../types/message/message';
@@ -52,8 +53,9 @@ const MessageEvents = ({ children }: Props) => {
   useEffect(() => {
     socket?.on('update-friend-status', (friend) => {
       console.log(friend);
+      dispatch(updateFriendsList(friend));
     });
-  }, [socket]);
+  }, [socket, dispatch]);
   return <>{children}</>;
 };
 
