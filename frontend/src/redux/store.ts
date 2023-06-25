@@ -1,11 +1,12 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 
-import { sessionSlice, chatSlice } from './index';
+import { sessionSlice, chatSlice, activeChatSlice } from './index';
 
 export const store = configureStore({
   reducer: {
     sessionSlice,
     chatSlice,
+    activeChatSlice,
   },
 });
 

@@ -4,8 +4,10 @@ import { useAppSelector } from '../../../../../redux/hooks';
 import { getLastActive } from '../../../../../utils/date';
 
 const LastActive = () => {
-  const { activeChat } = useAppSelector((state) => state.chatSlice);
-  const { online, lastActive } = activeChat;
+  const { online, lastActive } = useAppSelector(
+    (state) => state.activeChatSlice
+  );
+
   return (
     <>
       {!online && lastActive && (

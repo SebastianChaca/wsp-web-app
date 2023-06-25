@@ -15,7 +15,7 @@ interface Props {
 const SidebarItem = ({ friend }: Props) => {
   const { name, uid, online } = friend.user;
   const dispatch = useAppDispatch();
-  const { activeChat } = useAppSelector((state) => state.chatSlice);
+  const activeChat = useAppSelector((state) => state.activeChatSlice);
   const friendStatusApproved = friend.status === 1;
 
   const selected = activeChat.uid === uid;

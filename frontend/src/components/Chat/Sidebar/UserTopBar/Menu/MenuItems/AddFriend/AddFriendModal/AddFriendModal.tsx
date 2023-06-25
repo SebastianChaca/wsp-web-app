@@ -13,7 +13,6 @@ import { useAppDispatch } from '../../../../../../../../redux/hooks';
 import { addFriendd } from '../../../../../../../../services/friends/addFriends';
 import {
   addFierndToList,
-  setActiveChat,
   setFriendId,
 } from '../../../../../../../../redux/chat/chatSlice';
 import ModalForm from './components/ModalForm';

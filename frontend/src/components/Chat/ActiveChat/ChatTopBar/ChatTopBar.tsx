@@ -5,8 +5,8 @@ import { Container, IsOnline, IsTyping, LastActive } from './Components';
 import { useFriendStatusApproved } from '../../../../redux/chat/selectors';
 
 const ChatTopBar = () => {
-  const { activeChat } = useAppSelector((state) => state.chatSlice);
-  const { name, online } = activeChat;
+  const { name, online } = useAppSelector((state) => state.activeChatSlice);
+  console.log(name);
   const friendStatusApproved = useFriendStatusApproved();
 
   return (

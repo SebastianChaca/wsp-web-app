@@ -1,12 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getMessages } from '../../services/messages/index';
 import { addFriend } from '../../services/friends';
-import {
-  ChatState,
-  messageUI,
-  activeChat,
-  message,
-} from '../../types/message/message';
+import { ChatState, messageUI } from '../../types/message/message';
 
 import { friend } from '../../types/session/session';
 
@@ -16,16 +11,6 @@ const initialState: ChatState = {
   isLoading: false,
   error: null,
   friendId: '',
-  activeChat: {
-    isRequesting: false,
-    name: '',
-    email: null,
-    online: false,
-    uid: null,
-    isTyping: false,
-    lastActive: '',
-    status: null,
-  },
 };
 export const chatSlice = createSlice({
   name: 'chat',
@@ -37,14 +22,11 @@ export const chatSlice = createSlice({
     setFriendsList: (state, action: PayloadAction<friend[]>) => {
       state.friends = action.payload;
     },
-    // chat selecionado por el usuario
-    setActiveChat: (state, action: PayloadAction<activeChat>) => {
-      state.activeChat = action.payload;
-    },
+
     setMessages: (state, action: PayloadAction<messageUI>) => {
       if (
-        state.activeChat.uid === action.payload.to ||
-        state.activeChat.uid === action.payload.from
+        state.friendId === action.payload.to ||
+        state.friendId === action.payload.from
       ) {
         state.messages.push(action.payload);
       } else {
@@ -55,19 +37,7 @@ export const chatSlice = createSlice({
         // console.log(action.payload);
       }
     },
-    // si el usuario esta escribiendo un mensaje
-    setIsTyping: (state, action: PayloadAction<message>) => {
-      if (action.payload.message.length > 0) {
-        if (
-          state.activeChat.uid === action.payload.to ||
-          state.activeChat.uid === action.payload.from
-        ) {
-          state.activeChat.isTyping = true;
-        }
-      } else {
-        state.activeChat.isTyping = false;
-      }
-    },
+
     // si el usuario vio el mensaje
     // se dispara cuando el mensaje esta en el active chat
     updateSeenMessages: (state, action: PayloadAction<messageUI[]>) => {
@@ -81,7 +51,7 @@ export const chatSlice = createSlice({
     },
     // notificacion de mensaje cuando no esta en el chat activo
     updateNotifications: (state, action: PayloadAction<messageUI>) => {
-      if (action.payload.from !== state.activeChat.uid) {
+      if (action.payload.from !== state.friendId) {
         if (state.friends) {
           state.friends.forEach((friendItem) => {
             if (action.payload.from === friendItem.user.uid) {
@@ -132,6 +102,7 @@ export const chatSlice = createSlice({
           friendItem.isRequesting = isRequesting;
           friendItem.status = status;
           friendItem.notifications = notifications;
+          friendItem.user = user;
         }
       });
     },
@@ -166,9 +137,7 @@ export const chatSlice = createSlice({
 });
 export const {
   setFriendsList,
-  setActiveChat,
   setMessages,
-  setIsTyping,
   updateSeenMessages,
   addFierndToList,
   updateNotifications,

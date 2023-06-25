@@ -4,7 +4,8 @@ import { useSocketContext } from '../SocketContext/SocketContext';
 import { message } from '../../types/message/message';
 
 const useInputSocket = (messageProps: string) => {
-  const { activeChat, messages } = useAppSelector((state) => state.chatSlice);
+  const { messages } = useAppSelector((state) => state.chatSlice);
+  const activeChat = useAppSelector((state) => state.activeChatSlice);
   const session = useAppSelector((state) => state.sessionSlice);
   const { socket } = useSocketContext();
 

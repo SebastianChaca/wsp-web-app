@@ -6,7 +6,8 @@ import FriendRequest from './FriendRequest/FriendRequest';
 
 const ChatInput = () => {
   const [message, setMessage] = useState<string>('');
-  const { activeChat, messages } = useAppSelector((state) => state.chatSlice);
+  const { messages } = useAppSelector((state) => state.chatSlice);
+  const activeChat = useAppSelector((state) => state.activeChatSlice);
   const { setTypingEvent, submitEvent, seenEvent } = useInputSocket(message);
   const inputRef = useRef<HTMLInputElement>(null);
 

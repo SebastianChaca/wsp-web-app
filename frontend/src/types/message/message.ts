@@ -16,15 +16,14 @@ export interface messageToServer extends message {
   isTyping?: boolean;
 }
 
-export interface activeChat extends user {
-  isTyping?: boolean;
-  isRequesting: boolean;
-  status: number | null;
-}
+// export interface activeChat extends user {
+//   isTyping?: boolean;
+//   isRequesting: boolean;
+//   status: number | null;
+// }
 export interface ChatState {
   messages: messageUI[];
   friends: friend[] | null;
-  activeChat: activeChat;
   isLoading: boolean;
   error: string | null;
   friendId: string;

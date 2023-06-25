@@ -7,13 +7,16 @@ import {
 import { SideBar, ActiveChat } from '../../components/Chat';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { getMessages } from '../../services/messages/getMessages';
-import { setActiveChat } from '../../redux/chat/chatSlice';
+
 import { useFriend } from '../../redux/chat/selectors';
+import { setActiveChat } from '../../redux/activeChat/activeChatSlice';
 
 const ChatPage = () => {
-  const { activeChat, friendId } = useAppSelector((state) => state.chatSlice);
+  const { friendId } = useAppSelector((state) => state.chatSlice);
   const findFriend = useFriend(friendId);
-  const activeChatSelected = activeChat.uid;
+
+  const activeChatSelected = friendId;
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {

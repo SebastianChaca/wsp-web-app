@@ -3,8 +3,8 @@ import { Text } from '@chakra-ui/react';
 import { useAppSelector } from '../../../../../redux/hooks';
 
 const IsTyping = () => {
-  const { activeChat } = useAppSelector((state) => state.chatSlice);
-  const { isTyping } = activeChat;
+  const { isTyping } = useAppSelector((state) => state.activeChatSlice);
+
   return <>{isTyping && <Text fontSize="12px">Escribiendo...</Text>}</>;
 };
 

@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import {
-  setIsTyping,
   setMessages,
   updateNotifications,
   updateSeenMessages,
@@ -14,13 +13,14 @@ import {
   sanitizeMessages,
   sanitizeMessage,
 } from '../../utils/sanitizeMessages';
+import { setIsTyping } from '../../redux/activeChat/activeChatSlice';
 
 interface Props {
   children?: JSX.Element | JSX.Element[];
 }
 const MessageEvents = ({ children }: Props) => {
   const { socket } = useSocketContext();
-  const { activeChat } = useAppSelector((state) => state.chatSlice);
+  const activeChat = useAppSelector((state) => state.activeChatSlice);
 
   const dispatch = useAppDispatch();
 

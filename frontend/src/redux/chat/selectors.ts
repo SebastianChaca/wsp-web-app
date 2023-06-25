@@ -3,10 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 
 const selectChatState = (state: RootState) => state.chatSlice;
-const selectActiveChat = createSelector(
-  selectChatState,
-  (chatState) => chatState.activeChat
-);
+const selectActiveChat = (state: RootState) => state.activeChatSlice;
 const selectFriends = createSelector(
   selectChatState,
   (chatState) => chatState.friends
