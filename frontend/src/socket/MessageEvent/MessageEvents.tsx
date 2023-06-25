@@ -52,7 +52,6 @@ const MessageEvents = ({ children }: Props) => {
 
   useEffect(() => {
     socket?.on('update-friend-status', (friend) => {
-      console.log(friend);
       dispatch(updateFriendsList(friend));
     });
   }, [socket, dispatch]);

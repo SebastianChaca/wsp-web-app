@@ -27,6 +27,7 @@ export interface ChatState {
   activeChat: activeChat;
   isLoading: boolean;
   error: string | null;
+  friendId: string;
 }
 
 export interface serverMessageResponse extends message {

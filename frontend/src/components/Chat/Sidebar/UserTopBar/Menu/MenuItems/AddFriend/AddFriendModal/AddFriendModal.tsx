@@ -14,6 +14,7 @@ import { addFriendd } from '../../../../../../../../services/friends/addFriends'
 import {
   addFierndToList,
   setActiveChat,
+  setFriendId,
 } from '../../../../../../../../redux/chat/chatSlice';
 import ModalForm from './components/ModalForm';
 
@@ -55,22 +56,14 @@ const AddFriendModal = ({ isOpen, onClose }: Props) => {
                 setError(null);
                 if (values.email) {
                   const friend = await addFriendd({ email: values.email });
-                  const { name, email, uid, online, lastActive } = friend.user;
+
                   // pongo al amigo agregado  primero en la lista de amigos
                   dispatch(addFierndToList(friend));
                   onClose();
+                  if (friend.user.uid) {
+                    dispatch(setFriendId(friend.user.uid));
+                  }
                   // TODO: cuando seteo el active chat no me hace focus en el input
-                  dispatch(
-                    setActiveChat({
-                      uid,
-                      name,
-                      online,
-                      email,
-                      lastActive,
-                      status: friend.status,
-                      isRequesting: friend.isRequesting,
-                    })
-                  );
                 }
               } catch (errorMsg) {
                 setError(JSON.stringify(errorMsg));

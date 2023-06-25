@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import MessageStatus from '../MessageStatus/MessageStatus';
-import { messageUI } from '../../../../types/message/message';
+import { messageUI } from '../../../../../types/message/message';
 import { ChatMessageContainer } from './components';
 
 interface Props {

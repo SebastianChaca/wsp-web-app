@@ -1,13 +1,10 @@
-import { useEffect } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { on } from 'events';
 import Avatar from '../../../Avatar/Avatar';
-
 import LastMessage from './LastMessage';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import {
   resetNotifications,
-  setActiveChat,
+  setFriendId,
 } from '../../../../redux/chat/chatSlice';
 import { friend as FriendInterface } from '../../../../types/session/session';
 import { resetNotificationsAPI } from '../../../../services/notifications/resetNotifications';
@@ -16,29 +13,18 @@ interface Props {
   friend: FriendInterface;
 }
 const SidebarItem = ({ friend }: Props) => {
-  const { name, email, uid, online, lastActive } = friend.user;
-
+  const { name, uid, online } = friend.user;
+  const dispatch = useAppDispatch();
   const { activeChat } = useAppSelector((state) => state.chatSlice);
   const friendStatusApproved = friend.status === 1;
 
   const selected = activeChat.uid === uid;
-  const dispatch = useAppDispatch();
 
   const handleClick = async () => {
-    dispatch(
-      setActiveChat({
-        uid,
-        name,
-        online,
-        email,
-        lastActive,
-        status: friend.status,
-        isRequesting: friend.isRequesting,
-      })
-    );
-    // seteo notificaciones recibidas en 0 en la UI
-    dispatch(resetNotifications({ uid }));
     if (uid) {
+      dispatch(setFriendId(uid));
+      // seteo notificaciones recibidas en 0 en la UI
+      dispatch(resetNotifications({ uid }));
       // seteo notificaciones recibidas en 0 en la bd
       await resetNotificationsAPI(uid);
     }

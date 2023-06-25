@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react';
 import { Box } from '@chakra-ui/react';
-import { useAppSelector } from '../../../../redux/hooks';
+import { useAppSelector } from '../../../../../redux/hooks';
 
 interface MessagesContainerProps {
   children?: ReactNode;

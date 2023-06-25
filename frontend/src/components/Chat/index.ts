@@ -1,15 +1,19 @@
-import ChatInput from './ChatInput/ChatInput';
+import ChatInput from './ActiveChat/ChatInput/ChatInput';
 import UserTopBar from './Sidebar/UserTopBar/UserTopBar';
-import ChatTopBar from './ChatTopBar/ChatTopBar';
+import ChatTopBar from './ActiveChat/ChatTopBar/ChatTopBar';
 import SidebarUserList from './Sidebar/SidebarUserList/SiebarUserList';
-import Messages from './Messages/Messages';
-import EmptyChat from './EmptyChat/EmptyChat';
+import Messages from './ActiveChat/Messages/Messages';
+import EmptyChat from './ActiveChat/EmptyChat/EmptyChat';
 
-export const Chat = {
-  Input: ChatInput,
-  UserTopBar,
-  TopBar: ChatTopBar,
+export const SideBar = {
+  TopBar: UserTopBar,
   FriendsList: SidebarUserList,
+  Messages,
+};
+
+export const ActiveChat = {
+  Input: ChatInput,
+  TopBar: ChatTopBar,
   Messages,
   EmptyState: EmptyChat,
 };

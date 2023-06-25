@@ -15,7 +15,7 @@ const initialState: ChatState = {
   friends: [],
   isLoading: false,
   error: null,
-
+  friendId: '',
   activeChat: {
     isRequesting: false,
     name: '',
@@ -31,15 +31,15 @@ export const chatSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
+    setFriendId: (state, action: PayloadAction<string>) => {
+      state.friendId = action.payload;
+    },
     setFriendsList: (state, action: PayloadAction<friend[]>) => {
       state.friends = action.payload;
     },
     // chat selecionado por el usuario
     setActiveChat: (state, action: PayloadAction<activeChat>) => {
-      if (state.activeChat.uid === action.payload.uid) return;
-      console.log('if');
       state.activeChat = action.payload;
-      // state.messages = [];
     },
     setMessages: (state, action: PayloadAction<messageUI>) => {
       if (
@@ -175,5 +175,6 @@ export const {
   resetNotifications,
   updateFriendStatus,
   updateFriendsList,
+  setFriendId,
 } = chatSlice.actions;
 export default chatSlice.reducer;

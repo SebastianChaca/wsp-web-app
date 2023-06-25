@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { useAppSelector } from '../../../../redux/hooks';
+import { useAppSelector } from '../../../../../redux/hooks';
 
 const IsOnline = () => {
   const { activeChat } = useAppSelector((state) => state.chatSlice);

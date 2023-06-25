@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from '@chakra-ui/react';
-import { useAppSelector } from '../../../../redux/hooks';
+import { useAppSelector } from '../../../../../redux/hooks';
 
 const IsTyping = () => {
   const { activeChat } = useAppSelector((state) => state.chatSlice);

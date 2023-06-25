@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import ChatMessage from './ChatMessage/ChatMessage';
-import { useAppSelector } from '../../../redux/hooks';
+import { useAppSelector } from '../../../../redux/hooks';
 import MessagesContainer from './components/MessagesContainer';
 
 const Messages = () => {

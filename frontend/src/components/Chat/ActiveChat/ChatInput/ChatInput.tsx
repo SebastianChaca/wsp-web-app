@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, Input } from '@chakra-ui/react';
-import { useAppSelector } from '../../../redux/hooks';
-import useInputSocket from '../../../socket/hooks/useInputSocket';
+import { useAppSelector } from '../../../../redux/hooks';
+import useInputSocket from '../../../../socket/hooks/useInputSocket';
 import FriendRequest from './FriendRequest/FriendRequest';
 
 const ChatInput = () => {
