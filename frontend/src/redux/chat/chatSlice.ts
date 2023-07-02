@@ -27,7 +27,7 @@ export const chatSlice = createSlice({
           name: data.user.name,
           uid: data.user.uid,
           online: data.user.online,
-          // TODO:parsear
+          // TODO:parsear ?
           lastActive: data.user.lastActive,
         },
         notifications: data.notifications,
@@ -39,7 +39,7 @@ export const chatSlice = createSlice({
           from: data.lastMessage.from,
           message: data.lastMessage.message,
           seen: data.lastMessage.seen,
-          date: getHour(data.lastMessage.createdAt),
+          date: data.lastMessage.createdAt,
           id: data.lastMessage._id,
         },
         IsTyping: false,
@@ -76,7 +76,7 @@ export const chatSlice = createSlice({
               to: action.payload.to,
               message: action.payload.message,
               seen: action.payload.seen,
-              date: getHour(action.payload.date),
+              date: action.payload.date,
               id: action.payload.id,
             };
           }

@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ActiveChat } from '../../types/activeChat/activeChat';
-import { message } from '../../types/message/message';
 
 const initialState: ActiveChat = {
   isRequesting: false,
