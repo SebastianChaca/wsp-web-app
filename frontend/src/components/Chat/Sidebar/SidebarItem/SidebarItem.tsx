@@ -8,6 +8,7 @@ import {
 } from '../../../../redux/chat/chatSlice';
 import { friend as FriendInterface } from '../../../../types/friend/friend';
 import { resetNotificationsAPI } from '../../../../services/notifications/resetNotifications';
+import { SideBarItem } from './components';
 
 interface Props {
   friend: FriendInterface;
@@ -16,8 +17,8 @@ const SidebarItem = ({ friend }: Props) => {
   const { name, uid, online } = friend.user;
   const dispatch = useAppDispatch();
   const activeChat = useAppSelector((state) => state.activeChatSlice);
+  const session = useAppSelector((state) => state.sessionSlice);
   const friendStatusApproved = friend.status === 1;
-
   const selected = activeChat.uid === uid;
 
   const handleClick = async () => {
@@ -31,7 +32,6 @@ const SidebarItem = ({ friend }: Props) => {
   };
 
   return (
-    // TODO: re hacer este layout
     <Flex
       justifyContent="center"
       alignItems="center"
@@ -40,6 +40,7 @@ const SidebarItem = ({ friend }: Props) => {
       }}
       bg={selected ? 'gray.400' : 'transparent'}
       onClick={handleClick}
+      cursor="pointer"
     >
       <Avatar
         online={online}
@@ -47,48 +48,27 @@ const SidebarItem = ({ friend }: Props) => {
         hasBadge
         friendStatusApproved={friendStatusApproved}
       />
-      <Flex
-        borderBottom="1px solid #c4c4c4"
-        cursor="pointer"
-        margin="0px"
-        padding="18px 16px 10px"
-        overflow="hidden"
-        alignItems="start"
-        justifyContent="space-between"
-        w="100%"
-      >
+      <SideBarItem.UserInfoContainer>
         <Box>
           <Text fontSize="16px" fontWeight="600">
             {name}
           </Text>
-          <LastMessage />
+          <LastMessage
+            lastMessage={friend.lastMessage}
+            isOutgoing={friend.lastMessage.from === session.uid}
+          />
         </Box>
 
         <Box>
-          <Text fontSize="12px" fontWeight="600" color="gray.500" mt="5px">
-            3:18 pm
-          </Text>
+          <SideBarItem.Date date={friend.lastMessage.date} />
           {/*
           TODO: agregar condicion que la tab este activa
           */}
           {friend.notifications > 0 && friend.uid !== activeChat.uid && (
-            <Flex
-              bg="red.600"
-              color="white"
-              borderRadius="50%"
-              w="20px"
-              h="20px"
-              justifyContent="center"
-              alignItems="center"
-              mt="4px"
-            >
-              <Text fontSize="10px" m="uto">
-                {friend.notifications}
-              </Text>
-            </Flex>
+            <SideBarItem.Notification notification={friend.notifications} />
           )}
         </Box>
-      </Flex>
+      </SideBarItem.UserInfoContainer>
     </Flex>
   );
 };

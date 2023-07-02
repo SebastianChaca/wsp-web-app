@@ -4,6 +4,7 @@ import { addFriend } from '../../services/friends';
 import { messageUI } from '../../types/message/message';
 import { friend, friendsAPIResponse } from '../../types/friend/friend';
 import { ChatState } from '../../types/chatState/chatState';
+import { getHour } from '../../utils/date';
 
 const initialState: ChatState = {
   messages: [],
@@ -37,7 +38,7 @@ export const chatSlice = createSlice({
           from: data.lastMessage.from,
           message: data.lastMessage.message,
           seen: data.lastMessage.seen,
-          date: data.lastMessage.createdAt,
+          date: getHour(data.lastMessage.createdAt),
           id: data.lastMessage._id,
         },
       }));
