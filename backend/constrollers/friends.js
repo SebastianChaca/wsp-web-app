@@ -1,4 +1,5 @@
 const User = require('../models/usuario');
+const Message = require('../models/mensaje');
 const addFriend = async (req, res) => {
   const myId = req.uid;
   const email = req.body.email;
@@ -119,35 +120,68 @@ const getFriendAPI = async (req, res) => {
 };
 const getFriends = async (id) => {
   try {
-    const user = await User.findById(id);
-    //   let user = await User.aggregate([
-    //     { $match: { _id: ObjectId(id) } },
-    //     {
-    //       $lookup: {
-    //         from: User.collection.name,
-    //         let: { friends: "$friends" },
-    //         pipeline: [
-    //           {
-    //             $match: {
-    //               "friends.status": 3,
-    //             },
-    //           },
-    //           {
-    //             $project: {
-    //               name: 1,
-    //               email: 1,
-    //               online: 1,
-    //             },
-    //           },
-    //         ],
-    //         as: "friends",
-    //       },
-    //     },
-    //   ]);
+    // const userTest = await User.findById(id).populate('friends.lastMessage');
 
-    return user.friends;
+    async function getUserWithLastMessages(userId) {
+      try {
+        // Step 1: Find the user by ID
+        const user = await User.findById(userId).populate('friends.user');
+
+        if (!user) {
+          // User not found
+          // Handle accordingly
+          return null;
+        }
+
+        // Step 2: Fetch the last message of every conversation
+        const friendIds = user.friends.map((friend) => friend.user._id);
+
+        const lastMessages = await Message.find({
+          $or: [
+            { from: userId, to: { $in: friendIds } },
+            { from: { $in: friendIds }, to: userId },
+          ],
+        })
+          .sort({ createdAt: -1 })
+          .select('from to message createdAt updatedAt')
+          .lean();
+
+        // Step 3: Group the last messages by friend ID
+        const friendMap = new Map();
+        lastMessages.forEach((message) => {
+          const friendId =
+            message.from.toString() === userId
+              ? message.to.toString()
+              : message.from.toString();
+          if (
+            !friendMap.has(friendId) ||
+            message.createdAt > friendMap.get(friendId).createdAt
+          ) {
+            friendMap.set(friendId, message);
+          }
+        });
+
+        // Step 4: Merge the last messages with the user's friend array
+        user.friends.forEach((friend) => {
+          const friendId = friend.user._id.toString();
+          friend.lastMessage = friendMap.get(friendId) || null;
+        });
+
+        return user;
+      } catch (error) {
+        console.error(error);
+        // Handle the error
+        return null;
+      }
+    }
+    const test = await getUserWithLastMessages(id);
+    return {
+      ok: true,
+      friends: test.friends,
+    };
   } catch (error) {
-    return [];
+    console.log(error);
+    throw new Error(error);
   }
 };
 

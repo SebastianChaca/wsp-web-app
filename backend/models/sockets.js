@@ -32,11 +32,13 @@ class Sockets {
       //me conecto al socker
       socket.join(uid);
       //busco lista de amigos
-      const friends = await getFriends(uid);
+      const friendsResponse = await getFriends(uid);
 
-      const friendsIds = friends.map((friend) => friend.user._id.valueOf());
+      const friendsIds = friendsResponse.friends.map((friend) =>
+        friend.user._id.valueOf()
+      );
       //emitir lista de amigos
-      this.io.to(uid).emit('friend-list', friends);
+      this.io.to(uid).emit('friend-list', friendsResponse);
 
       //emitir a mis amigos que me conecte
       this.io.to(friendsIds).emit('friend-status', {

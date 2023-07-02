@@ -70,4 +70,15 @@ UserSchema.pre(/^find/, function (next) {
   });
   next();
 });
+UserSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'friends',
+    populate: {
+      path: 'lastMessage',
+      //select: 'from to seen createdAt',
+    },
+  });
+  next();
+});
+
 module.exports = model('ChatUser', UserSchema);
