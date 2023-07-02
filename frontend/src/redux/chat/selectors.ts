@@ -44,6 +44,7 @@ export const selectFriendById = (friendId: string) =>
   );
 export const useFriend = (friendId: string) =>
   useSelector(selectFriendById(friendId));
+
 export const useGetFriendStatusApproved = (friendId: string) => {
   const friend = useSelector(selectFriendById(friendId));
   return friend?.status === 1;

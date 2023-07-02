@@ -1,9 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { BsCheckAll } from 'react-icons/all';
-
 import { FC } from 'react';
-import { messageUI } from '../../../../types/message/message';
-import { MessageCheck } from '../../ActiveChat/Messages/MessageStatus/components';
+import { messageUI } from '../../../../../types/message/message';
+import { MessageCheck } from '../../../ActiveChat/Messages/MessageStatus/components';
 
 interface LastMessageProps {
   lastMessage: messageUI;

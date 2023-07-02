@@ -1,6 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import Avatar from '../../../Avatar/Avatar';
-import LastMessage from './LastMessage';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import {
   resetNotifications,
@@ -53,10 +52,15 @@ const SidebarItem = ({ friend }: Props) => {
           <Text fontSize="16px" fontWeight="600">
             {name}
           </Text>
-          <LastMessage
-            lastMessage={friend.lastMessage}
-            isOutgoing={friend.lastMessage.from === session.uid}
-          />
+          {friend.IsTyping ? (
+            // TODO: componente
+            'escribiendo'
+          ) : (
+            <SideBarItem.LastMessage
+              lastMessage={friend.lastMessage}
+              isOutgoing={friend.lastMessage.from === session.uid}
+            />
+          )}
         </Box>
 
         <Box>

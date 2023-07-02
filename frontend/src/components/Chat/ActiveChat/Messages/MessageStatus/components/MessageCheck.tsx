@@ -8,10 +8,11 @@ interface Props {
 const MessageCheck = ({ isOutgoing, seen, onSideBar = false }: Props) => {
   const getCheckColor = () => {
     if (seen) {
-      if (onSideBar) return 'brand.gray';
       return 'blue';
     }
-    return 'white';
+
+    if (onSideBar) return 'brand.gray2';
+    return 'brand.white';
   };
 
   return <>{isOutgoing && <BsCheckAll color={getCheckColor()} />}</>;

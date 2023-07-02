@@ -3,10 +3,12 @@ import { useSocketContext } from '../SocketContext/SocketContext';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
   addFierndToList,
+  setFriendIsTyping,
   setFriendsList,
   updateFriendStatus,
 } from '../../redux/chat/chatSlice';
 import { friend, friendsAPIResponse } from '../../types/friend/friend';
+import { message } from '../../types/message/message';
 
 interface Props {
   children?: JSX.Element | JSX.Element[];
@@ -37,6 +39,12 @@ const SidebarEvents = ({ children }: Props) => {
   useEffect(() => {
     socket?.on('request-friend', ({ friendInfo }: { friendInfo: friend }) => {
       dispatch(addFierndToList(friendInfo));
+    });
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    socket?.on('typing', (messagePayload: message) => {
+      dispatch(setFriendIsTyping(messagePayload));
     });
   }, [socket, dispatch]);
 

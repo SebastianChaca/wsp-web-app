@@ -13,7 +13,7 @@ import {
   sanitizeMessages,
   sanitizeMessage,
 } from '../../utils/sanitizeMessages';
-import { setIsTyping } from '../../redux/activeChat/activeChatSlice';
+// import { setIsTyping } from '../../redux/activeChat/activeChatSlice';
 
 interface Props {
   children?: JSX.Element | JSX.Element[];
@@ -36,11 +36,11 @@ const MessageEvents = ({ children }: Props) => {
   }, [socket, dispatch]);
 
   // marco si el usuario esta escribiendo un mensaje
-  useEffect(() => {
-    socket?.on('typing', (messagePayload: message) => {
-      dispatch(setIsTyping(messagePayload));
-    });
-  }, [socket, dispatch, activeChat.uid]);
+  // useEffect(() => {
+  //   socket?.on('typing', (messagePayload: message) => {
+  //     dispatch(setIsTyping(messagePayload));
+  //   });
+  // }, [socket, dispatch, activeChat.uid]);
 
   // marco como visto el mensaje
   useEffect(() => {

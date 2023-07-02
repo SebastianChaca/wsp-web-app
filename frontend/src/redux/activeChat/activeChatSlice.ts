@@ -37,20 +37,8 @@ export const activeChatSlice = createSlice({
       state.lastActive = lastActive;
       state.status = status;
     },
-    setIsTyping: (state, action: PayloadAction<message>) => {
-      if (action.payload.message.length > 0) {
-        if (
-          state.uid === action.payload.to ||
-          state.uid === action.payload.from
-        ) {
-          state.isTyping = true;
-        }
-      } else {
-        state.isTyping = false;
-      }
-    },
   },
 });
-export const { setActiveChat, setIsTyping } = activeChatSlice.actions;
+export const { setActiveChat } = activeChatSlice.actions;
 
 export default activeChatSlice.reducer;

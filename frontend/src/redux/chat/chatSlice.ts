@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getMessages } from '../../services/messages/index';
 import { addFriend } from '../../services/friends';
-import { messageUI } from '../../types/message/message';
+import { message, messageUI } from '../../types/message/message';
 import { friend, friendsAPIResponse } from '../../types/friend/friend';
 import { ChatState } from '../../types/chatState/chatState';
 import { getHour } from '../../utils/date';
@@ -27,6 +27,7 @@ export const chatSlice = createSlice({
           name: data.user.name,
           uid: data.user.uid,
           online: data.user.online,
+          // TODO:parsear
           lastActive: data.user.lastActive,
         },
         notifications: data.notifications,
@@ -41,11 +42,25 @@ export const chatSlice = createSlice({
           date: getHour(data.lastMessage.createdAt),
           id: data.lastMessage._id,
         },
+        IsTyping: false,
       }));
 
       state.friends = friends;
     },
+    setFriendIsTyping: (state, action: PayloadAction<message>) => {
+      const friends = state.friends!.map((f) => {
+        if (f.user.uid === action.payload.from) {
+          if (action.payload.message) {
+            f.IsTyping = true;
+          } else {
+            f.IsTyping = false;
+          }
+        }
+        return f;
+      });
 
+      state.friends = friends;
+    },
     setMessages: (state, action: PayloadAction<messageUI>) => {
       if (
         state.friendId === action.payload.to ||
@@ -53,11 +68,21 @@ export const chatSlice = createSlice({
       ) {
         state.messages.push(action.payload);
       } else {
-        // TODO: si el mensaje no esta en active chat chequear si son amigos
-        // si lo son agrego notificacion
-        // si no son lo agrego a amigos con status 0 (requested)
-        // primero en la lista y con notificacion
-        // console.log(action.payload);
+        // TODO: setear lastMessage
+        const friends = state.friends!.map((f) => {
+          if (f.user.uid === action.payload.from) {
+            f.lastMessage = {
+              from: action.payload.from,
+              to: action.payload.to,
+              message: action.payload.message,
+              seen: action.payload.seen,
+              date: getHour(action.payload.date),
+              id: action.payload.id,
+            };
+          }
+          return f;
+        });
+        state.friends = friends;
       }
     },
 
@@ -168,5 +193,6 @@ export const {
   updateFriendStatus,
   updateFriendsList,
   setFriendId,
+  setFriendIsTyping,
 } = chatSlice.actions;
 export default chatSlice.reducer;
