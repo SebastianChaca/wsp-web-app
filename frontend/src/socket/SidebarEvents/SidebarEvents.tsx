@@ -6,7 +6,7 @@ import {
   setFriendsList,
   updateFriendStatus,
 } from '../../redux/chat/chatSlice';
-import { friend } from '../../types/session/session';
+import { friend, friendsAPIResponse } from '../../types/friend/friend';
 
 interface Props {
   children?: JSX.Element | JSX.Element[];
@@ -18,7 +18,7 @@ const SidebarEvents = ({ children }: Props) => {
 
   // lista de amigos
   useEffect(() => {
-    socket?.on('friend-list', (friends: friend[]) => {
+    socket?.on('friend-list', (friends: friendsAPIResponse) => {
       dispatch(setFriendsList(friends));
     });
   }, [socket, dispatch, uid]);

@@ -6,7 +6,7 @@ import {
   resetNotifications,
   setFriendId,
 } from '../../../../redux/chat/chatSlice';
-import { friend as FriendInterface } from '../../../../types/session/session';
+import { friend as FriendInterface } from '../../../../types/friend/friend';
 import { resetNotificationsAPI } from '../../../../services/notifications/resetNotifications';
 
 interface Props {

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getMessages } from '../../services/messages/index';
 import { addFriend } from '../../services/friends';
-import { ChatState, messageUI } from '../../types/message/message';
-
-import { friend } from '../../types/session/session';
+import { messageUI } from '../../types/message/message';
+import { friend, friendsAPIResponse } from '../../types/friend/friend';
+import { ChatState } from '../../types/chatState/chatState';
 
 const initialState: ChatState = {
   messages: [],
@@ -19,8 +19,30 @@ export const chatSlice = createSlice({
     setFriendId: (state, action: PayloadAction<string>) => {
       state.friendId = action.payload;
     },
-    setFriendsList: (state, action: PayloadAction<friend[]>) => {
-      state.friends = action.payload;
+    setFriendsList: (state, action: PayloadAction<friendsAPIResponse>) => {
+      const friends = action.payload.friends.map((data) => ({
+        user: {
+          email: data.user.email,
+          name: data.user.name,
+          uid: data.user.uid,
+          online: data.user.online,
+          lastActive: data.user.lastActive,
+        },
+        notifications: data.notifications,
+        status: data.status,
+        isRequesting: data.isRequesting,
+        uid: data._id,
+        lastMessage: {
+          to: data.lastMessage.to,
+          from: data.lastMessage.from,
+          message: data.lastMessage.message,
+          seen: data.lastMessage.seen,
+          date: data.lastMessage.createdAt,
+          id: data.lastMessage._id,
+        },
+      }));
+
+      state.friends = friends;
     },
 
     setMessages: (state, action: PayloadAction<messageUI>) => {

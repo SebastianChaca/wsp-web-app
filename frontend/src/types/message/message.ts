@@ -1,5 +1,3 @@
-import { user, friend } from '../session/session';
-
 export interface message {
   to: string | null;
   from: string | null;
@@ -15,20 +13,6 @@ export interface messageUI extends message {
 export interface messageToServer extends message {
   isTyping?: boolean;
 }
-
-// export interface activeChat extends user {
-//   isTyping?: boolean;
-//   isRequesting: boolean;
-//   status: number | null;
-// }
-export interface ChatState {
-  messages: messageUI[];
-  friends: friend[] | null;
-  isLoading: boolean;
-  error: string | null;
-  friendId: string;
-}
-
 export interface serverMessageResponse extends message {
   updatedAt: string;
   createdAt: string;

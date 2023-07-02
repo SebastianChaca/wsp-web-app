@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { makePrivateRequest } from '../makePrivateRequest';
-import { friend } from '../../types/session/session';
+import { friend } from '../../types/friend/friend';
 
 interface FriendApiResponse {
   ok: boolean;

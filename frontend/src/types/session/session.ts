@@ -18,16 +18,3 @@ export interface sessionState extends user {
   status: 'idle' | 'loading' | 'failed';
   isLoading: boolean;
 }
-
-export interface friend {
-  user: user;
-  notifications: number;
-  status: number;
-  isRequesting: boolean;
-  uid: string;
-}
-
-export interface friendsAPIResponse {
-  ok: boolean;
-  friends: friend[];
-}
