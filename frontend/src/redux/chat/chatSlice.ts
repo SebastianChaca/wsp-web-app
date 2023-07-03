@@ -9,7 +9,8 @@ import {
   resetNotification,
   updateFriendIsTyping,
   updateFriendList,
-  updateMessageAndNotifications,
+  updateLastMessage,
+  updateNotification,
 } from './accions';
 
 const initialState: ChatState = {
@@ -39,11 +40,9 @@ export const chatSlice = createSlice({
       ) {
         state.messages.push(action.payload);
       } else {
-        state.friends = updateMessageAndNotifications(
-          state.friends,
-          action.payload
-        );
+        state.friends = updateNotification(state.friends, action.payload.from!);
       }
+      state.friends = updateLastMessage(state.friends, action.payload);
     },
     updateSeenMessages: (state, action: PayloadAction<messageUI[]>) => {
       const elementsToDelete = action.payload.length;

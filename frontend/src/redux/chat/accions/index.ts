@@ -1,5 +1,6 @@
 export { updateFriendList } from './updateFriendsList';
 export { updateFriendIsTyping } from './updateFriendIsTyping';
-export { updateMessageAndNotifications } from './updateLastMessageAndNotifications';
+export { updateLastMessage } from './updateLastMessage';
 export { resetNotification } from './resetNotifications';
 export { friendUpdate } from './friendUpdate';
+export { updateNotification } from './updateNotification';

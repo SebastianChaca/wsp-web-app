@@ -1,12 +1,9 @@
 import { friend } from '../../../types/friend/friend';
 import { messageUI } from '../../../types/message/message';
 
-export const updateMessageAndNotifications = (
-  friends: friend[],
-  payload: messageUI
-) => {
+export const updateLastMessage = (friends: friend[], payload: messageUI) => {
   return friends.map((f) => {
-    if (f.user.uid === payload.from) {
+    if (f.user.uid === payload.from || f.user.uid === payload.to) {
       f.lastMessage = {
         from: payload.from,
         to: payload.to,
@@ -15,7 +12,6 @@ export const updateMessageAndNotifications = (
         date: payload.date,
         id: payload.id,
       };
-      f.notifications += 1;
     }
     return f;
   });
