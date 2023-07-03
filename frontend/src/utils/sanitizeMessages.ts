@@ -1,4 +1,5 @@
 import { serverMessageResponse, messageUI } from '../types/message/message';
+import { formatDateMessage, formatDateSideBar } from './date';
 
 export const sanitizeMessages = (messages: serverMessageResponse[]) =>
   messages
@@ -9,6 +10,7 @@ export const sanitizeMessages = (messages: serverMessageResponse[]) =>
       date: msg.createdAt,
       seen: msg.seen,
       id: msg._id,
+      parseDate: formatDateMessage(msg.createdAt),
     }))
     .reverse();
 export const sanitizeMessage = (message: serverMessageResponse) => {

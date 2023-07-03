@@ -8,6 +8,7 @@ export interface messageUI extends message {
   seen: boolean;
   date: string;
   id: string;
+  parseDate?: string | null;
 }
 
 export interface messageToServer extends message {

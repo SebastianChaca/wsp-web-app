@@ -14,9 +14,16 @@ const Messages = () => {
 
   return (
     <MessagesContainer>
-      {messages.map((msg) => (
-        <ChatMessage msg={msg} key={msg.id} isOutgoing={msg.from === uid} />
-      ))}
+      {messages.map((msg, index, arr) => {
+        return (
+          <ChatMessage
+            msg={msg}
+            key={msg.id}
+            isOutgoing={msg.from === uid}
+            showDate={msg.parseDate !== arr[index - 1]?.parseDate}
+          />
+        );
+      })}
 
       <div ref={ref} />
     </MessagesContainer>

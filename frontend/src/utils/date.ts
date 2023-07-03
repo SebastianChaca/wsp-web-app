@@ -25,7 +25,32 @@ export const formatDateSideBar = (date: string) => {
 
   // Check if the date is within the past week
   const oneWeekAgo = currentDate.subtract(1, 'week');
+  if (
+    formattedDate.isAfter(oneWeekAgo) &&
+    formattedDate.isBefore(currentDate)
+  ) {
+    return formattedDate.format('dddd');
+  }
 
+  return formattedDate.format('D/M/YYYY');
+};
+
+export const formatDateMessage = (date: string) => {
+  const currentDate = dayjs();
+  const formattedDate = dayjs(date);
+
+  // Check if the date is today
+  if (formattedDate.isSame(currentDate, 'day')) {
+    return 'Hoy';
+  }
+
+  // Check if the date is from yesterday
+  if (formattedDate.isSame(currentDate.subtract(1, 'day'), 'day')) {
+    return 'Ayer';
+  }
+
+  // Check if the date is within the past week
+  const oneWeekAgo = currentDate.subtract(1, 'week');
   if (
     formattedDate.isAfter(oneWeekAgo) &&
     formattedDate.isBefore(currentDate)
