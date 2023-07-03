@@ -5,6 +5,7 @@ import { message, messageUI } from '../../types/message/message';
 import { friend, friendsAPIResponse } from '../../types/friend/friend';
 import { ChatState } from '../../types/chatState/chatState';
 import {
+  friendUpdate,
   resetNotification,
   updateFriendIsTyping,
   updateFriendList,
@@ -44,9 +45,6 @@ export const chatSlice = createSlice({
         );
       }
     },
-
-    // si el usuario vio el mensaje
-    // se dispara cuando el mensaje esta en el active chat
     updateSeenMessages: (state, action: PayloadAction<messageUI[]>) => {
       const elementsToDelete = action.payload.length;
 
@@ -56,7 +54,6 @@ export const chatSlice = createSlice({
       const newArr = state.messages.concat(action.payload);
       state.messages = newArr;
     },
-    // cuando se selecciona el chat activo se resetean las notificaciones
     resetNotifications: (state, action: PayloadAction<{ uid: string }>) => {
       state.friends = resetNotification(state.friends, action.payload.uid);
     },
@@ -68,7 +65,6 @@ export const chatSlice = createSlice({
         state.friends?.unshift(action.payload);
       }
     },
-    // se dispara cuando un usuario se conecta o desconecta
     updateFriendStatus: (
       state,
       action: PayloadAction<{ uid: string; online: boolean }>
@@ -80,15 +76,7 @@ export const chatSlice = createSlice({
       });
     },
     updateFriend: (state, action: PayloadAction<friend>) => {
-      const { isRequesting, status, user, notifications } = action.payload;
-      state.friends?.forEach((friendItem) => {
-        if (friendItem.user.uid === user.uid) {
-          friendItem.isRequesting = isRequesting;
-          friendItem.status = status;
-          friendItem.notifications = notifications;
-          friendItem.user = user;
-        }
-      });
+      state.friends = friendUpdate(state.friends, action.payload);
     },
   },
   extraReducers: (builder) => {
