@@ -4,7 +4,12 @@ import { addFriend } from '../../services/friends';
 import { message, messageUI } from '../../types/message/message';
 import { friend, friendsAPIResponse } from '../../types/friend/friend';
 import { ChatState } from '../../types/chatState/chatState';
-import { getHour } from '../../utils/date';
+import {
+  resetNotification,
+  updateFriendIsTyping,
+  updateFriendList,
+  updateMessageAndNotifications,
+} from './accions';
 
 const initialState: ChatState = {
   messages: [],
@@ -21,45 +26,10 @@ export const chatSlice = createSlice({
       state.friendId = action.payload;
     },
     setFriendsList: (state, action: PayloadAction<friendsAPIResponse>) => {
-      const friends = action.payload.friends.map((data) => ({
-        user: {
-          email: data.user.email,
-          name: data.user.name,
-          uid: data.user.uid,
-          online: data.user.online,
-          // TODO:parsear ?
-          lastActive: data.user.lastActive,
-        },
-        notifications: data.notifications,
-        status: data.status,
-        isRequesting: data.isRequesting,
-        uid: data._id,
-        lastMessage: {
-          to: data.lastMessage.to,
-          from: data.lastMessage.from,
-          message: data.lastMessage.message,
-          seen: data.lastMessage.seen,
-          date: data.lastMessage.createdAt,
-          id: data.lastMessage._id,
-        },
-        IsTyping: false,
-      }));
-
-      state.friends = friends;
+      state.friends = updateFriendList(action.payload);
     },
     setFriendIsTyping: (state, action: PayloadAction<message>) => {
-      const friends = state.friends!.map((f) => {
-        if (f.user.uid === action.payload.from) {
-          if (action.payload.message) {
-            f.IsTyping = true;
-          } else {
-            f.IsTyping = false;
-          }
-        }
-        return f;
-      });
-
-      state.friends = friends;
+      state.friends = updateFriendIsTyping(state.friends, action.payload);
     },
     setMessages: (state, action: PayloadAction<messageUI>) => {
       if (
@@ -68,21 +38,10 @@ export const chatSlice = createSlice({
       ) {
         state.messages.push(action.payload);
       } else {
-        // TODO: setear lastMessage
-        const friends = state.friends!.map((f) => {
-          if (f.user.uid === action.payload.from) {
-            f.lastMessage = {
-              from: action.payload.from,
-              to: action.payload.to,
-              message: action.payload.message,
-              seen: action.payload.seen,
-              date: action.payload.date,
-              id: action.payload.id,
-            };
-          }
-          return f;
-        });
-        state.friends = friends;
+        state.friends = updateMessageAndNotifications(
+          state.friends,
+          action.payload
+        );
       }
     },
 
@@ -97,32 +56,9 @@ export const chatSlice = createSlice({
       const newArr = state.messages.concat(action.payload);
       state.messages = newArr;
     },
-    // notificacion de mensaje cuando no esta en el chat activo
-    updateNotifications: (state, action: PayloadAction<messageUI>) => {
-      if (action.payload.from !== state.friendId) {
-        if (state.friends) {
-          state.friends.forEach((friendItem) => {
-            if (action.payload.from === friendItem.user.uid) {
-              friendItem.notifications += 1;
-              return friendItem;
-            }
-            return friendItem;
-          });
-        }
-      }
-    },
     // cuando se selecciona el chat activo se resetean las notificaciones
-    resetNotifications: (
-      state,
-      action: PayloadAction<{ uid: string | null }>
-    ) => {
-      state.friends?.forEach((friendItem) => {
-        if (action.payload.uid === friendItem.user.uid) {
-          friendItem.notifications = 0;
-          return friendItem;
-        }
-        return friendItem;
-      });
+    resetNotifications: (state, action: PayloadAction<{ uid: string }>) => {
+      state.friends = resetNotification(state.friends, action.payload.uid);
     },
     addFierndToList: (state, action: PayloadAction<friend>) => {
       const checkIfFriendExists = state.friends?.find(
@@ -143,7 +79,7 @@ export const chatSlice = createSlice({
         }
       });
     },
-    updateFriendsList: (state, action: PayloadAction<friend>) => {
+    updateFriend: (state, action: PayloadAction<friend>) => {
       const { isRequesting, status, user, notifications } = action.payload;
       state.friends?.forEach((friendItem) => {
         if (friendItem.user.uid === user.uid) {
@@ -188,10 +124,9 @@ export const {
   setMessages,
   updateSeenMessages,
   addFierndToList,
-  updateNotifications,
   resetNotifications,
   updateFriendStatus,
-  updateFriendsList,
+  updateFriend,
   setFriendId,
   setFriendIsTyping,
 } = chatSlice.actions;

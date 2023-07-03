@@ -2,12 +2,11 @@ import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import {
   setMessages,
-  updateNotifications,
   updateSeenMessages,
-  updateFriendsList,
+  updateFriend,
 } from '../../redux/chat/chatSlice';
 import { useSocketContext } from '../SocketContext/SocketContext';
-import { serverMessageResponse, message } from '../../types/message/message';
+import { serverMessageResponse } from '../../types/message/message';
 
 import {
   sanitizeMessages,
@@ -30,19 +29,9 @@ const MessageEvents = ({ children }: Props) => {
       const sanitMsg = sanitizeMessage(messagePayload);
 
       dispatch(setMessages(sanitMsg));
-
-      dispatch(updateNotifications(sanitMsg));
     });
   }, [socket, dispatch]);
 
-  // marco si el usuario esta escribiendo un mensaje
-  // useEffect(() => {
-  //   socket?.on('typing', (messagePayload: message) => {
-  //     dispatch(setIsTyping(messagePayload));
-  //   });
-  // }, [socket, dispatch, activeChat.uid]);
-
-  // marco como visto el mensaje
   useEffect(() => {
     socket?.on('seen-messages', (messages: serverMessageResponse[]) => {
       const sanitize = sanitizeMessages(messages);
@@ -52,7 +41,7 @@ const MessageEvents = ({ children }: Props) => {
 
   useEffect(() => {
     socket?.on('update-friend-status', (friend) => {
-      dispatch(updateFriendsList(friend));
+      dispatch(updateFriend(friend));
     });
   }, [socket, dispatch]);
   return <>{children}</>;

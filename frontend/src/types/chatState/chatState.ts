@@ -3,7 +3,7 @@ import { friend } from '../friend/friend';
 
 export interface ChatState {
   messages: messageUI[];
-  friends: friend[] | null;
+  friends: friend[];
   isLoading: boolean;
   error: string | null;
   friendId: string;

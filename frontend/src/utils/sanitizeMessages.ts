@@ -1,5 +1,5 @@
 import { serverMessageResponse, messageUI } from '../types/message/message';
-import { formatDateMessage, formatDateSideBar } from './date';
+import { formatDateMessage } from './date';
 
 export const sanitizeMessages = (messages: serverMessageResponse[]) =>
   messages
@@ -21,6 +21,7 @@ export const sanitizeMessage = (message: serverMessageResponse) => {
     date: message.createdAt,
     seen: message.seen,
     id: message._id,
+    parseDate: formatDateMessage(message.createdAt),
   };
   return messageObj;
 };

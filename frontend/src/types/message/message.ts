@@ -1,7 +1,7 @@
 export interface message {
   to: string | null;
   from: string | null;
-  message: string;
+  message: string | null;
 }
 
 export interface messageUI extends message {
