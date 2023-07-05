@@ -14,12 +14,12 @@ export const updateFriendList = (payload: friendsAPIResponse) => {
     isRequesting: data.isRequesting,
     uid: data._id,
     lastMessage: {
-      to: data.lastMessage.to,
-      from: data.lastMessage.from,
-      message: data.lastMessage.message,
-      seen: data.lastMessage.seen,
-      date: data.lastMessage.createdAt,
-      id: data.lastMessage._id,
+      to: data.lastMessage?.to,
+      from: data.lastMessage?.from,
+      message: data.lastMessage?.message,
+      seen: data.lastMessage?.seen,
+      date: data.lastMessage?.createdAt,
+      id: data.lastMessage?._id,
     },
     IsTyping: false,
   }));

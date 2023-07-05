@@ -7,12 +7,14 @@ interface SidebarItemDateProps {
 }
 
 const SidebarItemDate: FC<SidebarItemDateProps> = ({ date }) => {
-  return (
-    // TODO: logica de devolver 'ayer' dia, etc
-    <Text fontSize="12px" fontWeight="600" color="gray.500" mt="5px">
-      {formatDateSideBar(date)}
-    </Text>
-  );
+  if (date) {
+    return (
+      <Text fontSize="12px" fontWeight="600" color="gray.500" mt="5px">
+        {formatDateSideBar(date)}
+      </Text>
+    );
+  }
+  return null;
 };
 
 export default SidebarItemDate;

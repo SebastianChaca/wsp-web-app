@@ -1,11 +1,15 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
-import Avatar from '../../../Avatar/Avatar';
+import { Box, Flex } from '@chakra-ui/react';
+import Avatar from '../../../UserComponents/Avatar/Avatar';
 import { useAppSelector } from '../../../../redux/hooks';
-import { Container, IsOnline, IsTyping, LastActive } from './Components';
+import { Container } from './Components';
+import { IsOnline, IsTyping, LastActive } from '../../../UserComponents/index';
 import { useFriendStatusApproved } from '../../../../redux/chat/selectors';
+import Username from '../../../UserComponents/UserName/Username';
 
 const ChatTopBar = () => {
-  const { name, online } = useAppSelector((state) => state.activeChatSlice);
+  const { name, online, isTyping } = useAppSelector(
+    (state) => state.activeChatSlice
+  );
 
   const friendStatusApproved = useFriendStatusApproved();
 
@@ -19,14 +23,12 @@ const ChatTopBar = () => {
           friendStatusApproved={friendStatusApproved}
         />
         <Box mt="2px">
-          <Text fontSize="18px" fontWeight="600">
-            {name}
-          </Text>
+          <Username name={name} />
           {friendStatusApproved && (
             <>
               <IsOnline />
               <LastActive />
-              <IsTyping />
+              <IsTyping isTyping={isTyping} />
             </>
           )}
         </Box>

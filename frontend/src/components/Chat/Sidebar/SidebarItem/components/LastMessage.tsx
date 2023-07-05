@@ -9,14 +9,21 @@ interface LastMessageProps {
 }
 
 const LastMessage: FC<LastMessageProps> = ({ lastMessage, isOutgoing }) => {
-  return (
-    <Flex alignItems="center" mt="5px">
-      <MessageCheck isOutgoing={isOutgoing} seen={lastMessage.seen} onSideBar />
-      <Text fontSize="12px" ml="5px">
-        {lastMessage.message}
-      </Text>
-    </Flex>
-  );
+  if (lastMessage) {
+    return (
+      <Flex alignItems="center" mt="5px">
+        <MessageCheck
+          isOutgoing={isOutgoing}
+          seen={lastMessage?.seen}
+          onSideBar
+        />
+        <Text fontSize="12px" ml="5px">
+          {lastMessage?.message}
+        </Text>
+      </Flex>
+    );
+  }
+  return <Flex my="15px" />;
 };
 
 export default LastMessage;

@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 import { useAppSelector } from '../../../../redux/hooks';
 
-import Avatar from '../../../Avatar/Avatar';
+import Avatar from '../../../UserComponents/Avatar/Avatar';
 import UserTopBarMenu from './Menu/UserTopBarMenu';
 
 const UserTopBar = () => {

@@ -1,5 +1,5 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
-import Avatar from '../../../Avatar/Avatar';
+import { useEffect } from 'react';
+import { Box } from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import {
   resetNotifications,
@@ -8,6 +8,8 @@ import {
 import { friend as FriendInterface } from '../../../../types/friend/friend';
 import { resetNotificationsAPI } from '../../../../services/notifications/resetNotifications';
 import { SideBarItem } from './components';
+import { IsTyping, UserName, Avatar } from '../../../UserComponents';
+import useActiveTab from '../../../../hooks/useActiveTab';
 
 interface Props {
   friend: FriendInterface;
@@ -19,6 +21,13 @@ const SidebarItem = ({ friend }: Props) => {
   const session = useAppSelector((state) => state.sessionSlice);
   const friendStatusApproved = friend.status === 1;
   const selected = activeChat.uid === uid;
+  const isTabActive = useActiveTab();
+
+  // useEffect(()=>{
+  //   if(!selected){
+
+  //   }
+  // })
 
   const handleClick = async () => {
     if (uid) {
@@ -31,16 +40,7 @@ const SidebarItem = ({ friend }: Props) => {
   };
 
   return (
-    <Flex
-      justifyContent="center"
-      alignItems="center"
-      _hover={{
-        bg: selected ? 'gray.400' : 'gray.300',
-      }}
-      bg={selected ? 'gray.400' : 'transparent'}
-      onClick={handleClick}
-      cursor="pointer"
-    >
+    <SideBarItem.ItemContainer selected={selected} handleClick={handleClick}>
       <Avatar
         online={online}
         name={name}
@@ -49,31 +49,27 @@ const SidebarItem = ({ friend }: Props) => {
       />
       <SideBarItem.UserInfoContainer>
         <Box>
-          <Text fontSize="16px" fontWeight="600">
-            {name}
-          </Text>
+          <UserName name={name} />
           {friend.IsTyping ? (
-            // TODO: componente
-            'escribiendo'
+            <IsTyping isTyping={friend.IsTyping} />
           ) : (
             <SideBarItem.LastMessage
               lastMessage={friend.lastMessage}
-              isOutgoing={friend.lastMessage.from === session.uid}
+              isOutgoing={friend.lastMessage?.from === session.uid}
             />
           )}
         </Box>
 
         <Box>
-          <SideBarItem.Date date={friend.lastMessage.date} />
-          {/*
-          TODO: agregar condicion que la tab este activa
-          */}
-          {friend.notifications > 0 && friend.uid !== activeChat.uid && (
+          {/* <SideBarItem.NotificationSound friend={friend} /> */}
+          <SideBarItem.Date date={friend.lastMessage?.date} />
+          {/* todo: ver logica de active tab */}
+          {!selected && (
             <SideBarItem.Notification notification={friend.notifications} />
           )}
         </Box>
       </SideBarItem.UserInfoContainer>
-    </Flex>
+    </SideBarItem.ItemContainer>
   );
 };
 
