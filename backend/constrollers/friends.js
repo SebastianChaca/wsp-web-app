@@ -143,7 +143,7 @@ const getFriends = async (id) => {
           ],
         })
           .sort({ createdAt: -1 })
-          .select('from to message createdAt updatedAt')
+          .select('from to message createdAt updatedAt seen')
           .lean();
 
         // Step 3: Group the last messages by friend ID

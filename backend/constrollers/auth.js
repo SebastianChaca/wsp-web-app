@@ -1,20 +1,23 @@
-const ChatUser = require("../models/usuario");
-const bcrypt = require("bcryptjs");
-const { generarJWT } = require("../helpers/generarJWT");
+const ChatUser = require('../models/usuario');
+const bcrypt = require('bcryptjs');
+const { generarJWT } = require('../helpers/generarJWT');
 const createUsuer = async (req, res) => {
   try {
-    const { password, email } = req.body;
+    const { password, email, name } = req.body;
+    const parseEmail = email.toLowerCase();
 
-    const emailExist = await ChatUser.findOne({ email });
+    const emailExist = await ChatUser.findOne({ email: parseEmail });
+    console.log(email);
+    console.log(emailExist);
 
     if (emailExist) {
       return res.status(400).json({
         ok: false,
-        msg: "El email esta en uso",
+        msg: 'El email esta en uso',
       });
     }
     // se crea usuario
-    const usuario = new ChatUser(req.body);
+    const usuario = new ChatUser({ password, email: parseEmail, name });
     //Ecriptar password
     const salt = bcrypt.genSaltSync();
     usuario.password = bcrypt.hashSync(password, salt);
@@ -33,7 +36,7 @@ const createUsuer = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       ok: false,
-      msg: "Se produjo un error",
+      msg: 'Se produjo un error',
     });
   }
 };
@@ -48,14 +51,14 @@ const login = async (req, res) => {
     if (!usuarioDB) {
       return res.status(404).json({
         ok: false,
-        msg: "Email o password incorrectos",
+        msg: 'Email o password incorrectos',
       });
     }
     const validPassword = bcrypt.compareSync(password, usuarioDB.password);
     if (!validPassword) {
       return res.status(404).json({
         ok: false,
-        msg: "Email o password incorrectos",
+        msg: 'Email o password incorrectos',
       });
     }
 
@@ -71,7 +74,7 @@ const login = async (req, res) => {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: "Hable con el administrador",
+      msg: 'Hable con el administrador',
     });
   }
 };
@@ -83,7 +86,7 @@ const refreshToken = async (req, res) => {
   if (!uid) {
     res.status(500).json({
       ok: false,
-      msg: "Error",
+      msg: 'Error',
     });
   }
 
@@ -102,7 +105,7 @@ const refreshToken = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       ok: false,
-      msg: "Error",
+      msg: 'Error',
     });
   }
 };
