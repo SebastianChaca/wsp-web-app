@@ -1,6 +1,7 @@
 import React, { FC, useRef, useEffect, useState } from 'react';
 import { friend as friendInterface } from '../../../../../types/friend/friend';
 import SoundPlayer from '../../../../SoundPlayer/SoundPlayer';
+import Sound from '../../../../../sounds/notificationMsg.mp3';
 
 interface SideBarNotificationSoundProps {
   friend: friendInterface;
@@ -20,7 +21,7 @@ const SideBarNotificationSound: FC<SideBarNotificationSoundProps> = ({
   }, [friend.notifications]);
   return (
     <SoundPlayer
-      soundFile="../../../../../assets/sounds/dm_sound.mp3"
+      soundFile={Sound}
       playSound={playSound}
       setPlaySound={setPlaySound}
     />

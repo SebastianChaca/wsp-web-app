@@ -39,7 +39,8 @@ export const chatSlice = createSlice({
         state.friendId === action.payload.from
       ) {
         state.messages.push(action.payload);
-      } else if (action.payload.from) {
+      }
+      if (action.payload.from) {
         state.friends = updateNotification(state.friends, action.payload.from);
       }
       state.friends = updateLastMessage(state.friends, action.payload);

@@ -3,6 +3,7 @@ import { Box, Input } from '@chakra-ui/react';
 import { useAppSelector } from '../../../../redux/hooks';
 import useInputSocket from '../../../../socket/hooks/useInputSocket';
 import FriendRequest from './FriendRequest/FriendRequest';
+import useActiveTab from '../../../../hooks/useActiveTab';
 
 const ChatInput = () => {
   const [message, setMessage] = useState<string>('');
@@ -10,6 +11,7 @@ const ChatInput = () => {
   const activeChat = useAppSelector((state) => state.activeChatSlice);
   const { setTypingEvent, submitEvent, seenEvent } = useInputSocket(message);
   const inputRef = useRef<HTMLInputElement>(null);
+  const isTabActive = useActiveTab();
 
   useEffect(() => {
     setMessage('');
@@ -18,8 +20,10 @@ const ChatInput = () => {
 
   useEffect(() => {
     // marcar mensaje como visto
-    seenEvent();
-  }, [activeChat.uid, messages.length, seenEvent]);
+    if (isTabActive) {
+      seenEvent();
+    }
+  }, [activeChat.uid, messages.length, seenEvent, isTabActive]);
 
   useEffect(() => {
     // evento para saber si estoy escribiendo

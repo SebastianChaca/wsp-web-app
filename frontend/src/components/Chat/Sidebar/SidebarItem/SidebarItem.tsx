@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { Box } from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import {
@@ -22,20 +22,28 @@ const SidebarItem = ({ friend }: Props) => {
   const friendStatusApproved = friend.status === 1;
   const selected = activeChat.uid === uid;
   const isTabActive = useActiveTab();
+  const resetNotif = useCallback(async () => {
+    if (uid) {
+      dispatch(resetNotifications({ uid }));
+      await resetNotificationsAPI(uid);
+    }
+  }, [uid, dispatch]);
 
-  // useEffect(()=>{
-  //   if(!selected){
+  useEffect(() => {
+    if (!selected && friend.lastMessage.seen && friend.notifications > 0) {
+      resetNotif();
+    }
+  }, [dispatch, friend, selected, uid, resetNotif]);
 
-  //   }
-  // })
+  useEffect(() => {
+    if (isTabActive && selected) {
+      resetNotif();
+    }
+  }, [selected, isTabActive, resetNotif]);
 
   const handleClick = async () => {
     if (uid) {
       dispatch(setFriendId(uid));
-      // seteo notificaciones recibidas en 0 en la UI
-      dispatch(resetNotifications({ uid }));
-      // seteo notificaciones recibidas en 0 en la bd
-      await resetNotificationsAPI(uid);
     }
   };
 
@@ -61,11 +69,13 @@ const SidebarItem = ({ friend }: Props) => {
         </Box>
 
         <Box>
-          {/* <SideBarItem.NotificationSound friend={friend} /> */}
           <SideBarItem.Date date={friend.lastMessage?.date} />
-          {/* todo: ver logica de active tab */}
-          {!selected && (
-            <SideBarItem.Notification notification={friend.notifications} />
+
+          {(!selected || !isTabActive) && (
+            <>
+              <SideBarItem.NotificationSound friend={friend} />
+              <SideBarItem.Notification notification={friend.notifications} />
+            </>
           )}
         </Box>
       </SideBarItem.UserInfoContainer>

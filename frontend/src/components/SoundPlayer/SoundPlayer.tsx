@@ -17,7 +17,12 @@ const SoundPlayer: React.FC<SoundPlayerProps> = ({
     if (playSound) {
       // Play the sound here
       if (audioRef.current) {
-        audioRef.current.play();
+        audioRef.current
+          .play()
+          .then(() => {})
+          .catch((error) => {
+            console.log(error);
+          });
       }
       setPlaySound(false);
     }
