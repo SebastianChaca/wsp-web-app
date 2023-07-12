@@ -8,7 +8,7 @@ interface MessagesContainerProps {
 
 const MessagesContainer: FC<MessagesContainerProps> = ({ children }) => {
   const activeChat = useAppSelector((state) => state.activeChatSlice);
-  const height = activeChat.isRequesting ? '286px' : '160px';
+  const height = activeChat.isRequesting ? '288px' : '162px';
   return (
     <Box
       h={`calc(100vh - ${height})`}
