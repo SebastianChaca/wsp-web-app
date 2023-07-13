@@ -33,13 +33,13 @@ const useInputSocket = (messageProps: string) => {
   const seenEvent = useCallback(() => {
     // filtrar los mensajes que me mandaron y que seen === false y mandarlos al back
     const notSeenMessages = messages.filter(
-      (messg) => messg.to === session.uid && !messg.seen
+      (messg) => messg.from === activeChat.uid && !messg.seen
     );
-
+    console.log(notSeenMessages);
     if (notSeenMessages.length > 0) {
       socket?.emit('seen-messages', notSeenMessages);
     }
-  }, [messages, socket, session.uid]);
+  }, [messages, socket, activeChat.uid]);
   return { setTypingEvent, submitEvent, seenEvent };
 };
 

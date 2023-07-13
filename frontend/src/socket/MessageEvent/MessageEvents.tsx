@@ -4,6 +4,7 @@ import {
   setMessages,
   updateSeenMessages,
   updateFriend,
+  updateLastMessageSeenStatus,
 } from '../../redux/chat/chatSlice';
 import { useSocketContext } from '../SocketContext/SocketContext';
 import { serverMessageResponse } from '../../types/message/message';
@@ -19,6 +20,7 @@ interface Props {
 }
 const MessageEvents = ({ children }: Props) => {
   const { socket } = useSocketContext();
+  const session = useAppSelector((state) => state.sessionSlice);
   const activeChat = useAppSelector((state) => state.activeChatSlice);
 
   const dispatch = useAppDispatch();
@@ -33,11 +35,12 @@ const MessageEvents = ({ children }: Props) => {
   }, [socket, dispatch]);
 
   useEffect(() => {
-    socket?.on('seen-messages', (messages: serverMessageResponse[]) => {
-      const sanitize = sanitizeMessages(messages);
-      dispatch(updateSeenMessages(sanitize.reverse()));
+    socket?.on('seen-messages', (messagesPayload: serverMessageResponse[]) => {
+      const sanitize = sanitizeMessages(messagesPayload).reverse();
+      dispatch(updateSeenMessages(sanitize));
+      dispatch(updateLastMessageSeenStatus(sanitize[0]));
     });
-  }, [socket, activeChat.uid, dispatch]);
+  }, [socket, dispatch, session.uid]);
 
   useEffect(() => {
     socket?.on('update-friend-status', (friend) => {

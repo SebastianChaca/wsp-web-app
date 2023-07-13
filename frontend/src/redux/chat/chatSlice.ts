@@ -11,6 +11,7 @@ import {
   updateFriendList,
   updateLastMessage,
   updateNotification,
+  updateLastMessageSeen,
 } from './accions';
 
 const initialState: ChatState = {
@@ -53,6 +54,9 @@ export const chatSlice = createSlice({
       state.messages.splice(arrayLength - elementsToDelete, elementsToDelete);
       const newArr = state.messages.concat(action.payload);
       state.messages = newArr;
+    },
+    updateLastMessageSeenStatus: (state, action: PayloadAction<messageUI>) => {
+      state.friends = updateLastMessageSeen(state.friends, action.payload);
     },
     resetNotifications: (state, action: PayloadAction<{ uid: string }>) => {
       state.friends = resetNotification(state.friends, action.payload.uid);
@@ -117,5 +121,6 @@ export const {
   updateFriend,
   setFriendId,
   setFriendIsTyping,
+  updateLastMessageSeenStatus,
 } = chatSlice.actions;
 export default chatSlice.reducer;
