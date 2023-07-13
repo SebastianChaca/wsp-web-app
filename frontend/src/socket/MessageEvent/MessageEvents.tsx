@@ -21,7 +21,6 @@ interface Props {
 const MessageEvents = ({ children }: Props) => {
   const { socket } = useSocketContext();
   const session = useAppSelector((state) => state.sessionSlice);
-  const activeChat = useAppSelector((state) => state.activeChatSlice);
 
   const dispatch = useAppDispatch();
 

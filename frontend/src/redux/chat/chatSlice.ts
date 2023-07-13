@@ -2,7 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getMessages } from '../../services/messages/index';
 import { addFriend } from '../../services/friends';
 import { message, messageUI } from '../../types/message/message';
-import { friend, friendsAPIResponse } from '../../types/friend/friend';
+import {
+  friend,
+  friendFromApi,
+  friendsAPIResponse,
+} from '../../types/friend/friend';
 import { ChatState } from '../../types/chatState/chatState';
 import {
   friendUpdate,
@@ -12,6 +16,7 @@ import {
   updateLastMessage,
   updateNotification,
   updateLastMessageSeen,
+  friendObjSanitize,
 } from './accions';
 
 const initialState: ChatState = {
@@ -61,12 +66,12 @@ export const chatSlice = createSlice({
     resetNotifications: (state, action: PayloadAction<{ uid: string }>) => {
       state.friends = resetNotification(state.friends, action.payload.uid);
     },
-    addFierndToList: (state, action: PayloadAction<friend>) => {
+    addFierndToList: (state, action: PayloadAction<friendFromApi>) => {
       const checkIfFriendExists = state.friends?.find(
         (f) => f.user.uid === action.payload.user.uid
       );
       if (!checkIfFriendExists) {
-        state.friends?.unshift(action.payload);
+        state.friends?.unshift(friendObjSanitize(action.payload));
       }
     },
     updateFriendStatus: (
@@ -99,7 +104,7 @@ export const chatSlice = createSlice({
         state.error = 'error';
       })
       .addCase(addFriend.fulfilled, (state, action) => {
-        state.friends?.unshift(action.payload);
+        state.friends?.unshift(friendObjSanitize(action.payload));
         state.isLoading = false;
       })
       .addCase(addFriend.pending, (state) => {

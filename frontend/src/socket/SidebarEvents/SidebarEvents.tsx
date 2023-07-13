@@ -7,7 +7,7 @@ import {
   setFriendsList,
   updateFriendStatus,
 } from '../../redux/chat/chatSlice';
-import { friend, friendsAPIResponse } from '../../types/friend/friend';
+import { friendsAPIResponse, friendFromApi } from '../../types/friend/friend';
 import { message } from '../../types/message/message';
 
 interface Props {
@@ -37,9 +37,12 @@ const SidebarEvents = ({ children }: Props) => {
   }, [socket, dispatch]);
 
   useEffect(() => {
-    socket?.on('request-friend', ({ friendInfo }: { friendInfo: friend }) => {
-      dispatch(addFierndToList(friendInfo));
-    });
+    socket?.on(
+      'request-friend',
+      ({ friendInfo }: { friendInfo: friendFromApi }) => {
+        dispatch(addFierndToList(friendInfo));
+      }
+    );
   }, [socket, dispatch]);
 
   useEffect(() => {

@@ -5,3 +5,4 @@ export { resetNotification } from './resetNotifications';
 export { friendUpdate } from './friendUpdate';
 export { updateNotification } from './updateNotification';
 export { updateLastMessageSeen } from './updateLastMessageSeen';
+export { friendObjSanitize } from './friendObjSanitize';

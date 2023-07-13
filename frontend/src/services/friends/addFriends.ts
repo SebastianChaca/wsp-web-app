@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { makePrivateRequest } from '../makePrivateRequest';
-import { friend } from '../../types/friend/friend';
+import { friendFromApi } from '../../types/friend/friend';
 
 interface FriendApiResponse {
   ok: boolean;
-  friend: friend;
+  friend: friendFromApi;
 }
 export const addFriend = createAsyncThunk(
   'chat/addFrien',
