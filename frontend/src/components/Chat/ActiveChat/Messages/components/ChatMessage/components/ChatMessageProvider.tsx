@@ -5,6 +5,7 @@ import React, {
   useContext,
   useMemo,
 } from 'react';
+import { Box } from '@chakra-ui/react';
 import { messageUI } from '../../../../../../../types/message/message';
 
 interface ChatMessageContext {
@@ -27,7 +28,11 @@ const ChatMessageProvider: FC<ChatMessageProviderProps> = ({
   const values = useMemo(() => {
     return { msg, isOutgoing, showDate };
   }, [msg, isOutgoing, showDate]);
-  return <ChatContext.Provider value={values}>{children}</ChatContext.Provider>;
+  return (
+    <ChatContext.Provider value={values}>
+      <Box overflowX="hidden">{children}</Box>
+    </ChatContext.Provider>
+  );
 };
 export const useChatMessagesContext = () => useContext(ChatContext);
 export default ChatMessageProvider;
