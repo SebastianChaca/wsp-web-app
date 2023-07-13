@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { getHour } from '../../../../../../../utils/date';
+import { getHour } from '../../../../../../../../../utils/date';
 
 const MessageHour = ({ date }: { date: string }) => {
   return (
