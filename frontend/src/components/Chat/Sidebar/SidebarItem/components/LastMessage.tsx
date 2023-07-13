@@ -2,6 +2,7 @@ import { Flex, Text } from '@chakra-ui/react';
 import { FC } from 'react';
 import { messageUI } from '../../../../../types/message/message';
 import { MessageCheck } from '../../../ActiveChat/Messages/components/MessageStatus/components';
+// import { MessageCheck } from '../../../ActiveChat/Messages/components/MessageStatus/components';
 
 interface LastMessageProps {
   lastMessage: messageUI;

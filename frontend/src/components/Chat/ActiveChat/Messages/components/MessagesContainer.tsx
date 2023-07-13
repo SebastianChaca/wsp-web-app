@@ -11,6 +11,7 @@ const MessagesContainer: FC<MessagesContainerProps> = ({ children }) => {
   const height = activeChat.isRequesting ? '288px' : '162px';
   return (
     <Box
+      id="container"
       h={`calc(100vh - ${height})`}
       overflow="auto"
       px="15px"
