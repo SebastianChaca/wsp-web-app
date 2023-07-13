@@ -63,6 +63,7 @@ class Sockets {
 
         // marcar mensajes como vistos y mandarlos al front
         this.io.to(payload[0].from).emit('seen-messages', updateMessages);
+        this.io.to(payload[0].to).emit('seen-messages', updateMessages);
       });
 
       // obtener mensaje personal
