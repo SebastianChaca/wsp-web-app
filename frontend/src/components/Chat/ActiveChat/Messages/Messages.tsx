@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import ChatMessage from './ChatMessage/ChatMessage';
+import ChatMessage from './components/ChatMessage/ChatMessage';
 import { useAppSelector } from '../../../../redux/hooks';
 import MessagesContainer from './components/MessagesContainer';
 

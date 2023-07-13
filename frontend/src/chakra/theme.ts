@@ -12,6 +12,16 @@ export const theme = extendTheme({
       online: '#38A169',
       offline: '#E53E3E',
     },
+    message: {
+      out: {
+        bg: '#7674FE',
+        color: '#ffff',
+      },
+      in: {
+        bg: '#CBD5E0',
+        color: '#646464',
+      },
+    },
   },
   styles: {
     global: () => ({

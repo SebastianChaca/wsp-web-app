@@ -1,7 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { FC } from 'react';
 import { messageUI } from '../../../../../types/message/message';
-import { MessageCheck } from '../../../ActiveChat/Messages/MessageStatus/components';
+import { MessageCheck } from '../../../ActiveChat/Messages/components/MessageStatus/components';
 
 interface LastMessageProps {
   lastMessage: messageUI;
@@ -17,7 +17,7 @@ const LastMessage: FC<LastMessageProps> = ({ lastMessage, isOutgoing }) => {
           seen={lastMessage?.seen}
           onSideBar
         />
-        <Text fontSize="12px" ml="5px">
+        <Text fontSize="12px" ml="5px" noOfLines={1} maxW="90px">
           {lastMessage?.message}
         </Text>
       </Flex>
