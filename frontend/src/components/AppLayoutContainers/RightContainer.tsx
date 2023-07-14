@@ -1,14 +1,19 @@
 import React from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 
 interface Props {
   children?: JSX.Element | JSX.Element[];
 }
 const RightContainer = ({ children }: Props) => {
   return (
-    <Box overflow="hidden" margin="0px">
+    <Flex
+      overflow="hidden"
+      margin="0px"
+      flexDirection="column"
+      maxHeight="100vh"
+    >
       {children}
-    </Box>
+    </Flex>
   );
 };
 

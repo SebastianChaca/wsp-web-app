@@ -11,7 +11,7 @@ const ChatTopBarContainer = ({ children }: Props) => {
       padding="18px 16px 10px"
       alignItems="start"
       justifyContent="space-between"
-      h="80px"
+      minH="80px"
       bg="#E2E8F0"
     >
       {children}

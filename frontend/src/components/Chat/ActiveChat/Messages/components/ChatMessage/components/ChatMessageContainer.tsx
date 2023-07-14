@@ -17,11 +17,7 @@ interface Props {
 const ChatMessageContainer = ({ children }: Props) => {
   const { isOutgoing } = useChatMessagesContext();
   return (
-    <Flex
-      w="100%"
-      justifyContent={isOutgoing ? 'right' : 'left'}
-      position="relative"
-    >
+    <Flex w="100%" justifyContent={isOutgoing ? 'right' : 'left'}>
       <Box
         py="8px"
         px="16px"
@@ -32,9 +28,10 @@ const ChatMessageContainer = ({ children }: Props) => {
         w="auto"
         my="10px"
         wordBreak="break-all"
+        position="relative"
       >
         {/* <Flex justifyContent="right"> */}
-        <Box position="absolute" top={0} right={0}>
+        <Box position="absolute" top={-2} right={0}>
           <Menu isLazy>
             <MenuButton
               as={IconButton}
