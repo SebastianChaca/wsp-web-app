@@ -8,6 +8,7 @@ interface MessagesContainerProps {
 const MessagesContainer: FC<MessagesContainerProps> = ({ children }) => {
   return (
     <Box
+      h="100%"
       id="container"
       overflow="auto"
       px="15px"

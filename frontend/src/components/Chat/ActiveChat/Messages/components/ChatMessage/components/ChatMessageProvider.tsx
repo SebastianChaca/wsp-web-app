@@ -4,6 +4,7 @@ import React, {
   createContext,
   useContext,
   useMemo,
+  useState,
 } from 'react';
 import { Box } from '@chakra-ui/react';
 import { messageUI } from '../../../../../../../types/message/message';
@@ -12,9 +13,14 @@ interface ChatMessageContext {
   msg: messageUI;
   isOutgoing: boolean;
   showDate: boolean;
+  showDropDown: boolean;
+  setShowDropDown: React.Dispatch<React.SetStateAction<boolean>>;
 }
-interface ChatMessageProviderProps extends ChatMessageContext {
+interface ChatMessageProviderProps {
   children?: ReactNode;
+  msg: messageUI;
+  isOutgoing: boolean;
+  showDate: boolean;
 }
 
 const ChatContext = createContext<ChatMessageContext>({} as ChatMessageContext);
@@ -25,9 +31,17 @@ const ChatMessageProvider: FC<ChatMessageProviderProps> = ({
   isOutgoing,
   showDate,
 }) => {
+  const [showDropDown, setShowDropDown] = useState(false);
+
   const values = useMemo(() => {
-    return { msg, isOutgoing, showDate };
-  }, [msg, isOutgoing, showDate]);
+    return {
+      msg,
+      isOutgoing,
+      showDate,
+      showDropDown,
+      setShowDropDown,
+    };
+  }, [msg, isOutgoing, showDate, showDropDown]);
   return (
     <ChatContext.Provider value={values}>
       <Box overflowX="hidden">{children}</Box>

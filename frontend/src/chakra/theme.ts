@@ -1,8 +1,11 @@
 import { extendTheme } from '@chakra-ui/react';
 import { buttonTheme } from './buttons/buttonTheme';
+import { menuTheme } from './menu/menuTheme';
 
 export const theme = extendTheme({
-  components: { Button: buttonTheme },
+  components: {
+    Button: buttonTheme,
+  },
   colors: {
     brand: {
       backgroundWhite: '#E2E8F0',

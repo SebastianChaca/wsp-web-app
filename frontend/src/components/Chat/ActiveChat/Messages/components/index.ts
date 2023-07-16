@@ -1,4 +1,5 @@
-import ChatMessageContainer from './ChatMessage/components/ChatMessageContainer';
+import ChatMeesageDropDown from './ChatMessage/components/ChatMesageContainer/ChatMeesageDropDown';
+import ChatMessageContainer from './ChatMessage/components/ChatMesageContainer/ChatMessageContainer';
 import ChatMessageProvider from './ChatMessage/components/ChatMessageProvider';
 import ChatMessageShowDate from './ChatMessage/components/ChatMessageShowDate';
 import MessageStatus from './ChatMessage/components/MessageStatus/MessageStatus';
@@ -8,4 +9,5 @@ export const ChatMessages = {
   Container: ChatMessageContainer,
   ShowDate: ChatMessageShowDate,
   Status: MessageStatus,
+  DropDownOptions: ChatMeesageDropDown,
 };
