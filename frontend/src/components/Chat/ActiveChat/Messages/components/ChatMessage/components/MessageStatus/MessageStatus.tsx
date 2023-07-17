@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 import { MessageCheck, MessageHour } from './components';
-import { useChatMessagesContext } from '../ChatMessageProvider';
+import { useChatMessagesContext } from '../Provider/MessageProvider';
 
 const MessageStatus = () => {
   const { isOutgoing, msg } = useChatMessagesContext();

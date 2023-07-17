@@ -1,11 +1,11 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-import { useChatMessagesContext } from '../ChatMessageProvider';
+import { useChatMessagesContext } from '../Provider/MessageProvider';
 
 interface Props {
   children?: ReactNode;
 }
-const ChatMessageContainer = ({ children }: Props) => {
+const MessageContainer = ({ children }: Props) => {
   const { isOutgoing, setShowDropDown } = useChatMessagesContext();
   return (
     <Flex w="100%" justifyContent={isOutgoing ? 'right' : 'left'}>
@@ -30,4 +30,4 @@ const ChatMessageContainer = ({ children }: Props) => {
   );
 };
 
-export default ChatMessageContainer;
+export default MessageContainer;

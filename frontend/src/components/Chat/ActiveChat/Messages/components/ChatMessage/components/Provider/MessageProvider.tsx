@@ -7,25 +7,25 @@ import React, {
   useState,
 } from 'react';
 import { Box } from '@chakra-ui/react';
-import { messageUI } from '../../../../../../../types/message/message';
+import { messageUI } from '../../../../../../../../types/message/message';
 
-interface ChatMessageContext {
+interface MessageContext {
   msg: messageUI;
   isOutgoing: boolean;
   showDate: boolean;
   showDropDown: boolean;
   setShowDropDown: React.Dispatch<React.SetStateAction<boolean>>;
 }
-interface ChatMessageProviderProps {
+interface MessageProviderProps {
   children?: ReactNode;
   msg: messageUI;
   isOutgoing: boolean;
   showDate: boolean;
 }
 
-const ChatContext = createContext<ChatMessageContext>({} as ChatMessageContext);
+const ChatContext = createContext<MessageContext>({} as MessageContext);
 
-const ChatMessageProvider: FC<ChatMessageProviderProps> = ({
+const MessageProvider: FC<MessageProviderProps> = ({
   children,
   msg,
   isOutgoing,
@@ -49,4 +49,4 @@ const ChatMessageProvider: FC<ChatMessageProviderProps> = ({
   );
 };
 export const useChatMessagesContext = () => useContext(ChatContext);
-export default ChatMessageProvider;
+export default MessageProvider;

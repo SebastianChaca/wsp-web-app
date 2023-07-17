@@ -1,13 +1,13 @@
-import ChatMeesageDropDown from './ChatMessage/components/ChatMesageContainer/ChatMeesageDropDown';
-import ChatMessageContainer from './ChatMessage/components/ChatMesageContainer/ChatMessageContainer';
-import ChatMessageProvider from './ChatMessage/components/ChatMessageProvider';
-import ChatMessageShowDate from './ChatMessage/components/ChatMessageShowDate';
+import MeesageDropDown from './ChatMessage/components/Container/MeesageDropDown';
+import MessageContainer from './ChatMessage/components/MessageDropDown/MessageContainer';
+import MessageProvider from './ChatMessage/components/Provider/MessageProvider';
+import MessageShowDate from './ChatMessage/components/ShowDate/ChatMessageShowDate';
 import MessageStatus from './ChatMessage/components/MessageStatus/MessageStatus';
 
-export const ChatMessages = {
-  Provider: ChatMessageProvider,
-  Container: ChatMessageContainer,
-  ShowDate: ChatMessageShowDate,
+export const Message = {
+  Provider: MessageProvider,
+  Container: MessageContainer,
+  ShowDate: MessageShowDate,
   Status: MessageStatus,
-  DropDownOptions: ChatMeesageDropDown,
+  DropDownOptions: MeesageDropDown,
 };
