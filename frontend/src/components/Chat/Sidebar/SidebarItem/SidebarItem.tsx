@@ -59,8 +59,8 @@ const SidebarItem = ({ friend }: Props) => {
             <Item.Date />
             {(!selected || !isTabActive) && (
               <>
-                <Item.NotificationSound friend={friend} />
-                <Item.Notification notification={friend.notifications} />
+                <Item.NotificationSound />
+                <Item.Notification />
               </>
             )}
           </Box>

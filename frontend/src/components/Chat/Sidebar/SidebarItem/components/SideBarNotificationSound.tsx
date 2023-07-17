@@ -1,15 +1,11 @@
-import React, { FC, useRef, useEffect, useState } from 'react';
-import { friend as friendInterface } from '../../../../../types/friend/friend';
+import { FC, useRef, useEffect, useState } from 'react';
+
 import SoundPlayer from '../../../../SoundPlayer/SoundPlayer';
 import Sound from '../../../../../sounds/notificationMsg.mp3';
+import { useSideBarContext } from './SideBarProvider';
 
-interface SideBarNotificationSoundProps {
-  friend: friendInterface;
-}
-
-const SideBarNotificationSound: FC<SideBarNotificationSoundProps> = ({
-  friend,
-}) => {
+const SideBarNotificationSound: FC = () => {
+  const { friend } = useSideBarContext();
   const prevNotificationsRef = useRef(friend.notifications);
   const [playSound, setPlaySound] = useState(false);
   useEffect(() => {

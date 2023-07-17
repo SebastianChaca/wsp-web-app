@@ -1,14 +1,10 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Flex, Text } from '@chakra-ui/react';
+import { useSideBarContext } from './SideBarProvider';
 
-interface SideBarItemNotificationsProps {
-  notification: number;
-}
-
-const SideBarItemNotifications: FC<SideBarItemNotificationsProps> = ({
-  notification,
-}) => {
-  if (notification) {
+const SideBarItemNotifications: FC = () => {
+  const { friend } = useSideBarContext();
+  if (friend.notifications) {
     return (
       <Flex
         bg="red.600"
@@ -21,7 +17,7 @@ const SideBarItemNotifications: FC<SideBarItemNotificationsProps> = ({
         mt="4px"
       >
         <Text fontSize="10px" m="uto">
-          {notification}
+          {friend.notifications}
         </Text>
       </Flex>
     );
