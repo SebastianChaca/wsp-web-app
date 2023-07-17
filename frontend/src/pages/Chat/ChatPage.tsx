@@ -37,6 +37,7 @@ const ChatPage = () => {
           lastActive: findFriend.user.lastActive,
           status: findFriend.status,
           isTyping: findFriend.IsTyping,
+          statusIsApproved: findFriend.statusIsApproved,
         })
       );
     }

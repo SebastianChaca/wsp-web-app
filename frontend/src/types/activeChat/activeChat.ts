@@ -4,4 +4,5 @@ export interface ActiveChat extends user {
   isTyping?: boolean;
   isRequesting: boolean;
   status: number | null;
+  statusIsApproved: boolean;
 }

@@ -10,6 +10,7 @@ const initialState: ActiveChat = {
   isTyping: false,
   lastActive: '',
   status: null,
+  statusIsApproved: false,
 };
 
 export const activeChatSlice = createSlice({

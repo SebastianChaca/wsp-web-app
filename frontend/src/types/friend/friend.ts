@@ -9,6 +9,7 @@ export interface friend {
   uid: string;
   lastMessage: messageUI;
   IsTyping?: boolean;
+  statusIsApproved: boolean;
 }
 
 export interface friendFromApi {

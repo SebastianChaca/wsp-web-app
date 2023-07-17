@@ -6,6 +6,7 @@ export const friendUpdate = (friends: friend[], f: friend) => {
     if (f.user.uid === user.uid) {
       friendItem.isRequesting = isRequesting;
       friendItem.status = status;
+      friendItem.statusIsApproved = status === 1;
       friendItem.notifications = notifications;
       friendItem.user = user;
     }

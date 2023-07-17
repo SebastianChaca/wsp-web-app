@@ -22,6 +22,7 @@ const SideBarItemContainer: FC<SideBarItemContainerProps> = ({
       bg={selected ? 'gray.400' : 'transparent'}
       onClick={handleClick}
       cursor="pointer"
+      minH="79px"
     >
       {children}
     </Flex>
