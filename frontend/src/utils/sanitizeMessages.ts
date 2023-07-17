@@ -5,8 +5,8 @@ export const sanitizeMessages = (messages: serverMessageResponse[]) => {
   return messages
     .map((msg) => {
       const messageObj: messageUI = {
-        to: msg.to,
-        from: msg.from,
+        to: msg.to._id,
+        from: msg.from._id,
         message: msg.message,
         date: msg.createdAt,
         seen: msg.seen,
@@ -21,8 +21,8 @@ export const sanitizeMessages = (messages: serverMessageResponse[]) => {
 export const sanitizeMessage = (message: serverMessageResponse) => {
   const messageObj: messageUI = {
     message: message.message,
-    to: message.to,
-    from: message.from,
+    to: message.to._id,
+    from: message.from._id,
     date: message.createdAt,
     seen: message.seen,
     id: message._id,

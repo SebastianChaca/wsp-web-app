@@ -17,7 +17,7 @@ const LastMessage: FC<LastMessageProps> = ({ lastMessage, isOutgoing }) => {
           seen={lastMessage?.seen}
           onSideBar
         />
-        <Text fontSize="12px" ml="5px" noOfLines={1} maxW="90px">
+        <Text fontSize="12px" ml="5px" noOfLines={1} w="100px">
           {lastMessage?.message}
         </Text>
       </Flex>

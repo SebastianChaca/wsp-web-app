@@ -15,8 +15,8 @@ export const friendObjSanitize = (payload: friendFromApi) => {
     isRequesting: payload.isRequesting,
     uid: payload._id,
     lastMessage: {
-      to: payload.lastMessage?.to,
-      from: payload.lastMessage?.from,
+      to: payload.lastMessage?.to._id,
+      from: payload.lastMessage?.from._id,
       message: payload.lastMessage?.message,
       seen: payload.lastMessage?.seen,
       date: payload.lastMessage?.createdAt,

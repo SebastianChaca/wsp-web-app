@@ -6,6 +6,13 @@ export interface user {
   lastActive: string;
 }
 
+export interface userFromServer {
+  email: string | null;
+  name: string;
+  _id: string | null;
+  online: boolean;
+  lastActive: string;
+}
 export interface SessionAPIResponse {
   ok: boolean;
   token: string;

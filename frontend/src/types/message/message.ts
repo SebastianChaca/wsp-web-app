@@ -1,3 +1,5 @@
+import { userFromServer } from '../session/session';
+
 export interface message {
   to: string | null;
   from: string | null;
@@ -14,9 +16,12 @@ export interface messageUI extends message {
 export interface messageToServer extends message {
   isTyping?: boolean;
 }
-export interface serverMessageResponse extends message {
+export interface serverMessageResponse {
   updatedAt: string;
   createdAt: string;
   _id: string;
   seen: boolean;
+  to: userFromServer;
+  from: userFromServer;
+  message: string | null;
 }
