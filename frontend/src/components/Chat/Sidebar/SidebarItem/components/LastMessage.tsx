@@ -1,15 +1,12 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { FC } from 'react';
-import { messageUI } from '../../../../../types/message/message';
 import { MessageCheck } from '../../../ActiveChat/Messages/components/ChatMessage/components/MessageStatus/components';
+import { useSideBarContext } from './SideBarProvider';
 
-interface LastMessageProps {
-  lastMessage: messageUI;
-  isOutgoing: boolean;
-}
-
-const LastMessage: FC<LastMessageProps> = ({ lastMessage, isOutgoing }) => {
-  if (lastMessage) {
+const LastMessage = () => {
+  const { friend, session } = useSideBarContext();
+  const isOutgoing = friend.lastMessage?.from === session.uid;
+  const { lastMessage, isTyping } = friend;
+  if (lastMessage && !isTyping) {
     return (
       <Flex alignItems="center" mt="5px">
         <MessageCheck

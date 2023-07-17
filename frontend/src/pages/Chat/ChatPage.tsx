@@ -36,7 +36,7 @@ const ChatPage = () => {
           uid: findFriend.user.uid,
           lastActive: findFriend.user.lastActive,
           status: findFriend.status,
-          isTyping: findFriend.IsTyping,
+          isTyping: findFriend.isTyping,
           statusIsApproved: findFriend.statusIsApproved,
         })
       );

@@ -10,13 +10,14 @@ const SideBarUserInfoContainer: FC<SideBarUserInfoContainerProps> = ({
 }) => {
   return (
     <Flex
-      borderBottom="1px solid #c4c4c4"
       margin="0px"
       padding="18px 16px 10px"
       overflow="hidden"
       alignItems="start"
       justifyContent="space-between"
       w="100%"
+      minHeight="79px"
+      borderBottom="1px solid #c4c4c4"
     >
       {children}
     </Flex>

@@ -7,19 +7,16 @@ import {
 } from '../../../../redux/chat/chatSlice';
 import { friend as FriendInterface } from '../../../../types/friend/friend';
 import { resetNotificationsAPI } from '../../../../services/notifications/resetNotifications';
-import { SideBarItem } from './components';
-import { IsTyping, UserName, Avatar } from '../../../UserComponents';
+import { Item } from './components';
 import useActiveTab from '../../../../hooks/useActiveTab';
 
 interface Props {
   friend: FriendInterface;
 }
 const SidebarItem = ({ friend }: Props) => {
-  const { name, uid, online } = friend.user;
+  const { uid } = friend.user;
   const dispatch = useAppDispatch();
   const activeChat = useAppSelector((state) => state.activeChatSlice);
-  const session = useAppSelector((state) => state.sessionSlice);
-  const friendStatusApproved = friend.status === 1;
   const selected = activeChat.uid === uid;
   const isTabActive = useActiveTab();
   const resetNotif = useCallback(async () => {
@@ -48,38 +45,28 @@ const SidebarItem = ({ friend }: Props) => {
   };
 
   return (
-    <SideBarItem.ItemContainer selected={selected} handleClick={handleClick}>
-      <Avatar
-        online={online}
-        name={name}
-        hasBadge
-        friendStatusApproved={friendStatusApproved}
-      />
-      <SideBarItem.UserInfoContainer>
-        <Box>
-          <UserName name={name} />
-          {friend.IsTyping ? (
-            <IsTyping isTyping={friend.IsTyping} />
-          ) : (
-            <SideBarItem.LastMessage
-              lastMessage={friend.lastMessage}
-              isOutgoing={friend.lastMessage?.from === session.uid}
-            />
-          )}
-        </Box>
+    <Item.Provider friend={friend}>
+      <Item.Container selected={selected} handleClick={handleClick}>
+        <Item.Avatar />
+        <Item.UserInfoContainer>
+          <Box>
+            <Item.UserName />
+            <Item.IsTyping />
+            <Item.LastMessage />
+          </Box>
 
-        <Box>
-          <SideBarItem.Date date={friend.lastMessage?.date} />
-
-          {(!selected || !isTabActive) && (
-            <>
-              <SideBarItem.NotificationSound friend={friend} />
-              <SideBarItem.Notification notification={friend.notifications} />
-            </>
-          )}
-        </Box>
-      </SideBarItem.UserInfoContainer>
-    </SideBarItem.ItemContainer>
+          <Box>
+            <Item.Date />
+            {(!selected || !isTabActive) && (
+              <>
+                <Item.NotificationSound friend={friend} />
+                <Item.Notification notification={friend.notifications} />
+              </>
+            )}
+          </Box>
+        </Item.UserInfoContainer>
+      </Item.Container>
+    </Item.Provider>
   );
 };
 

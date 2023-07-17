@@ -8,7 +8,7 @@ export interface friend {
   isRequesting: boolean;
   uid: string;
   lastMessage: messageUI;
-  IsTyping?: boolean;
+  isTyping?: boolean;
   statusIsApproved: boolean;
 }
 
