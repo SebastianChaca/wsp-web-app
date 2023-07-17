@@ -1,3 +1,4 @@
+import { messageUI } from '../message/message';
 import { user } from '../session/session';
 
 export interface ActiveChat extends user {
@@ -5,4 +6,5 @@ export interface ActiveChat extends user {
   isRequesting: boolean;
   status: number | null;
   statusIsApproved: boolean;
+  responseTo?: messageUI;
 }

@@ -11,6 +11,8 @@ export interface messageUI extends message {
   date: string;
   id: string;
   parseDate?: string | null;
+  nameTo?: string;
+  emailTo?: string;
 }
 
 export interface messageToServer extends message {

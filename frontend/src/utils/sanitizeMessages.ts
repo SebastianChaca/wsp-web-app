@@ -12,6 +12,8 @@ export const sanitizeMessages = (messages: serverMessageResponse[]) => {
         seen: msg.seen,
         id: msg._id,
         parseDate: formatDateMessage(msg.createdAt),
+        nameTo: msg.to.name,
+        emailTo: msg.to.email ?? '',
       };
       return messageObj;
     })
