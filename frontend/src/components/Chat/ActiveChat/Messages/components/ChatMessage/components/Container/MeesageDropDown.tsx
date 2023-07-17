@@ -8,11 +8,10 @@ import {
 } from '@chakra-ui/react';
 import { BiChevronDown } from 'react-icons/all';
 import { createPortal } from 'react-dom';
-import { useChatMessagesContext } from '../Provider/MessageProvider';
+import { useMessageContext } from '../Provider/MessageProvider';
 
 const MeesageDropDown: FC = () => {
-  const { isOutgoing, showDropDown, setShowDropDown } =
-    useChatMessagesContext();
+  const { isOutgoing, showDropDown, setShowDropDown } = useMessageContext();
 
   if (isOutgoing) {
     return null;

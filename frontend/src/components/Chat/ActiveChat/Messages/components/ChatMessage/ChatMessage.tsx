@@ -12,7 +12,7 @@ const ChatMessage = ({ msg, isOutgoing, showDate }: Props) => {
 
   return (
     <Message.Provider msg={msg} isOutgoing={isOutgoing} showDate={showDate}>
-      <Message.ShowDate />
+      <Message.Date />
 
       <Message.Container>
         <Message.DropDownOptions />

@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { Text, Flex, Box } from '@chakra-ui/react';
-import { useChatMessagesContext } from '../Provider/MessageProvider';
+import { useMessageContext } from '../Provider/MessageProvider';
 
-const ChatMessageShowDate: FC = () => {
-  const { showDate, msg } = useChatMessagesContext();
+const MessageDate: FC = () => {
+  const { showDate, msg } = useMessageContext();
 
   if (showDate) {
     return (
@@ -17,4 +17,4 @@ const ChatMessageShowDate: FC = () => {
   return null;
 };
 
-export default ChatMessageShowDate;
+export default MessageDate;

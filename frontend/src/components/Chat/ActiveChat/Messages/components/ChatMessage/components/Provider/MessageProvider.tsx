@@ -48,5 +48,5 @@ const MessageProvider: FC<MessageProviderProps> = ({
     </ChatContext.Provider>
   );
 };
-export const useChatMessagesContext = () => useContext(ChatContext);
+export const useMessageContext = () => useContext(ChatContext);
 export default MessageProvider;
