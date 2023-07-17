@@ -150,9 +150,9 @@ const getFriends = async (id) => {
         const friendMap = new Map();
         lastMessages.forEach((message) => {
           const friendId =
-            message.from.toString() === userId
-              ? message.to.toString()
-              : message.from.toString();
+            message.from._id.toString() === userId
+              ? message.to._id.toString()
+              : message.from._id.toString();
           if (
             !friendMap.has(friendId) ||
             message.createdAt > friendMap.get(friendId).createdAt
@@ -175,6 +175,7 @@ const getFriends = async (id) => {
       }
     }
     const test = await getUserWithLastMessages(id);
+
     return {
       ok: true,
       friends: test.friends,
