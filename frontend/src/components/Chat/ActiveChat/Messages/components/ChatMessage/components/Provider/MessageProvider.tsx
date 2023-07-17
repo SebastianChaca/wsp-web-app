@@ -8,6 +8,8 @@ import React, {
 } from 'react';
 import { Box } from '@chakra-ui/react';
 import { messageUI } from '../../../../../../../../types/message/message';
+import { useAppSelector } from '../../../../../../../../redux/hooks';
+import { ActiveChat } from '../../../../../../../../types/activeChat/activeChat';
 
 interface MessageContext {
   msg: messageUI;
@@ -15,6 +17,7 @@ interface MessageContext {
   showDate: boolean;
   showDropDown: boolean;
   setShowDropDown: React.Dispatch<React.SetStateAction<boolean>>;
+  activeChat: ActiveChat;
 }
 interface MessageProviderProps {
   children?: ReactNode;
@@ -32,6 +35,7 @@ const MessageProvider: FC<MessageProviderProps> = ({
   showDate,
 }) => {
   const [showDropDown, setShowDropDown] = useState(false);
+  const activeChat = useAppSelector((state) => state.activeChatSlice);
 
   const values = useMemo(() => {
     return {
@@ -40,8 +44,9 @@ const MessageProvider: FC<MessageProviderProps> = ({
       showDate,
       showDropDown,
       setShowDropDown,
+      activeChat,
     };
-  }, [msg, isOutgoing, showDate, showDropDown]);
+  }, [msg, isOutgoing, showDate, showDropDown, activeChat]);
   return (
     <ChatContext.Provider value={values}>
       <Box overflowX="hidden">{children}</Box>

@@ -27,6 +27,7 @@ export const activeChatSlice = createSlice({
         isTyping,
         lastActive,
         status,
+        statusIsApproved,
       } = action.payload;
       state.isRequesting = isRequesting;
       state.name = name;
@@ -36,6 +37,7 @@ export const activeChatSlice = createSlice({
       state.isTyping = isTyping;
       state.lastActive = lastActive;
       state.status = status;
+      state.statusIsApproved = statusIsApproved;
     },
   },
 });

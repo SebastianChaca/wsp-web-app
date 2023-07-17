@@ -35,7 +35,7 @@ const useInputSocket = (messageProps: string) => {
     const notSeenMessages = messages.filter(
       (messg) => messg.from === activeChat.uid && !messg.seen
     );
-    console.log(notSeenMessages);
+
     if (notSeenMessages.length > 0) {
       socket?.emit('seen-messages', notSeenMessages);
     }

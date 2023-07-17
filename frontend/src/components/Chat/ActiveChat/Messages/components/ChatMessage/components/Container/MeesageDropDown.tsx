@@ -11,9 +11,10 @@ import { createPortal } from 'react-dom';
 import { useMessageContext } from '../Provider/MessageProvider';
 
 const MeesageDropDown: FC = () => {
-  const { isOutgoing, showDropDown, setShowDropDown } = useMessageContext();
+  const { isOutgoing, showDropDown, setShowDropDown, activeChat } =
+    useMessageContext();
 
-  if (isOutgoing) {
+  if (isOutgoing || !activeChat.statusIsApproved) {
     return null;
   }
   return (
@@ -44,11 +45,7 @@ const MeesageDropDown: FC = () => {
                 top={-5}
                 left={5}
               >
-                <MenuItem>Download</MenuItem>
-                <MenuItem>Create a Copy</MenuItem>
-                <MenuItem>Mark as Draft</MenuItem>
-                <MenuItem>Delete</MenuItem>
-                <MenuItem>Attend a Workshop</MenuItem>
+                <MenuItem>Responder</MenuItem>
               </MenuList>
             </>,
             document.body
