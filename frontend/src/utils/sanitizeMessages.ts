@@ -1,5 +1,6 @@
 import { serverMessageResponse, messageUI } from '../types/message/message';
 import { formatDateMessage } from './date';
+// TODO: mover a slice de chat
 
 export const sanitizeMessages = (messages: serverMessageResponse[]) => {
   return messages

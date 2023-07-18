@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { Flex, Text, Button, Box } from '@chakra-ui/react';
 import { AiOutlineCheckCircle, MdBlock } from 'react-icons/all';
-import { useSocketContext } from '../../../../../socket/SocketContext/SocketContext';
-import { useAppSelector } from '../../../../../redux/hooks';
+import { useSocketContext } from '../../../../../../socket/SocketContext/SocketContext';
+import { useAppSelector } from '../../../../../../redux/hooks';
 
 interface FriendRequestProps {
   isRequesting: boolean;

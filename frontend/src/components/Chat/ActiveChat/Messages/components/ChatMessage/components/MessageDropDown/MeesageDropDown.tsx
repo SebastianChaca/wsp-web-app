@@ -8,12 +8,17 @@ import {
 } from '@chakra-ui/react';
 import { BiChevronDown } from 'react-icons/all';
 import { createPortal } from 'react-dom';
+import { useDispatch } from 'react-redux';
 import { useMessageContext } from '../Provider/MessageProvider';
+import { setResponseTo } from '../../../../../../../../redux/activeChat/activeChatSlice';
 
 const MeesageDropDown: FC = () => {
-  const { isOutgoing, showDropDown, setShowDropDown, activeChat } =
+  const { isOutgoing, showDropDown, setShowDropDown, activeChat, msg } =
     useMessageContext();
-
+  const dispatch = useDispatch();
+  const handleSetMessageResponse = () => {
+    dispatch(setResponseTo(msg));
+  };
   if (isOutgoing || !activeChat.statusIsApproved) {
     return null;
   }
@@ -45,7 +50,9 @@ const MeesageDropDown: FC = () => {
                 top={-5}
                 left={5}
               >
-                <MenuItem>Responder</MenuItem>
+                <MenuItem onClick={handleSetMessageResponse}>
+                  Responder
+                </MenuItem>
               </MenuList>
             </>,
             document.body

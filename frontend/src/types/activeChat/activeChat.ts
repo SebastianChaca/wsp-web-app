@@ -6,5 +6,5 @@ export interface ActiveChat extends user {
   isRequesting: boolean;
   status: number | null;
   statusIsApproved: boolean;
-  responseTo?: messageUI;
+  responseTo?: messageUI | undefined;
 }

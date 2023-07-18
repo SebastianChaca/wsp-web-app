@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ActiveChat } from '../../types/activeChat/activeChat';
 import { messageUI } from '../../types/message/message';
+import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
 
 const initialState: ActiveChat = {
   isRequesting: false,
@@ -12,17 +13,7 @@ const initialState: ActiveChat = {
   lastActive: '',
   status: null,
   statusIsApproved: false,
-  responseTo: {
-    to: null,
-    from: null,
-    message: null,
-    seen: false,
-    date: '',
-    id: '',
-    parseDate: null,
-    nameTo: undefined,
-    emailTo: undefined,
-  },
+  responseTo: undefined,
 };
 
 export const activeChatSlice = createSlice({
@@ -51,8 +42,33 @@ export const activeChatSlice = createSlice({
       state.status = status;
       state.statusIsApproved = statusIsApproved;
     },
-    setResponseTo: (state, action: PayloadAction<messageUI>) => {
-      state.responseTo = action.payload;
+    setResponseTo: (state, action: PayloadAction<messageUI | null>) => {
+      if (action.payload) {
+        const {
+          to,
+          from,
+          emailTo,
+          nameTo,
+          date,
+          seen,
+          parseDate,
+          message,
+          id,
+        } = action.payload;
+        state.responseTo = {
+          to,
+          from,
+          emailTo,
+          nameTo: nameTo && capitalizeFirstLetter(nameTo),
+          date,
+          seen,
+          parseDate,
+          message,
+          id,
+        };
+      } else {
+        state.responseTo = undefined;
+      }
     },
   },
 });
