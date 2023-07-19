@@ -1,6 +1,5 @@
 import { extendTheme } from '@chakra-ui/react';
 import { buttonTheme } from './buttons/buttonTheme';
-import { menuTheme } from './menu/menuTheme';
 
 const gray = '#CBD5E0';
 const primary = '#923DA8';
