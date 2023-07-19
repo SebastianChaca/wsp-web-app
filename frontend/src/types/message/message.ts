@@ -5,7 +5,15 @@ export interface message {
   from: string | null;
   message: string | null;
 }
-
+export interface responseTo {
+  date: string;
+  id: string;
+  to: string | null;
+  from: string | null;
+  message: string | null;
+  nameTo?: string;
+  emailTo?: string;
+}
 export interface messageUI extends message {
   seen: boolean;
   date: string;
@@ -13,17 +21,12 @@ export interface messageUI extends message {
   parseDate?: string | null;
   nameTo?: string;
   emailTo?: string;
-  responseTo?: {
-    createdAt: string;
-    uid: string;
-    to: user;
-    from: user;
-    message: string | null;
-  };
+  responseTo?: responseTo;
 }
 
 export interface messageToServer extends message {
   isTyping?: boolean;
+  responseTo?: string;
 }
 export interface serverMessageResponse {
   updatedAt: string;

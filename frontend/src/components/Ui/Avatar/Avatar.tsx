@@ -18,7 +18,7 @@ const Avatar = ({ online, name, hasBadge, friendStatusApproved }: Props) => {
     return 'brand.gray';
   };
   return (
-    <Avt name={name} size="md" mx="10px">
+    <Avt name={name} size="md" mx="10px" bg="brand.primary">
       {hasBadge && <AvatarBadge boxSize="20px" bg={getStatusColor()} />}
     </Avt>
   );

@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useAppSelector } from '../../redux/hooks';
 import { useSocketContext } from '../SocketContext/SocketContext';
-import { message } from '../../types/message/message';
+import { messageToServer } from '../../types/message/message';
 
 const useInputSocket = (messageProps: string) => {
   const { messages } = useAppSelector((state) => state.chatSlice);
@@ -9,13 +9,14 @@ const useInputSocket = (messageProps: string) => {
   const session = useAppSelector((state) => state.sessionSlice);
   const { socket } = useSocketContext();
 
-  const msg: message = useMemo(
+  const msg: messageToServer = useMemo(
     () => ({
       from: session.uid,
       to: activeChat.uid,
       message: messageProps,
+      responseTo: activeChat.responseTo?.id,
     }),
-    [messageProps, session.uid, activeChat.uid]
+    [messageProps, session.uid, activeChat.uid, activeChat.responseTo?.id]
   );
   const setTypingEvent = useCallback(() => {
     socket?.emit('typing', msg);

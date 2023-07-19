@@ -7,7 +7,7 @@ export interface user {
 }
 
 export interface userFromServer {
-  email: string | null;
+  email: string;
   name: string;
   _id: string | null;
   online: boolean;

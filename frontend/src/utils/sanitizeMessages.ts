@@ -14,27 +14,17 @@ export const sanitizeMessages = (messages: serverMessageResponse[]) => {
         seen: msg.seen,
         id: msg._id,
         parseDate: capitalizeFirstLetter(formatDateMessage(msg.createdAt)),
-        nameTo: msg.to.name,
+        nameTo: capitalizeFirstLetter(msg.to.name),
         emailTo: msg.to.email ?? '',
         responseTo: msg.responseTo
           ? {
-              uid: msg.responseTo._id ?? '',
-              from: {
-                uid: msg.responseTo.from?._id ?? null,
-                name: msg?.responseTo.from?.name ?? '',
-                email: msg.responseTo.from?.email ?? null,
-                online: msg.responseTo.from?.online ?? false,
-                lastActive: msg.responseTo.from?.lastActive ?? '',
-              },
-              to: {
-                uid: msg.responseTo.to?._id ?? null,
-                name: msg?.responseTo.to?.name ?? '',
-                email: msg.responseTo.to?.email ?? null,
-                online: msg.responseTo.to?.online ?? false,
-                lastActive: msg.responseTo.to?.lastActive ?? '',
-              },
-              message: msg.message,
-              createdAt: msg.createdAt,
+              id: msg.responseTo._id ?? '',
+              from: msg.from._id,
+              to: msg.to._id,
+              nameTo: msg.to.name,
+              emailTo: msg.to.email,
+              message: msg.responseTo.message,
+              date: msg.responseTo.createdAt,
             }
           : undefined,
       };
@@ -51,25 +41,16 @@ export const sanitizeMessage = (message: serverMessageResponse) => {
     seen: message.seen,
     id: message._id,
     parseDate: capitalizeFirstLetter(formatDateMessage(message.createdAt)),
+    nameTo: capitalizeFirstLetter(message.to.name),
     responseTo: message.responseTo
       ? {
-          uid: message.responseTo?._id ?? '',
-          from: {
-            uid: message.responseTo?.from._id ?? null,
-            name: message?.responseTo?.from.name ?? '',
-            email: message.responseTo?.from.email ?? null,
-            online: message.responseTo?.from.online ?? false,
-            lastActive: message.responseTo?.from.lastActive ?? '',
-          },
-          to: {
-            uid: message.responseTo?.to._id ?? null,
-            name: message?.responseTo?.to.name ?? '',
-            email: message.responseTo?.to.email ?? null,
-            online: message.responseTo?.to.online ?? false,
-            lastActive: message.responseTo?.to.lastActive ?? '',
-          },
-          message: message.message,
-          createdAt: message.createdAt,
+          id: message.responseTo._id ?? '',
+          from: message.from._id,
+          to: message.to._id,
+          nameTo: message.to.name,
+          emailTo: message.to.email,
+          message: message.responseTo.message,
+          date: message.responseTo.createdAt,
         }
       : undefined,
   };

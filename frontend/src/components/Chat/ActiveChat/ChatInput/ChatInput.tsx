@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../../redux/hooks';
 import useInputSocket from '../../../../socket/hooks/useInputSocket';
 
@@ -10,11 +11,13 @@ import {
   InputGrid,
   ResponseToMessage,
 } from './components';
+import { setResponseTo } from '../../../../redux/activeChat/activeChatSlice';
 
 const ChatInput = () => {
   const [message, setMessage] = useState<string>('');
   const { messages } = useAppSelector((state) => state.chatSlice);
   const activeChat = useAppSelector((state) => state.activeChatSlice);
+  const dispatch = useDispatch();
   const { setTypingEvent, submitEvent, seenEvent } = useInputSocket(message);
   const inputRef = useRef<HTMLInputElement>(null);
   const isTabActive = useActiveTab();
@@ -46,6 +49,7 @@ const ChatInput = () => {
     // mando mensaje por socket event
     submitEvent();
     setMessage('');
+    dispatch(setResponseTo(null));
   };
 
   return (

@@ -46,25 +46,13 @@ export const activeChatSlice = createSlice({
     },
     setResponseTo: (state, action: PayloadAction<messageUI | null>) => {
       if (action.payload) {
-        const {
-          to,
-          from,
-          emailTo,
-          nameTo,
-          date,
-          seen,
-          parseDate,
-          message,
-          id,
-        } = action.payload;
+        const { to, from, emailTo, nameTo, date, message, id } = action.payload;
         state.responseTo = {
           to,
           from,
+          date,
           emailTo,
           nameTo: nameTo && capitalizeFirstLetter(nameTo),
-          date,
-          seen,
-          parseDate,
           message,
           id,
         };

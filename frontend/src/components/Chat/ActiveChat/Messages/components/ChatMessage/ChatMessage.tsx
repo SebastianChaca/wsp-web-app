@@ -19,7 +19,7 @@ const ChatMessage = ({ msg, isOutgoing, showDate }: Props) => {
         {msg.responseTo && (
           <ResponseTo.Container>
             <ResponseTo.Decoration />
-            <ResponseTo.Message message={msg} />
+            <ResponseTo.Message message={msg.responseTo} />
           </ResponseTo.Container>
         )}
         <Message.DropDownOptions />
