@@ -27,8 +27,8 @@ const MessageEvents = ({ children }: Props) => {
   // mensaje personal
   useEffect(() => {
     socket?.on('personal-message', (messagePayload: serverMessageResponse) => {
+      console.log(messagePayload);
       const sanitMsg = sanitizeMessage(messagePayload);
-
       dispatch(setMessages(sanitMsg));
     });
   }, [socket, dispatch]);
@@ -36,6 +36,7 @@ const MessageEvents = ({ children }: Props) => {
   useEffect(() => {
     socket?.on('seen-messages', (messagesPayload: serverMessageResponse[]) => {
       const sanitize = sanitizeMessages(messagesPayload).reverse();
+
       dispatch(updateSeenMessages(sanitize));
       dispatch(updateLastMessageSeenStatus(sanitize[0]));
     });

@@ -12,7 +12,9 @@ const Message: FC<MessageProps> = ({ message }) => {
       <Text fontWeight={500} color="brand.primary">
         {message.nameTo}
       </Text>
-      <Text>{message.message}</Text>
+      <Text color="message.responseTo" as="i">
+        {message.message}
+      </Text>
     </>
   );
 };

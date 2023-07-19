@@ -1,5 +1,5 @@
-import { Box, Flex } from '@chakra-ui/react';
-import React, { FC, ReactNode } from 'react';
+import { Box } from '@chakra-ui/react';
+import { FC, ReactNode } from 'react';
 
 interface ContainerProps {
   children: ReactNode;
@@ -8,12 +8,12 @@ interface ContainerProps {
 const Container: FC<ContainerProps> = ({ children }) => {
   return (
     <Box
-      bg="gray.400"
+      bg="brand.fadedBack"
       padding="10px 20px"
       borderRadius="8px"
       position="relative"
     >
-      <Flex justifyContent="space-between">{children}</Flex>
+      {children}
     </Box>
   );
 };

@@ -8,8 +8,10 @@ const MessageDate: FC = () => {
   if (showDate) {
     return (
       <Flex justifyContent="center" my="5px">
-        <Box borderRadius="8px" backgroundColor="brand.gray" p="5px">
-          <Text fontSize="12">{msg.parseDate}</Text>
+        <Box borderRadius="8px" backgroundColor="brand.secondary" p="5px 8px">
+          <Text fontSize="12" color="brand.backgroundWhite" fontWeight={700}>
+            {msg.parseDate}
+          </Text>
         </Box>
       </Flex>
     );

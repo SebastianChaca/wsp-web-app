@@ -27,6 +27,7 @@ const useInputSocket = (messageProps: string) => {
       // los datos del usuario que le esta escribiendo para agregarlo a su listao de amigos
       socket?.emit('request-friend', msg);
     }
+
     socket?.emit('personal-message', msg);
   }, [socket, msg, activeChat.status, messages]);
 

@@ -1,4 +1,4 @@
-import { userFromServer } from '../session/session';
+import { userFromServer, user } from '../session/session';
 
 export interface message {
   to: string | null;
@@ -13,6 +13,13 @@ export interface messageUI extends message {
   parseDate?: string | null;
   nameTo?: string;
   emailTo?: string;
+  responseTo?: {
+    createdAt: string;
+    uid: string;
+    to: user;
+    from: user;
+    message: string | null;
+  };
 }
 
 export interface messageToServer extends message {
@@ -26,4 +33,13 @@ export interface serverMessageResponse {
   to: userFromServer;
   from: userFromServer;
   message: string | null;
+  responseTo?: {
+    updatedAt: string;
+    createdAt: string;
+    _id: string;
+    seen: boolean;
+    to: userFromServer;
+    from: userFromServer;
+    message: string | null;
+  };
 }

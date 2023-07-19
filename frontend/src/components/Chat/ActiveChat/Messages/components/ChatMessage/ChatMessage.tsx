@@ -1,6 +1,7 @@
-import { Text } from '@chakra-ui/react';
+import { Text, Flex } from '@chakra-ui/react';
 import { messageUI } from '../../../../../../types/message/message';
 import { Message } from '..';
+import { ResponseTo } from '../../../../../Ui';
 
 interface Props {
   msg: messageUI;
@@ -15,9 +16,19 @@ const ChatMessage = ({ msg, isOutgoing, showDate }: Props) => {
       <Message.Date />
 
       <Message.Container>
+        {msg.responseTo && (
+          <ResponseTo.Container>
+            <ResponseTo.Decoration />
+            <ResponseTo.Message message={msg} />
+          </ResponseTo.Container>
+        )}
         <Message.DropDownOptions />
-        <Text>{message}</Text>
-        <Message.Status />
+        <Flex alignItems="end">
+          <Text p="2px 10px 5px 5px" color="black">
+            {message}
+          </Text>
+          <Message.Status />
+        </Flex>
       </Message.Container>
     </Message.Provider>
   );

@@ -10,8 +10,7 @@ const MessageContainer = ({ children }: Props) => {
   return (
     <Flex w="100%" justifyContent={isOutgoing ? 'right' : 'left'}>
       <Box
-        py="8px"
-        px="16px"
+        p="4px"
         verticalAlign="top"
         bg={isOutgoing ? 'message.out.bg' : 'message.in.bg'}
         color={isOutgoing ? 'message.out.color' : 'message.in.color'}
