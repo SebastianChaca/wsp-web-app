@@ -2,10 +2,11 @@ import { FC } from 'react';
 import { GrClose } from 'react-icons/all';
 import { useDispatch } from 'react-redux';
 import { IconButton } from '@chakra-ui/react';
-import { setResponseTo } from '../../../../../../../../redux/activeChat/activeChatSlice';
+import { setResponseTo } from '../../../../redux/activeChat/activeChatSlice';
 
 const CloseButton: FC = () => {
   const dispatch = useDispatch();
+
   const handleClose = () => {
     dispatch(setResponseTo(null));
   };
@@ -13,9 +14,9 @@ const CloseButton: FC = () => {
     <IconButton
       onClick={handleClose}
       aria-label=""
-      icon={<GrClose />}
+      icon={<GrClose size="20px" />}
       bg="transparent"
-      _hover={{ bg: 'brand.gray2' }}
+      _hover={{ bg: 'brand.backgroundWhite' }}
     />
   );
 };

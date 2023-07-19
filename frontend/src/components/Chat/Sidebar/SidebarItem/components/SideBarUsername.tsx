@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserName } from '../../../../UserComponents';
+import { UserName } from '../../../../Ui';
 import { useSideBarContext } from './SideBarProvider';
 
 const SideBarUsername = () => {

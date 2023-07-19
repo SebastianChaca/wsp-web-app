@@ -14,7 +14,7 @@ import { setActiveChat } from '../../redux/activeChat/activeChatSlice';
 const ChatPage = () => {
   const { friendId } = useAppSelector((state) => state.chatSlice);
   const findFriend = useFriend(friendId);
-  console.log(findFriend?.statusIsApproved);
+
   const activeChatSelected = friendId;
 
   const dispatch = useAppDispatch();
@@ -38,6 +38,7 @@ const ChatPage = () => {
           status: findFriend.status,
           isTyping: findFriend.isTyping,
           statusIsApproved: findFriend.statusIsApproved,
+          responseTo: undefined,
         })
       );
     }

@@ -9,7 +9,6 @@ const Container: FC<ContainerProps> = ({ children }) => {
   return (
     <Box
       bg="gray.400"
-      marginBottom="20px"
       padding="10px 20px"
       borderRadius="8px"
       position="relative"

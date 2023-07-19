@@ -1,10 +1,10 @@
 import { Box, Flex } from '@chakra-ui/react';
-import Avatar from '../../../UserComponents/Avatar/Avatar';
+import Avatar from '../../../Ui/Avatar/Avatar';
 import { useAppSelector } from '../../../../redux/hooks';
 import { Container } from './Components';
-import { IsOnline, IsTyping, LastActive } from '../../../UserComponents/index';
+import { IsOnline, IsTyping, LastActive } from '../../../Ui/index';
 import { useFriendStatusApproved } from '../../../../redux/chat/selectors';
-import Username from '../../../UserComponents/UserName/Username';
+import Username from '../../../Ui/UserName/Username';
 
 const ChatTopBar = () => {
   const { name, online, isTyping } = useAppSelector(

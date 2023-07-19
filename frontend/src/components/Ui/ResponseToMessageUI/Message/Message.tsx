@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Text } from '@chakra-ui/react';
-import { messageUI } from '../../../../../../../../types/message/message';
+import { messageUI } from '../../../../types/message/message';
 
 interface MessageProps {
   message: messageUI;

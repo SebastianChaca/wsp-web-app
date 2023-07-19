@@ -31,6 +31,7 @@ export const activeChatSlice = createSlice({
         lastActive,
         status,
         statusIsApproved,
+        responseTo,
       } = action.payload;
       state.isRequesting = isRequesting;
       state.name = name;
@@ -41,6 +42,7 @@ export const activeChatSlice = createSlice({
       state.lastActive = lastActive;
       state.status = status;
       state.statusIsApproved = statusIsApproved;
+      state.responseTo = responseTo;
     },
     setResponseTo: (state, action: PayloadAction<messageUI | null>) => {
       if (action.payload) {

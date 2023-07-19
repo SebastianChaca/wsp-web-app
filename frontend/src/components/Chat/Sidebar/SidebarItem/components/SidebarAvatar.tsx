@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSideBarContext } from './SideBarProvider';
-import { Avatar } from '../../../../UserComponents';
+import { Avatar } from '../../../../Ui';
 
 const SidebarAvatar = () => {
   const { friend } = useSideBarContext();

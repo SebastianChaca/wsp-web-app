@@ -3,9 +3,10 @@ import Container from './Container/Container';
 import Message from './Message/Message';
 import CloseButton from './CloseButton/CloseButton';
 
-export const ResponseTo = {
+const ResponseTo = {
   Decoration,
   Container,
   Message,
   CloseButton,
 };
+export default ResponseTo;

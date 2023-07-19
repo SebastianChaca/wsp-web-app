@@ -4,29 +4,25 @@ import { AiOutlineCheckCircle, MdBlock } from 'react-icons/all';
 import { useSocketContext } from '../../../../../../socket/SocketContext/SocketContext';
 import { useAppSelector } from '../../../../../../redux/hooks';
 
-interface FriendRequestProps {
-  isRequesting: boolean;
-  activeChatId: string | null;
-}
-const FriendRequest: FC<FriendRequestProps> = ({
-  isRequesting,
-  activeChatId,
-}) => {
+const FriendRequest: FC = () => {
   const { socket } = useSocketContext();
   const session = useAppSelector((state) => state.sessionSlice);
+  const { isRequesting, uid } = useAppSelector(
+    (state) => state.activeChatSlice
+  );
   if (!isRequesting) {
     return null;
   }
   const handleAccept = () => {
     socket?.emit('update-friend-status', {
-      friendId: activeChatId,
+      friendId: uid,
       from: session.uid,
       status: 1,
     });
   };
   const handleBlock = () => {
     socket?.emit('update-friend-status', {
-      friendId: activeChatId,
+      friendId: uid,
       from: session.uid,
       status: 2,
     });
@@ -34,16 +30,15 @@ const FriendRequest: FC<FriendRequestProps> = ({
   return (
     <Flex
       justifyContent="center"
-      border="1px solid #c4c4c4"
-      borderRadius="8px"
-      p="10px"
+      borderTop="1px solid #c4c4c4"
+      borderRadius="4px 4px 0px 0px"
+      p="20px"
       w="100%"
-      mb="20px"
-      bg="#E2E8F0"
+      bg="message.in.bg"
     >
       <Box>
-        <Text>El Remitente no esta en tu lista de amigos</Text>
-        <Flex justifyContent="center" p="10px">
+        <Text mb="10px">El Remitente no esta en tu lista de amigos</Text>
+        <Flex justifyContent="center">
           <Button
             mr="5px"
             leftIcon={<MdBlock />}
