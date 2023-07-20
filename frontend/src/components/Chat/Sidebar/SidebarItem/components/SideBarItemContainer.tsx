@@ -17,9 +17,9 @@ const SideBarItemContainer: FC<SideBarItemContainerProps> = ({
       justifyContent="center"
       alignItems="center"
       _hover={{
-        bg: selected ? 'gray.400' : 'gray.300',
+        bg: selected ? 'sideBar.selected' : 'sideBar.hover',
       }}
-      bg={selected ? 'gray.400' : 'transparent'}
+      bg={selected ? 'sideBar.selected' : 'transparent'}
       onClick={handleClick}
       cursor="pointer"
       minH="79px"

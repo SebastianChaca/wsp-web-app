@@ -27,7 +27,6 @@ const MessageEvents = ({ children }: Props) => {
   // mensaje personal
   useEffect(() => {
     socket?.on('personal-message', (messagePayload: serverMessageResponse) => {
-      console.log(messagePayload);
       const sanitMsg = sanitizeMessage(messagePayload);
       dispatch(setMessages(sanitMsg));
     });

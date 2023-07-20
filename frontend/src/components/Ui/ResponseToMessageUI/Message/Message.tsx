@@ -1,19 +1,19 @@
 import { FC } from 'react';
 import { Text } from '@chakra-ui/react';
-import { responseTo } from '../../../../types/message/message';
 
 interface MessageProps {
-  message: responseTo;
+  nameTo: string;
+  message: string;
 }
 
-const Message: FC<MessageProps> = ({ message }) => {
+const Message: FC<MessageProps> = ({ nameTo, message }) => {
   return (
     <>
       <Text fontWeight={500} color="brand.primary">
-        {message.nameTo}
+        {nameTo}
       </Text>
       <Text color="message.responseTo" as="i">
-        {message.message}
+        {message}
       </Text>
     </>
   );

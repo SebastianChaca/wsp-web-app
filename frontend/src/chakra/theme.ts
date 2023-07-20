@@ -22,7 +22,6 @@ export const theme = extendTheme({
     },
     message: {
       out: {
-        //  bg: '#def0d1',
         bg: '#dfcce8',
         color: '#ffff',
       },
@@ -30,11 +29,11 @@ export const theme = extendTheme({
         bg: gray,
         color: '#646464',
       },
-      sideBar: {
-        selected: '#A0AEC0',
-        hover: gray,
-      },
       responseTo: '#4e5a61',
+    },
+    sideBar: {
+      selected: '#A0AEC0',
+      hover: gray,
     },
   },
   styles: {

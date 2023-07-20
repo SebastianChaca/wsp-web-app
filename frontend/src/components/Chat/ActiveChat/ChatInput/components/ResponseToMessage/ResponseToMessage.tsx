@@ -12,7 +12,10 @@ const ResponseToMessage: FC = () => {
           <ResponseTo.Container>
             <Box>
               <ResponseTo.Decoration />
-              <ResponseTo.Message message={activeChat.responseTo} />
+              <ResponseTo.Message
+                nameTo={activeChat.responseTo.nameTo!}
+                message={activeChat.responseTo.message!}
+              />
             </Box>
           </ResponseTo.Container>
         </GridItem>
