@@ -21,6 +21,7 @@ const SidebarEvents = ({ children }: Props) => {
   // lista de amigos
   useEffect(() => {
     socket?.on('friend-list', (friends: friendsAPIResponse) => {
+      console.log(friends);
       dispatch(setFriendsList(friends));
     });
   }, [socket, dispatch, uid]);

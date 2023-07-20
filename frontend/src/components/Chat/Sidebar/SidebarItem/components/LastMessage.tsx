@@ -4,7 +4,8 @@ import { useSideBarContext } from './SideBarProvider';
 
 const LastMessage = () => {
   const { friend, session } = useSideBarContext();
-  const isOutgoing = friend.lastMessage?.from === session.uid;
+
+  const isOutgoing = friend.lastMessage.from === session.uid;
   const { lastMessage, isTyping } = friend;
   if (lastMessage && !isTyping) {
     return (
@@ -20,7 +21,7 @@ const LastMessage = () => {
       </Flex>
     );
   }
-  return <Flex my="15px" />;
+  return null;
 };
 
 export default LastMessage;

@@ -1,4 +1,9 @@
-import { messageUI, serverMessageResponse } from '../message/message';
+import {
+  lastMessage,
+  messageUI,
+  serverMessageResponse,
+  serverMessageResponseNotPopulated,
+} from '../message/message';
 import { user } from '../session/session';
 
 export interface friend {
@@ -7,7 +12,7 @@ export interface friend {
   status: number;
   isRequesting: boolean;
   uid: string;
-  lastMessage: messageUI;
+  lastMessage: lastMessage;
   isTyping?: boolean;
   statusIsApproved: boolean;
 }
@@ -18,7 +23,7 @@ export interface friendFromApi {
   status: number;
   isRequesting: boolean;
   _id: string;
-  lastMessage: serverMessageResponse;
+  lastMessage: serverMessageResponseNotPopulated;
 }
 
 export interface friendsAPIResponse {

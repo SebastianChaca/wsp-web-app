@@ -1,7 +1,7 @@
-import { friendFromApi } from '../../../types/friend/friend';
+import { friend, friendFromApi } from '../../../types/friend/friend';
 import { capitalizeFirstLetter } from '../../../utils/capitalizeFirstLetter';
 
-export const friendObjSanitize = (payload: friendFromApi) => {
+export const friendObjSanitize = (payload: friendFromApi): friend => {
   return {
     user: {
       email: payload.user.email,
@@ -15,14 +15,14 @@ export const friendObjSanitize = (payload: friendFromApi) => {
     isRequesting: payload.isRequesting,
     uid: payload._id,
     lastMessage: {
-      to: payload.lastMessage?.to._id,
-      from: payload.lastMessage?.from._id,
+      to: payload.lastMessage?.to,
+      from: payload.lastMessage?.from,
       message: payload.lastMessage?.message,
       seen: payload.lastMessage?.seen,
       date: payload.lastMessage?.createdAt,
       id: payload.lastMessage?._id,
     },
-    IsTyping: false,
+    isTyping: false,
     statusIsApproved: payload.status === 1,
   };
 };

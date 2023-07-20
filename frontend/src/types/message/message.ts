@@ -14,6 +14,16 @@ export interface responseTo {
   nameTo?: string;
   emailTo?: string;
 }
+export interface lastMessage {
+  date: string;
+  id: string;
+  to: string | null;
+  from: string | null;
+  message: string | null;
+  nameTo?: string;
+  emailTo?: string;
+  seen: boolean;
+}
 export interface messageUI extends message {
   seen: boolean;
   date: string;
@@ -35,6 +45,25 @@ export interface serverMessageResponse {
   seen: boolean;
   to: userFromServer;
   from: userFromServer;
+  message: string | null;
+  responseTo?: {
+    updatedAt: string;
+    createdAt: string;
+    _id: string;
+    seen: boolean;
+    to: userFromServer;
+    from: userFromServer;
+    message: string | null;
+  };
+}
+
+export interface serverMessageResponseNotPopulated {
+  updatedAt: string;
+  createdAt: string;
+  _id: string;
+  seen: boolean;
+  to: string;
+  from: string;
   message: string | null;
   responseTo?: {
     updatedAt: string;
