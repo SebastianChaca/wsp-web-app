@@ -25,9 +25,12 @@ const ChatInput = () => {
   useEffect(() => {
     setMessage('');
 
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
+    const setFocus = () => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    };
+    requestAnimationFrame(setFocus);
   }, [activeChat.uid, activeChat.responseTo?.to]);
 
   useEffect(() => {
