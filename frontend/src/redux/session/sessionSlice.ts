@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { refreshToken } from '../../services/session/refreshToken';
 import { fetchSignIn, fetchSignUp } from '../../services/session/index';
-import { removeUser } from '../../services/session/utils/setUser';
-
 import { sessionState } from '../../types/session/session';
 
 const initialState: sessionState = {
@@ -22,7 +20,6 @@ export const sessionSlice = createSlice({
   initialState,
   reducers: {
     signOut: (state) => {
-      removeUser();
       state.token = null;
       state.name = '';
       state.email = null;
