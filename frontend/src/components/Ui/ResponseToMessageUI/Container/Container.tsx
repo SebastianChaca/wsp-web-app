@@ -9,7 +9,7 @@ const Container: FC<ContainerProps> = ({ children }) => {
   return (
     <Box
       bg="brand.fadedBack"
-      padding="10px 20px"
+      padding="10px 14px"
       borderRadius="8px"
       position="relative"
     >

@@ -21,6 +21,8 @@ const InputComponent = forwardRef(
       <GridItem>
         <form onSubmit={handleSubmit}>
           <Input
+            id="inputChat"
+            name="chat"
             placeholder="Escribe un mensaje aquí"
             ref={ref}
             variant="unstyled"
@@ -28,6 +30,7 @@ const InputComponent = forwardRef(
             p="8px"
             value={message}
             onChange={handleChange}
+            type="text"
           />
         </form>
       </GridItem>

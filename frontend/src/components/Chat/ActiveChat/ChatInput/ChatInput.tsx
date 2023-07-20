@@ -24,8 +24,11 @@ const ChatInput = () => {
 
   useEffect(() => {
     setMessage('');
-    inputRef.current?.focus();
-  }, [activeChat.uid]);
+
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [activeChat.uid, activeChat.responseTo?.to]);
 
   useEffect(() => {
     // marcar mensaje como visto
@@ -61,6 +64,7 @@ const ChatInput = () => {
           message={message}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
+          ref={inputRef}
         />
       </InputGrid>
     </>
