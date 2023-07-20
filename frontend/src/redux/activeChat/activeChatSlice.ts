@@ -60,8 +60,10 @@ export const activeChatSlice = createSlice({
         state.responseTo = undefined;
       }
     },
+    resetActiveChatState: () => initialState,
   },
 });
-export const { setActiveChat, setResponseTo } = activeChatSlice.actions;
+export const { setActiveChat, setResponseTo, resetActiveChatState } =
+  activeChatSlice.actions;
 
 export default activeChatSlice.reducer;
