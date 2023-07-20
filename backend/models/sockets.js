@@ -73,6 +73,7 @@ class Sockets {
         //     from: '63643107da84feaed10653bf',
         //     to: '63643111da84feaed10653c2',
         //     message: 'sdfsdf'
+        //     responseTo:'id'
         //   }
         //
 
@@ -83,6 +84,7 @@ class Sockets {
         await updateNotificationsMessage(uid, payload.to);
         //emito mensaje al destinatario
         this.io.to(payload.to).emit('personal-message', message);
+
         //TODO: puedo hacer esto en la UI para evitar otra request
         this.io.to(payload.from).emit('personal-message', message);
       });

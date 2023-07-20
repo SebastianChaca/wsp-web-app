@@ -42,12 +42,20 @@ const addFriend = async (uid, friendId) => {
 const saveMessage = async (payload) => {
   try {
     const message = new Message(payload);
+    await message.save();
 
-    return await message.save();
+    const populatedMessage = await Message.populate(message, [
+      { path: 'to' },
+      { path: 'from' },
+      { path: 'responseTo' },
+    ]);
+
+    return populatedMessage;
   } catch (error) {
     return false;
   }
 };
+
 const updateSeenMessages = async (messages) => {
   const getMessagesIds = messages.map((msg) => msg.id);
 

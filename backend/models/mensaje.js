@@ -20,6 +20,10 @@ const MessageSchema = Schema(
       type: Boolean,
       default: false,
     },
+    responseTo: {
+      type: Schema.Types.ObjectId,
+      ref: 'ChatMessage',
+    },
   },
   {
     timestamps: true,
@@ -32,6 +36,13 @@ MessageSchema.method('toJSON', function () {
   return object;
 });
 
+MessageSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'responseTo',
+  });
+
+  next();
+});
 MessageSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'from',
