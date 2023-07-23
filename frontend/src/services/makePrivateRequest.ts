@@ -1,16 +1,19 @@
 import { AxiosRequestConfig } from 'axios';
-import { makeRequest } from './makeRequest';
+import { api } from './makeRequest';
 import { getUser } from './session/utils/setUser';
 
+api.interceptors.request.use((config) => {
+  config.headers = config.headers || {};
+  const { token } = getUser();
+  config.headers['x-token'] = token;
+  return config;
+});
 export function makePrivateRequest<T>(
   url: string,
   options?: AxiosRequestConfig
-) {
-  const { token } = getUser();
-  return makeRequest<T>(url, {
-    ...options,
-    headers: {
-      'x-token': token,
-    },
-  });
+): Promise<T> {
+  return api
+    .request<T>({ url, ...options })
+    .then((res) => res.data)
+    .catch((error) => Promise.reject(error?.response?.data?.msg));
 }
