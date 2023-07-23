@@ -34,12 +34,12 @@ class Sockets {
       //busco lista de amigos
       const friendsResponse = await getFriends(uid);
 
-      const friendsIds = friendsResponse.friends.map((friend) =>
-        friend.user._id.valueOf()
-      );
       //emitir lista de amigos
       this.io.to(uid).emit('friend-list', friendsResponse);
 
+      const friendsIds = friendsResponse.friends.map((friend) =>
+        friend.user._id.valueOf()
+      );
       //emitir a mis amigos que me conecte
       this.io.to(friendsIds).emit('friend-status', {
         uid: status._id.valueOf(),

@@ -46,7 +46,7 @@ const login = async (req, res) => {
 
   try {
     // Verificar si existe el correo
-    const usuarioDB = await ChatUser.findOne({ email });
+    const usuarioDB = await ChatUser.findOne({ email }).select('-friends');
     // Validar el password
     if (!usuarioDB) {
       return res.status(404).json({
