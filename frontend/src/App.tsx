@@ -3,7 +3,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter } from 'react-router-dom';
 import Router from './routers/Router';
 import { theme } from './chakra/theme';
-import { useAppDispatch, useAppSelector } from './redux/hooks';
+import { useAppDispatch } from './redux/hooks';
 import { refreshToken } from './services/session/refreshToken';
 import { getUser } from './services/session/utils/setUser';
 

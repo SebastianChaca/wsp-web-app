@@ -1,19 +1,22 @@
 import SidebarItem from '../SidebarItem/SidebarItem';
 import { useAppSelector } from '../../../../redux/hooks';
 import { UserListContainer } from './components';
+import { Spinner } from '../../../Ui';
 
 const SidebarUserList = () => {
-  const { friends } = useAppSelector((state) => state.chatSlice);
-
-  if (!friends?.length) {
-    return null;
-  }
+  const { friends, friendsLoading } = useAppSelector(
+    (state) => state.chatSlice
+  );
 
   return (
     <UserListContainer>
-      {friends.map((friend) => (
-        <SidebarItem key={friend.user.uid} friend={friend} />
-      ))}
+      {friendsLoading ? (
+        <Spinner padding="20px" />
+      ) : (
+        friends.map((friend) => (
+          <SidebarItem key={friend.user.uid} friend={friend} />
+        ))
+      )}
     </UserListContainer>
   );
 };

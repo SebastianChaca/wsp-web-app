@@ -7,4 +7,6 @@ export interface ChatState {
   isLoading: boolean;
   error: string | null;
   friendId: string;
+  friendsLoading: boolean;
+  messagesLoading: boolean;
 }

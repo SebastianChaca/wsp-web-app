@@ -25,6 +25,8 @@ const initialState: ChatState = {
   isLoading: false,
   error: null,
   friendId: '',
+  friendsLoading: true,
+  messagesLoading: true,
 };
 export const chatSlice = createSlice({
   name: 'chat',
@@ -35,6 +37,7 @@ export const chatSlice = createSlice({
     },
     setFriendsList: (state, action: PayloadAction<friendsAPIResponse>) => {
       state.friends = updateFriendList(action.payload);
+      state.friendsLoading = false;
     },
     setFriendIsTyping: (state, action: PayloadAction<message>) => {
       state.friends = updateFriendIsTyping(state.friends, action.payload);
@@ -95,14 +98,15 @@ export const chatSlice = createSlice({
         getMessages.fulfilled,
         (state, action: PayloadAction<messageUI[]>) => {
           state.messages = action.payload;
-          state.isLoading = false;
+          state.messagesLoading = false;
         }
       )
       .addCase(getMessages.pending, (state) => {
-        state.isLoading = true;
+        state.messagesLoading = true;
       })
       .addCase(getMessages.rejected, (state) => {
         state.error = 'error';
+        state.messagesLoading = false;
       })
       .addCase(addFriend.fulfilled, (state, action) => {
         state.friends?.unshift(friendObjSanitize(action.payload));
