@@ -7,8 +7,6 @@ const createUsuer = async (req, res) => {
     const parseEmail = email.toLowerCase();
 
     const emailExist = await ChatUser.findOne({ email: parseEmail });
-    console.log(email);
-    console.log(emailExist);
 
     if (emailExist) {
       return res.status(400).json({
