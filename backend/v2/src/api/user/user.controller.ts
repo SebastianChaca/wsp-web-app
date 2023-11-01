@@ -3,6 +3,9 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UniqueConstraintFilter } from 'src/common/filters/uniquie-constraint.filter';
 import { Logger } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+
+@ApiTags('User')
 @Controller('user')
 export class UserController {
   private readonly logger = new Logger('userController');
