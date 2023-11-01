@@ -1,14 +1,21 @@
 import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 
 import { hashSync, compareSync } from 'bcrypt';
 import { User } from 'src/api/user/entities/user.entity';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
 @Injectable()
 export class AuthService {
+  constructor(private readonly jwtService: JwtService) {}
   hasPassword(password: string) {
     return hashSync(password, 10);
   }
   comparePassword(password: string, user: User) {
     return compareSync(password, user.password);
+  }
+  getJwtToken(payload: JwtPayload) {
+    //generar token
+    return this.jwtService.sign(payload);
   }
   // create(createAuthDto: CreateAuthDto) {
   //   return 'This action adds a new auth';

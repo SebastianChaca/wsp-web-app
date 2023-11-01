@@ -1,5 +1,17 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-@Schema()
+
+@Schema({
+  timestamps: true,
+  toObject: {
+    virtuals: true,
+    transform: function (doc, ret) {
+      ret.id = ret._id;
+      delete ret._id;
+      delete ret.password;
+      delete ret.__v;
+    },
+  },
+})
 export class User {
   @Prop()
   name: string;
@@ -16,12 +28,6 @@ export class User {
   @Prop({ default: null })
   lastActive: Date;
 
-  @Prop({ default: new Date() })
-  creationDate: Date;
-
-  @Prop({ default: null })
-  updated: Date;
-
   @Prop({ default: true })
   isActive: boolean;
 
@@ -29,12 +35,7 @@ export class User {
   roles: string[];
 }
 export const UserSchema = SchemaFactory.createForClass(User);
-UserSchema.method('toJSON', function () {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { _id, password, ...object } = this.toObject();
 
-  return {
-    id: _id,
-    ...object,
-  };
-});
+// UserSchema.virtual('test').get(function () {
+//   return this.email;
+// });
