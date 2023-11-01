@@ -7,7 +7,16 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
     transform: function (doc, ret) {
       ret.id = ret._id;
       delete ret._id;
-      delete ret.password;
+      // delete ret.password;
+      delete ret.__v;
+    },
+  },
+  toJSON: {
+    virtuals: true,
+    transform: function (doc, ret) {
+      ret.id = ret._id;
+      delete ret._id;
+      //delete ret.password;
       delete ret.__v;
     },
   },
@@ -19,7 +28,7 @@ export class User {
   @Prop({ lowercase: true, unique: true })
   email: string;
 
-  @Prop({ select: false })
+  @Prop()
   password: string;
 
   @Prop({ default: false })

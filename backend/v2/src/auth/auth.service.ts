@@ -1,35 +1,46 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { hashSync, compareSync } from 'bcrypt';
 import { User } from 'src/api/user/entities/user.entity';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { LoginUserDto } from './dto/login-user.dto copy';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 @Injectable()
 export class AuthService {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    @InjectModel(User.name)
+    private readonly userModel: Model<User>,
+    private readonly jwtService: JwtService,
+  ) {}
   hasPassword(password: string) {
     return hashSync(password, 10);
   }
-  comparePassword(password: string, user: User) {
-    return compareSync(password, user.password);
+  comparePassword(password: string, passwordModel: string) {
+    return compareSync(password, passwordModel);
   }
   getJwtToken(payload: JwtPayload) {
     //generar token
     return this.jwtService.sign(payload);
   }
-  // create(createAuthDto: CreateAuthDto) {
-  //   return 'This action adds a new auth';
-  // }
-  // findAll() {
-  //   return `This action returns all auth`;
-  // }
-  // findOne(id: number) {
-  //   return `This action returns a #${id} auth`;
-  // }
-  // update(id: number, updateAuthDto: UpdateAuthDto) {
-  //   return `This action updates a #${id} auth`;
-  // }
-  // remove(id: number) {
-  //   return `This action removes a #${id} auth`;
+
+  async login(loginUserDto: LoginUserDto) {
+    const { password, email } = loginUserDto;
+    const user = await this.userModel.findOne({ email });
+
+    if (!user || !this.comparePassword(password, user.password))
+      throw new UnauthorizedException('credentials are not valid');
+
+    const userObj = user.toObject();
+    delete userObj.password;
+    return {
+      ...userObj,
+      token: this.getJwtToken({ id: user.id }),
+    };
+  }
+  //TODO:agregar cuando tenga auth guard para obtener el user
+  // async checkAuthStatus(user: User) {
+  //   return { ...user, token: this.getJwtToken({ id: user.id }) };
   // }
 }

@@ -20,29 +20,16 @@ export class UserService {
         createUserDto.password,
       );
       const user = await this.userModel.create(createUserDto);
+      const userObj = user.toObject();
+      delete userObj.password;
       return {
-        ...user.toObject(),
+        ...userObj,
         token: this.authService.getJwtToken({ id: user.id }),
       };
     } catch (error) {
       this.logger.error('Create user error');
+      //handle by unique constraing filter
       throw error;
     }
   }
-
-  // findAll() {
-  //   return `This action returns all userssss`;
-  // }
-
-  // findOne(id: number) {
-  //   return `This action returns a #${id} user`;
-  // }
-
-  // update(id: number, updateUserDto: UpdateUserDto) {
-  //   return `This action updates a #${id} user`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} user`;
-  // }
 }
