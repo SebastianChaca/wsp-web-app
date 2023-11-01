@@ -28,3 +28,4 @@ npm i
 ```
 npm run start:dev
 ```
+6. For documentation go to `/api#/`
