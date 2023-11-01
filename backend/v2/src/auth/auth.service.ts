@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { hashSync, compareSync } from 'bcrypt';
@@ -9,6 +9,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger('AuthService');
   constructor(
     @InjectModel(User.name)
     private readonly userModel: Model<User>,
@@ -27,6 +28,7 @@ export class AuthService {
 
   async login(loginUserDto: LoginUserDto) {
     const { password, email } = loginUserDto;
+    this.logger.log('Login user');
     const user = await this.userModel.findOne({ email });
 
     if (!user || !this.comparePassword(password, user.password))
@@ -39,8 +41,8 @@ export class AuthService {
       token: this.getJwtToken({ id: user.id }),
     };
   }
-  //TODO:agregar cuando tenga auth guard para obtener el user
-  // async checkAuthStatus(user: User) {
-  //   return { ...user, token: this.getJwtToken({ id: user.id }) };
-  // }
+
+  async checkAuthStatus(user: User) {
+    return { ...user, token: this.getJwtToken({ id: user.id }) };
+  }
 }

@@ -2,13 +2,15 @@ import { Controller, Post, Body, UseFilters } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UniqueConstraintFilter } from 'src/common/filters/uniquie-constraint.filter';
-
+import { Logger } from '@nestjs/common';
 @Controller('user')
 export class UserController {
+  private readonly logger = new Logger('userController');
   constructor(private readonly userService: UserService) {}
   @UseFilters(UniqueConstraintFilter)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
+    this.logger.log('Create user controller');
     return this.userService.create(createUserDto);
   }
 
