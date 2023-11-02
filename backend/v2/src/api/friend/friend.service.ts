@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { CreateFriendDto } from './dto/create-friend.dto';
-//import { UpdateFriendDto } from './dto/update-friend.dto';
+import { UpdateFriendDto } from './dto/update-friend.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Friend } from './entities/friend.entity';
 import { User } from '../user/entities/user.entity';
@@ -71,9 +71,17 @@ export class FriendService {
   //   return `This action returns a #${id} friend`;
   // }
 
-  // update(id: number, updateFriendDto: UpdateFriendDto) {
-  //   return `This action updates a #${id} friend`;
-  // }
+  update(id: string, updateFriendDto: UpdateFriendDto) {
+    this.logger.log('update friend');
+    try {
+      const friend = this.friendModel.findOneAndUpdate(
+        { friendId: id },
+        updateFriendDto,
+        { new: true },
+      );
+      return friend;
+    } catch (error) {}
+  }
 
   // remove(id: number) {
   //   return `This action removes a #${id} friend`;
