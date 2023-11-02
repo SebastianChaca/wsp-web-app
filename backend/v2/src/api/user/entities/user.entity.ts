@@ -17,7 +17,7 @@ import { ApiProperty } from '@nestjs/swagger';
     transform: function (doc, ret) {
       ret.id = ret._id;
       delete ret._id;
-      //delete ret.password;
+      delete ret.password;
       delete ret.__v;
     },
   },
@@ -79,6 +79,9 @@ export class User {
   })
   @Prop({ default: ['user'] })
   roles: string[];
+
+  createdAt: Date;
+  updatedAt: Date;
 }
 export const UserSchema = SchemaFactory.createForClass(User);
 

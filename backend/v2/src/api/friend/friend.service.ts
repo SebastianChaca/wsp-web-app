@@ -1,10 +1,11 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { CreateFriendDto } from './dto/create-friend.dto';
-import { UpdateFriendDto } from './dto/update-friend.dto';
+//import { UpdateFriendDto } from './dto/update-friend.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Friend } from './entities/friend.entity';
 import { User } from '../user/entities/user.entity';
 import { Model } from 'mongoose';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Injectable()
 export class FriendService {
@@ -20,13 +21,20 @@ export class FriendService {
     const { email } = createFriendDto;
     this.logger.log('Create friend');
     if (email === user.email) throw new BadRequestException('invalid email');
+
     try {
       const friend = await this.userModel.findOne({ email });
       if (!friend) throw new BadRequestException('invalid email');
-      //TODO: chequear que no existar una fila con friendID y userId
+
+      const relationExist = await this.friendModel.findOne({
+        userId: user.id,
+        friendId: friend.id,
+      });
+      if (relationExist) throw new BadRequestException('Relation alredy exist');
+
       const createFriend = await this.friendModel.create({
-        user: user.id,
-        friend: friend.id,
+        userId: user.id,
+        friendId: friend.id,
       });
       return createFriend;
     } catch (error) {
@@ -35,19 +43,39 @@ export class FriendService {
     }
   }
 
-  findAll() {
-    return `This action returns all friend`;
+  async findAllFriends(user: User, paginationDto: PaginationDto) {
+    this.logger.log('search friends');
+    const { limit = 10, offset = 0 } = paginationDto;
+
+    try {
+      //TODO:falta agregar sorting de como traigo el listado
+      const friends = await this.friendModel
+        .find({ userId: user.id })
+        .limit(limit)
+        .skip(offset)
+        .populate('friendId', '-roles')
+        .select('-userId');
+
+      return friends;
+    } catch (error) {
+      this.logger.error('search friends error');
+      throw error;
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} friend`;
-  }
+  // findAll() {
+  //   return `This action returns all friend`;
+  // }
 
-  update(id: number, updateFriendDto: UpdateFriendDto) {
-    return `This action updates a #${id} friend`;
-  }
+  // findOne(id: number) {
+  //   return `This action returns a #${id} friend`;
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} friend`;
-  }
+  // update(id: number, updateFriendDto: UpdateFriendDto) {
+  //   return `This action updates a #${id} friend`;
+  // }
+
+  // remove(id: number) {
+  //   return `This action removes a #${id} friend`;
+  // }
 }

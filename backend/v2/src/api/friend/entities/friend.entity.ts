@@ -1,8 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from 'src/api/user/entities/user.entity';
-import { Message } from 'src/api/message/entities/message.entity';
 
 @Schema({
   timestamps: true,
@@ -40,10 +38,9 @@ export class Friend {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-
     required: true,
   })
-  user: mongoose.Schema.Types.ObjectId;
+  userId: mongoose.Schema.Types.ObjectId;
 
   @ApiProperty({
     description: 'friend',
@@ -54,7 +51,7 @@ export class Friend {
     ref: 'User',
     required: true,
   })
-  friend: mongoose.Schema.Types.ObjectId;
+  friendId: mongoose.Schema.Types.ObjectId;
 
   //   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Message' })
   //   lasMessage: Message;
