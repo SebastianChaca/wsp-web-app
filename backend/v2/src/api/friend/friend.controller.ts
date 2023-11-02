@@ -5,7 +5,6 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
   UseFilters,
   Query,
 } from '@nestjs/common';
@@ -17,8 +16,13 @@ import { ApiTags } from '@nestjs/swagger';
 import { GetUser } from '../auth/decorators/get-user.decorator';
 import { User } from '../user/entities/user.entity';
 import { UniqueConstraintFilter } from 'src/common/filters/uniquie-constraint.filter';
-import { CreateSwaggerDecorator, FindFriendsSwaggerDecorator } from './swagger';
+import {
+  CreateSwaggerDecorator,
+  FindFriendsSwaggerDecorator,
+  UpdateFriendSwaggerDecorator,
+} from './swagger';
 import { PaginationDto } from '../../common/dto/pagination.dto';
+import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe';
 
 @ApiTags('friend')
 @Controller('friend')
@@ -43,28 +47,12 @@ export class FriendController {
     return this.friendService.findAllFriends(user, paginationDto);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.friendService.findAll();
-  // }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.friendService.findOne(+id);
-  // }
-
+  @UpdateFriendSwaggerDecorator()
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFriendDto: UpdateFriendDto) {
+  update(
+    @Param('id', ParseMongoIdPipe) id: string,
+    @Body() updateFriendDto: UpdateFriendDto,
+  ) {
     return this.friendService.update(id, updateFriendDto);
   }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.friendService.remove(+id);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id', ParseMongoIdPipe) id: string) {
-  //   return this.pokemonService.remove(id);
-  // }
 }

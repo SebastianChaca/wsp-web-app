@@ -63,14 +63,6 @@ export class FriendService {
     }
   }
 
-  // findAll() {
-  //   return `This action returns all friend`;
-  // }
-
-  // findOne(id: number) {
-  //   return `This action returns a #${id} friend`;
-  // }
-
   update(id: string, updateFriendDto: UpdateFriendDto) {
     this.logger.log('update friend');
     try {
@@ -80,10 +72,9 @@ export class FriendService {
         { new: true },
       );
       return friend;
-    } catch (error) {}
+    } catch (error) {
+      this.logger.error('update friends error');
+      throw error;
+    }
   }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} friend`;
-  // }
 }
