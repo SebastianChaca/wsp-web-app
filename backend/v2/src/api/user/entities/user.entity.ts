@@ -41,7 +41,7 @@ export class User {
     example: 'Sebastian@g.com',
     description: 'user email',
   })
-  @Prop({ lowercase: true, unique: true })
+  @Prop({ lowercase: true, unique: true, required: true })
   email: string;
 
   @ApiProperty({

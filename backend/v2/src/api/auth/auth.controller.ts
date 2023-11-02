@@ -5,7 +5,7 @@ import { LoginUserDto } from './dto/login-user.dto copy';
 import { Auth } from './decorators/auth.decorator';
 import { GetUser } from './decorators/get-user.decorator';
 import { User } from 'src/api/user/entities/user.entity';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
@@ -22,7 +22,6 @@ export class AuthController {
   @Auth()
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 401, description: 'User Inactive' })
-  @ApiBearerAuth('JWT-auth')
   checkAuthStatus(@GetUser() user: User) {
     return this.authService.checkAuthStatus(user);
   }

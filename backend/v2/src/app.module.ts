@@ -3,10 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './api/user/user.module';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './api/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
 import { LoggerModule } from 'nestjs-pino';
+import { FriendModule } from './api/friend/friend.module';
+import { MessageModule } from './api/message/message.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -27,6 +29,8 @@ import { LoggerModule } from 'nestjs-pino';
         },
       },
     }),
+    FriendModule,
+    MessageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
