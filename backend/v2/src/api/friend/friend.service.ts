@@ -77,4 +77,5 @@ export class FriendService {
       throw error;
     }
   }
+  //TODO:agregar delete pero solo para admins
 }

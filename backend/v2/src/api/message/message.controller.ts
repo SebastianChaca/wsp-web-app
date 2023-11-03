@@ -10,11 +10,14 @@ import {
 import { MessageService } from './message.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
-
+import { Auth } from '../auth/decorators/auth.decorator';
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('message')
 @Controller('message')
 export class MessageController {
   constructor(private readonly messageService: MessageService) {}
 
+  @Auth()
   @Post()
   create(@Body() createMessageDto: CreateMessageDto) {
     return this.messageService.create(createMessageDto);
