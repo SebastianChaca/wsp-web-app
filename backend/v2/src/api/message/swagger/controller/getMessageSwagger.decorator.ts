@@ -1,15 +1,13 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiParam, ApiResponse } from '@nestjs/swagger';
+import { Message } from '../../entities/message.entity';
 
-export function UpdateFriendSwaggerDecorator() {
+export function GetMessagesSwaggerDecorator() {
   return applyDecorators(
     ApiResponse({
       status: 200,
-      description: 'update friend',
-    }),
-    ApiResponse({
-      status: 400,
-      description: '65440fc50dc61df15f1 is not a valid mongo id',
+      description: 'get messages between friends',
+      type: Message,
     }),
     ApiParam({
       name: 'id',

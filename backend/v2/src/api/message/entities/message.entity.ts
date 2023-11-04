@@ -70,6 +70,7 @@ export class Message {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Message',
     required: false,
+    default: null,
   })
   responseTo: mongoose.Schema.Types.ObjectId;
 }
