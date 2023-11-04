@@ -49,6 +49,7 @@ export class FriendService {
 
     try {
       //TODO:falta agregar sorting de como traigo el listado
+      //TODO ver tema updates notificaciones que en api v1 es diferente
       const friends = await this.friendModel
         .find({ userId: user.id })
         .limit(limit)

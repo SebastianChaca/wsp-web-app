@@ -12,8 +12,20 @@ export class MessageService {
     @InjectModel(Message.name)
     private readonly messageModel: Model<Message>,
   ) {}
-  create(createMessageDto: CreateMessageDto) {
-    return 'This action adds a new message';
+  async create(createMessageDto: CreateMessageDto) {
+    this.logger.log('create message');
+    const { to, from, message } = createMessageDto;
+    try {
+      const createMessage = await this.messageModel.create({
+        to,
+        from,
+        message,
+      });
+      return createMessage;
+    } catch (error) {
+      this.logger.error('create message error');
+      throw error;
+    }
   }
 
   findAll() {

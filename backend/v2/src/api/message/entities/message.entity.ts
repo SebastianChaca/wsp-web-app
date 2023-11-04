@@ -54,5 +54,23 @@ export class Message {
   })
   @Prop({ required: true })
   message: string;
+
+  @ApiProperty({
+    description: 'chat message status',
+    example: false,
+  })
+  @Prop({ default: false, required: false })
+  seen: boolean;
+
+  @ApiProperty({
+    description: 'response to message',
+    example: 'hi !',
+  })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Message',
+    required: false,
+  })
+  responseTo: mongoose.Schema.Types.ObjectId;
 }
 export const MessageSchema = SchemaFactory.createForClass(Message);

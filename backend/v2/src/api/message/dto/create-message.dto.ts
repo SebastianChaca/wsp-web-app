@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
 export class CreateMessageDto {
   @ApiProperty({
@@ -22,4 +22,20 @@ export class CreateMessageDto {
   })
   @IsString()
   message: string;
+
+  @ApiProperty({
+    description: 'chat message status',
+    example: false,
+  })
+  @IsBoolean()
+  @IsOptional()
+  seen?: boolean;
+
+  @ApiProperty({
+    description: 'response to message',
+    example: 'hi !',
+  })
+  @IsString()
+  @IsOptional()
+  responseTo?: string;
 }

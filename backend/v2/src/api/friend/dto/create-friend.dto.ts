@@ -36,5 +36,5 @@ export class CreateFriendDto {
   @IsNumber()
   @IsInt()
   @IsIn([0, 1, 2])
-  status: number;
+  status?: number;
 }
