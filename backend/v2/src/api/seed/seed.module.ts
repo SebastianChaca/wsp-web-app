@@ -6,10 +6,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '../user/entities/user.entity';
 import { Message, MessageSchema } from '../message/entities/message.entity';
 import { Friend, FriendSchema } from '../friend/entities/friend.entity';
+import { UserService } from '../user/user.service';
 
 @Module({
   controllers: [SeedController],
-  providers: [SeedService],
+  providers: [SeedService, UserService],
   imports: [
     AuthModule,
     MongooseModule.forFeature([
