@@ -5,12 +5,10 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
   Query,
 } from '@nestjs/common';
 import { MessageService } from './message.service';
 import { CreateMessageDto } from './dto/create-message.dto';
-import { UpdateMessageDto } from './dto/update-message.dto';
 import { Auth } from '../auth/decorators/auth.decorator';
 import { ApiTags } from '@nestjs/swagger';
 import {
@@ -21,6 +19,8 @@ import { GetUser } from '../auth/decorators/get-user.decorator';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { User } from '../user/entities/user.entity';
 import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe';
+import { UpdateMessageSeen } from './dto/update-message-seen.dto';
+import { UpdatMessageSeenSwagger } from './swagger/controller/updateMessageSeenSwagger.decorator';
 
 @ApiTags('message')
 @Controller('message')
@@ -45,18 +45,13 @@ export class MessageController {
     return this.messageService.findAll(user, id, paginationDto);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.messageService.findOne(+id);
-  // }
-
+  @UpdatMessageSeenSwagger()
+  @Auth()
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMessageDto: UpdateMessageDto) {
-    return this.messageService.update(+id, updateMessageDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.messageService.remove(+id);
+  update(
+    @Param('id') id: string,
+    @Body() updateMessageSeen: UpdateMessageSeen,
+  ) {
+    return this.messageService.update(id, updateMessageSeen);
   }
 }

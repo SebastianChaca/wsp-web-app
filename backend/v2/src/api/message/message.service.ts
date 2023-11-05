@@ -1,11 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CreateMessageDto } from './dto/create-message.dto';
-import { UpdateMessageDto } from './dto/update-message.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Message } from './entities/message.entity';
 import { Model } from 'mongoose';
 import { User } from '../user/entities/user.entity';
 import { PaginationDto } from '../../common/dto/pagination.dto';
+import { UpdateMessageSeen } from './dto/update-message-seen.dto';
 
 @Injectable()
 export class MessageService {
@@ -53,16 +53,22 @@ export class MessageService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} message`;
+  async update(id: string, updateMessageSeen: UpdateMessageSeen) {
+    this.logger.log('update message');
+    try {
+      const updatedMessage = await this.messageModel.findOneAndUpdate(
+        { _id: id },
+        updateMessageSeen,
+        { new: true },
+      );
+      return updatedMessage;
+    } catch (error) {
+      this.logger.error('update message seen status error');
+      throw error;
+    }
   }
 
-  update(id: number, updateMessageDto: UpdateMessageDto) {
-    //TODO update para marcar como visto
-    return `This action updates a #${id} message`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} message`;
-  }
+  // remove(id: number) {
+  //   return `This action removes a #${id} message`;
+  // }
 }
