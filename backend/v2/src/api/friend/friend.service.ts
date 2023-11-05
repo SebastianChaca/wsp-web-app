@@ -56,7 +56,7 @@ export class FriendService {
         .find({ userId: user.id })
         .limit(limit)
         .skip(offset)
-        .populate('friendId', '-roles')
+        .populate('friendId', '-roles -password')
         .select('-userId')
         .sort({ updatedAt: 'desc' });
 
@@ -77,7 +77,7 @@ export class FriendService {
 
           return {
             ...f.toObject(),
-            lastMessage: findMessages?.toJSON(),
+            lastMessage: findMessages && findMessages.toJSON(),
           };
         }
       });

@@ -6,7 +6,8 @@ export function FindFriendsSwaggerDecorator() {
   return applyDecorators(
     ApiResponse({
       status: 200,
-      description: 'list of user friends',
+      description:
+        'get list of user friends with the last message between them',
       type: Friend,
     }),
   );
