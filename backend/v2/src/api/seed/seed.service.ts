@@ -1,5 +1,5 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { UserService } from '../user/user.service';
+import { Injectable } from '@nestjs/common';
+
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../user/entities/user.entity';
 import { Model } from 'mongoose';
@@ -10,8 +10,6 @@ import { Message } from '../message/entities/message.entity';
 @Injectable()
 export class SeedService {
   constructor(
-    @Inject(UserService)
-    private readonly userService: UserService,
     @InjectModel(User.name)
     private readonly userModel: Model<User>,
     @InjectModel(Friend.name)
@@ -22,17 +20,17 @@ export class SeedService {
   async create() {
     try {
       await this.emptyDB();
-      await this.createUsers();
+      await this.createSeed();
       return 'ok';
     } catch (error) {
       throw error;
     }
   }
 
-  async createUsers() {
+  async createSeed() {
     try {
       const createUsers = users.map(
-        async (user) => await this.userService.create(user),
+        async (user) => await this.userModel.create(user),
       );
       const usersDB = await Promise.all(createUsers);
       const findTestUser = usersDB.find(
@@ -48,7 +46,6 @@ export class SeedService {
       });
       await Promise.all(addFriendsToTestUser);
     } catch (error) {
-      console.log(error);
       throw error;
     }
   }
@@ -59,7 +56,7 @@ export class SeedService {
       await this.friendModel.deleteMany();
       await this.messageModel.deleteMany();
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   }
 }
