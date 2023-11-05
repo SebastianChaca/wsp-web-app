@@ -16,5 +16,6 @@ import { AuthModule } from '../auth/auth.module';
     ]),
     AuthModule,
   ],
+  exports: [MessageService],
 })
 export class MessageModule {}

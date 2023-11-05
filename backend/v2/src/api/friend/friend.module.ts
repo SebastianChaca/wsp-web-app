@@ -18,5 +18,6 @@ import { Friend, FriendSchema } from './entities/friend.entity';
     ]),
     AuthModule,
   ],
+  exports: [FriendService],
 })
 export class FriendModule {}
