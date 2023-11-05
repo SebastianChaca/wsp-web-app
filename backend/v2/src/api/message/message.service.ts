@@ -58,7 +58,7 @@ export class MessageService {
   }
 
   update(id: number, updateMessageDto: UpdateMessageDto) {
-    console.log(updateMessageDto);
+    //TODO update para marcar como visto
     return `This action updates a #${id} message`;
   }
 

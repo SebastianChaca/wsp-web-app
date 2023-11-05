@@ -6,6 +6,7 @@ import { Friend } from './entities/friend.entity';
 import { User } from '../user/entities/user.entity';
 import { Model } from 'mongoose';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { Message } from '../message/entities/message.entity';
 
 @Injectable()
 export class FriendService {
@@ -15,6 +16,9 @@ export class FriendService {
     private readonly friendModel: Model<Friend>,
     @InjectModel(User.name)
     private readonly userModel: Model<User>,
+
+    @InjectModel(Message.name)
+    private readonly messageModel: Model<Message>,
   ) {}
 
   async create(createFriendDto: CreateFriendDto, user: User) {
@@ -48,16 +52,36 @@ export class FriendService {
     const { limit = 10, offset = 0 } = paginationDto;
 
     try {
-      //TODO:falta agregar sorting de como traigo el listado
-      //TODO ver tema updates notificaciones que en api v1 es diferente
       const friends = await this.friendModel
         .find({ userId: user.id })
         .limit(limit)
         .skip(offset)
         .populate('friendId', '-roles')
-        .select('-userId');
+        .select('-userId')
+        .sort({ updatedAt: 'desc' });
 
-      return friends;
+      const addLastMessage = friends.map(async (f) => {
+        if (typeof f !== 'string') {
+          const friendPopulated = f.friendId as unknown;
+          const friendIDD = (friendPopulated as User).id;
+          const findMessages = await this.messageModel
+            .findOne({
+              $or: [
+                { from: user.id, to: friendIDD },
+                { from: friendIDD, to: user.id },
+              ],
+            })
+            .sort({ createdAt: 'desc' })
+            .select('-responseTo')
+            .limit(1);
+
+          return {
+            ...f.toObject(),
+            lastMessage: findMessages?.toJSON(),
+          };
+        }
+      });
+      return await Promise.all(addLastMessage);
     } catch (error) {
       this.logger.error('search friends error');
       throw error;
