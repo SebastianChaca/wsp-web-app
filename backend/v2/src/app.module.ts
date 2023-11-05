@@ -9,6 +9,7 @@ import { CommonModule } from './common/common.module';
 import { LoggerModule } from 'nestjs-pino';
 import { FriendModule } from './api/friend/friend.module';
 import { MessageModule } from './api/message/message.module';
+import { SeedModule } from './api/seed/seed.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -31,6 +32,7 @@ import { MessageModule } from './api/message/message.module';
     }),
     FriendModule,
     MessageModule,
+    SeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
