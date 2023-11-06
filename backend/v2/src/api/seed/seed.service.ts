@@ -8,6 +8,7 @@ import { Friend } from '../friend/entities/friend.entity';
 import { Message } from '../message/entities/message.entity';
 import { messages } from './data/messages';
 import { UserService } from '../user/user.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class SeedService {
@@ -20,20 +21,24 @@ export class SeedService {
     private readonly friendModel: Model<Friend>,
     @InjectModel(Message.name)
     private readonly messageModel: Model<Message>,
+    private readonly configService: ConfigService,
   ) {}
   async create() {
-    try {
-      await this.emptyDB();
-      await this.createSeed();
-      return 'ok';
-    } catch (error) {
-      throw error;
+    if (this.configService.get('NODE_ENV') === 'development') {
+      try {
+        await this.emptyDB();
+        await this.createSeed();
+        return 'ok';
+      } catch (error) {
+        throw error;
+      }
+    } else {
+      return 'Seed only works in development mode';
     }
   }
 
   async createSeed() {
     try {
-      //TODO: esta mal, hay que hashear el pass
       const createUsers = users.map(
         async (user) => await this.userService.create(user),
       );
@@ -60,11 +65,10 @@ export class SeedService {
       });
       await Promise.all(addFriendsToTestUser);
       await Promise.all(addTestUserToFriendList);
-      //TODO: crear seed de mensajes
+
       const seedMessages = messages();
 
       const createMessages = seedMessages.map(async (msg, index) => {
-        console.log(msg);
         if (index % 2 === 0) {
           return await this.messageModel.create({
             to: findFriend.id,

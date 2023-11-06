@@ -4,22 +4,40 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './api/user/user.module';
 import { AuthModule } from './api/auth/auth.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
 import { LoggerModule } from 'nestjs-pino';
 import { FriendModule } from './api/friend/friend.module';
 import { MessageModule } from './api/message/message.module';
 import { SeedModule } from './api/seed/seed.module';
+import { configuration } from '../config/configuration';
+import { validationSchema } from 'config/validation';
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(process.env.MONGO_DB),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      //TODO: ver como usar esto
+      envFilePath: `${process.cwd()}/config/${process.env.NODE_ENV}/.env.${
+        process.env.NODE_ENV
+      }`,
+      load: [configuration],
+      validationSchema: validationSchema,
+    }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        return {
+          uri: configService.get<string>('MONGO_DB'),
+        };
+      },
+    }),
     UserModule,
     AuthModule,
     CommonModule,
     LoggerModule.forRoot({
       pinoHttp: {
-        customProps: (req, res) => ({
+        customProps: () => ({
           context: 'HTTP',
         }),
         transport: {
@@ -37,4 +55,12 @@ import { SeedModule } from './api/seed/seed.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    console.log(
+      `${process.cwd()}/config/${process.env.NODE_ENV}/.env.${
+        process.env.NODE_ENV
+      }`,
+    );
+  }
+}

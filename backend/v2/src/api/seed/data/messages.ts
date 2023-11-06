@@ -7,4 +7,3 @@ export const messages = () => {
   }
   return arrayOfObjects;
 };
-console.log(messages());
