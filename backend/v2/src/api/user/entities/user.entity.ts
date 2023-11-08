@@ -75,7 +75,7 @@ export class User {
   @ApiProperty({
     example: '[admin]',
     description: 'user roles',
-    enum: ['admin', 'user', 'super-user'],
+    enum: ['admin', 'user', 'super-admin'],
   })
   @Prop({ default: ['user'] })
   roles: string[];
@@ -85,6 +85,9 @@ export class User {
 }
 export const UserSchema = SchemaFactory.createForClass(User);
 
-// UserSchema.virtual('test').get(function () {
-//   return this.email;
-// });
+UserSchema.virtual('isAdmin').get(function () {
+  return this.roles.includes('admin');
+});
+UserSchema.virtual('isSuperAdmin').get(function () {
+  return this.roles.includes('super-admin');
+});

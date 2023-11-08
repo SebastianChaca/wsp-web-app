@@ -53,9 +53,6 @@ export class Friend {
   })
   friendId: mongoose.Schema.Types.ObjectId;
 
-  //   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Message' })
-  //   lasMessage: Message;
-
   @ApiProperty({
     example: 1,
     description: 'number of notifications messages pending to read',
@@ -79,3 +76,13 @@ export class Friend {
 }
 
 export const FriendSchema = SchemaFactory.createForClass(Friend);
+
+FriendSchema.virtual('isPending').get(function () {
+  return this.status === 0;
+});
+FriendSchema.virtual('isAccepted').get(function () {
+  return this.status === 1;
+});
+FriendSchema.virtual('isBlocked').get(function () {
+  return this.status === 2;
+});
