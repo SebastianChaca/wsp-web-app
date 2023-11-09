@@ -90,6 +90,10 @@ export class AuthService {
     if (!user) throw new BadRequestException('Invalid token or expired');
     user.password = this.hasPassword(password);
     user.passwordChangedAt = new Date(Date.now());
+    user.passwordResetToken = null;
+    user.passwordResetExpires = null;
+
+    user.save();
 
     const userObj = user.toObject();
     delete userObj.password;
