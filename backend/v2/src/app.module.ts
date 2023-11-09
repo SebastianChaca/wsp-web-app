@@ -10,14 +10,18 @@ import { LoggerModule } from 'nestjs-pino';
 import { FriendModule } from './api/friend/friend.module';
 import { MessageModule } from './api/message/message.module';
 import { SeedModule } from './api/seed/seed.module';
-import { configuration } from '../config/configuration';
+import {
+  configuration,
+  emailSenderConfiguration,
+} from '../config/configuration';
 import { validationSchema } from 'config/validation';
+import { SendEmailModule } from './api/send-email/send-email.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: `${process.cwd()}/config/.env.${process.env.NODE_ENV}`,
-      load: [configuration],
+      load: [configuration, emailSenderConfiguration],
       validationSchema: validationSchema,
     }),
     MongooseModule.forRootAsync({
@@ -48,16 +52,9 @@ import { validationSchema } from 'config/validation';
     FriendModule,
     MessageModule,
     SeedModule,
+    SendEmailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-  constructor() {
-    console.log(
-      `${process.cwd()}/config/${process.env.NODE_ENV}/.env.${
-        process.env.NODE_ENV
-      }`,
-    );
-  }
-}
+export class AppModule {}

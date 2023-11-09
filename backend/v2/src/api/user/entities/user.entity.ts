@@ -77,17 +77,35 @@ export class User {
     description: 'user roles',
     enum: ['admin', 'user', 'super-admin'],
   })
-  @Prop({ default: ['user'] })
-  roles: string[];
+  @Prop({ default: 'user', enum: ['user', 'admin', 'super-admin'] })
+  roles: string;
 
   createdAt: Date;
   updatedAt: Date;
+
+  @ApiProperty({
+    example: 'sdasdasdasdasd',
+    description: 'token for password change',
+  })
+  @Prop()
+  passwordResetToken: string;
+
+  @ApiProperty({
+    description: 'date of the password change',
+  })
+  @Prop()
+  passwordChangedAt: Date;
+  @ApiProperty({
+    description: 'date when the token expires',
+  })
+  @Prop()
+  passwordResetExpires: Date;
 }
 export const UserSchema = SchemaFactory.createForClass(User);
 
 UserSchema.virtual('isAdmin').get(function () {
-  return this.roles.includes('admin');
+  return this.roles === 'admin';
 });
 UserSchema.virtual('isSuperAdmin').get(function () {
-  return this.roles.includes('super-admin');
+  return this.roles === 'super-admin';
 });

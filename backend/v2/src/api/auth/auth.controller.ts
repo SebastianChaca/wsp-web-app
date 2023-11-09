@@ -6,6 +6,7 @@ import { GetUser } from './decorators/get-user.decorator';
 import { User } from 'src/api/user/entities/user.entity';
 import { ApiTags } from '@nestjs/swagger';
 import { LoginSwaggerDecorator, RefreshSwaggerDecorator } from './swagger';
+
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
@@ -22,5 +23,10 @@ export class AuthController {
   @RefreshSwaggerDecorator()
   checkAuthStatus(@GetUser() user: User) {
     return this.authService.checkAuthStatus(user);
+  }
+
+  @Post('resetpassword')
+  resetPassword(@Body() email: { email: string }) {
+    return this.authService.resetPassword(email);
   }
 }
