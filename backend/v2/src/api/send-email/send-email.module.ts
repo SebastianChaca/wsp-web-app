@@ -5,10 +5,12 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { googleGmailTransporter } from './utils/googleGmailTransporter';
 import { DEVELOPMENT, NODE_ENV } from 'src/common/constants/envvars';
+import { AuthModule } from '../auth/auth.module';
 @Module({
   controllers: [SendEmailController],
   providers: [SendEmailService],
   imports: [
+    AuthModule,
     ConfigModule,
     MailerModule.forRootAsync({
       imports: [ConfigModule],

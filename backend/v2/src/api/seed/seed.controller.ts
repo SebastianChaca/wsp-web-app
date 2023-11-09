@@ -8,7 +8,7 @@ export class SeedController {
 
   @ApiResponse({
     description:
-      'generetas user, friends and message using resoruces from data folder inside seed module',
+      'generetes user, friends and message using resoruces from data folder inside seed module',
   })
   @Post()
   create() {
