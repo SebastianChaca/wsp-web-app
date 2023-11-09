@@ -1,11 +1,18 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from './dto/login-user.dto copy';
 import { Auth } from './decorators/auth.decorator';
 import { GetUser } from './decorators/get-user.decorator';
 import { User } from 'src/api/user/entities/user.entity';
 import { ApiTags } from '@nestjs/swagger';
-import { LoginSwaggerDecorator, RefreshSwaggerDecorator } from './swagger';
+import {
+  ForgoPasswordSwaggerDecorator,
+  LoginSwaggerDecorator,
+  RefreshSwaggerDecorator,
+  ResetPasswordSwaggerDecorator,
+} from './swagger';
+import { TokenDto } from 'src/common/dto/token.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -25,8 +32,18 @@ export class AuthController {
     return this.authService.checkAuthStatus(user);
   }
 
+  @ForgoPasswordSwaggerDecorator()
+  @Post('forgotpassword')
+  forgotPassword(@Body() email: { email: string }) {
+    return this.authService.forgotPassword(email);
+  }
+
+  @ResetPasswordSwaggerDecorator()
   @Post('resetpassword')
-  resetPassword(@Body() email: { email: string }) {
-    return this.authService.resetPassword(email);
+  resetpassword(
+    @Query() tokenDto: TokenDto,
+    @Body() resetPasswordDto: ResetPasswordDto,
+  ) {
+    return this.authService.resetPassword(tokenDto, resetPasswordDto);
   }
 }

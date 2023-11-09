@@ -7,10 +7,11 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/api/user/entities/user.entity';
+import { SendEmailService } from '../send-email/send-email.service';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, SendEmailService],
   exports: [JwtStrategy, PassportModule, JwtModule, AuthService],
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),

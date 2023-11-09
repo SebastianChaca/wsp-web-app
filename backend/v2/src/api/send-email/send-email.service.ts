@@ -6,6 +6,7 @@ import {
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { EmailDto } from 'src/common/dto/email.dto';
+import { SendEmail } from 'src/common/interfaces/sendEmail.interface';
 @Injectable()
 export class SendEmailService {
   private readonly logger = new Logger('mailer');
@@ -13,7 +14,7 @@ export class SendEmailService {
     private readonly mailerService: MailerService,
     private readonly configService: ConfigService,
   ) {}
-  sendEmail(to: string, text: string, subject: string) {
+  sendEmail({ to, text, subject }: SendEmail) {
     this.logger.log('send email');
     try {
       this.mailerService.sendMail({
@@ -30,6 +31,19 @@ export class SendEmailService {
 
   userCreationEmail(emailDto: EmailDto) {
     const { email } = emailDto;
-    return this.sendEmail(email, 'Bienvenido', 'Bienvenido');
+    return this.sendEmail({
+      to: email,
+      text: 'Bienvenido !',
+      subject: 'subject',
+    });
+  }
+
+  resetPasswordEmail(emailDto: EmailDto, token: string) {
+    const { email } = emailDto;
+    return this.sendEmail({
+      to: email,
+      text: `Token: ${token}`,
+      subject: 'subject',
+    });
   }
 }

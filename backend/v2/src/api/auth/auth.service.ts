@@ -3,6 +3,7 @@ import {
   UnauthorizedException,
   Logger,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { createHash, randomBytes } from 'crypto';
@@ -12,6 +13,10 @@ import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { LoginUserDto } from './dto/login-user.dto copy';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { EmailDto } from 'src/common/dto/email.dto';
+import { SendEmailService } from '../send-email/send-email.service';
+import { TokenDto } from 'src/common/dto/token.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -20,6 +25,7 @@ export class AuthService {
     @InjectModel(User.name)
     private readonly userModel: Model<User>,
     private readonly jwtService: JwtService,
+    private readonly sendEmailService: SendEmailService,
   ) {}
   hasPassword(password: string) {
     return hashSync(password, 10);
@@ -52,20 +58,51 @@ export class AuthService {
     return { ...user, token: this.getJwtToken({ id: user.id }) };
   }
 
-  async resetPassword(emailDto: { email: string }) {
+  async forgotPassword(emailDto: EmailDto) {
     const { email } = emailDto;
     const user = await this.userModel.findOne({ email });
     if (!user) throw new NotFoundException('user not found');
 
-    user.passwordResetToken = this.createHashedToken();
+    const createToken = this.createToken();
+    user.passwordResetToken = this.createHashedToken(createToken);
     //10 minutes
     const timestamp = Date.now() + 10 * 60 * 1000; // Calculate the timestamp
     user.passwordResetExpires = new Date(timestamp);
     user.save();
+
+    this.sendEmailService.resetPasswordEmail({ email }, createToken);
+
+    return {
+      message: 'Reset token password has been sent',
+    };
   }
 
-  createHashedToken() {
-    const resetToken = randomBytes(32).toString('hex');
+  async resetPassword(tokenDto: TokenDto, resetpasswordDto: ResetPasswordDto) {
+    const { token } = tokenDto;
+    const { password } = resetpasswordDto;
+    const hashedToken = this.createHashedToken(token);
+
+    const user = await this.userModel.findOne({
+      passwordResetToken: hashedToken,
+      passwordResetExpires: { $gt: Date.now() },
+    });
+
+    if (!user) throw new BadRequestException('Invalid token or expired');
+    user.password = this.hasPassword(password);
+    user.passwordChangedAt = new Date(Date.now());
+
+    const userObj = user.toObject();
+    delete userObj.password;
+    return {
+      ...userObj,
+      token: this.getJwtToken({ id: user.id }),
+    };
+  }
+
+  createToken() {
+    return randomBytes(32).toString('hex');
+  }
+  createHashedToken(resetToken: string) {
     const hashedToken = createHash('sha256').update(resetToken).digest('hex');
 
     return hashedToken;
