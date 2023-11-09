@@ -13,6 +13,7 @@ import { SeedModule } from './api/seed/seed.module';
 import {
   configuration,
   emailSenderConfiguration,
+  gmailConfiguration,
 } from '../config/configuration';
 import { validationSchema } from 'config/validation';
 import { SendEmailModule } from './api/send-email/send-email.module';
@@ -21,7 +22,7 @@ import { SendEmailModule } from './api/send-email/send-email.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: `${process.cwd()}/config/.env.${process.env.NODE_ENV}`,
-      load: [configuration, emailSenderConfiguration],
+      load: [configuration, emailSenderConfiguration, gmailConfiguration],
       validationSchema: validationSchema,
     }),
     MongooseModule.forRootAsync({

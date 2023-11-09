@@ -9,6 +9,7 @@ import { Message } from '../message/entities/message.entity';
 import { messages } from './data/messages';
 import { UserService } from '../user/user.service';
 import { ConfigService } from '@nestjs/config';
+import { DEVELOPMENT, NODE_ENV } from 'src/common/constants/envvars';
 
 @Injectable()
 export class SeedService {
@@ -24,7 +25,7 @@ export class SeedService {
     private readonly configService: ConfigService,
   ) {}
   async create() {
-    if (this.configService.get('NODE_ENV') === 'development') {
+    if (this.configService.get(NODE_ENV) === DEVELOPMENT) {
       try {
         await this.emptyDB();
         await this.createSeed();
