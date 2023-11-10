@@ -6,6 +6,7 @@ export const configuration = () => ({
     secret: process.env.JWT_SECRET_KEY,
     expiresIn: process.env.JWT_EXPIRES_IN,
   },
+  WEBAPP_URL: process.env.WEBAPP_URL,
 });
 
 export const emailSenderConfiguration = () => ({

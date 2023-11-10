@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from './entities/user.entity';
 import { Model } from 'mongoose';
 import { AuthService } from 'src/api/auth/auth.service';
+import { SendEmailService } from '../send-email/send-email.service';
 
 @Injectable()
 export class UserService {
@@ -12,16 +13,19 @@ export class UserService {
     @InjectModel(User.name)
     private readonly userModel: Model<User>,
     private readonly authService: AuthService,
+    private readonly sendEmailServide: SendEmailService,
   ) {}
   async create(createUserDto: CreateUserDto) {
     try {
       this.logger.log('Create user');
-      createUserDto.password = this.authService.hasPassword(
+      createUserDto.password = this.authService.hashPassword(
         createUserDto.password,
       );
       const user = await this.userModel.create(createUserDto);
       const userObj = user.toObject();
       delete userObj.password;
+      this.sendEmailServide.userCreationEmail({ email: user.email });
+      //TODO: verificar cuenta
       return {
         ...userObj,
         token: this.authService.getJwtToken({ id: user.id }),

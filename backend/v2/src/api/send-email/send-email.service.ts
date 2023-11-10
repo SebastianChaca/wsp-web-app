@@ -7,6 +7,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { EmailDto } from 'src/common/dto/email.dto';
 import { SendEmail } from 'src/common/interfaces/sendEmail.interface';
+import { resetPassword } from './templates/resetPassword';
 @Injectable()
 export class SendEmailService {
   private readonly logger = new Logger('mailer');
@@ -20,7 +21,7 @@ export class SendEmailService {
       this.mailerService.sendMail({
         from: this.configService.get('EMAIL_USER'),
         to,
-        text,
+        html: text,
         subject,
       });
     } catch (error) {
@@ -38,12 +39,15 @@ export class SendEmailService {
     });
   }
 
-  resetPasswordEmail(emailDto: EmailDto, token: string) {
+  resetPasswordEmail(emailDto: EmailDto, token: string, userName: string) {
     const { email } = emailDto;
     return this.sendEmail({
       to: email,
-      text: `Token: ${token}`,
-      subject: 'subject',
+      text: resetPassword(
+        `${this.configService.get('WEBAPP_URL')}/session/forgot?token=${token}`,
+        userName,
+      ),
+      subject: 'Reestablecer contraseña',
     });
   }
 }

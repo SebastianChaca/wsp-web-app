@@ -1,5 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
-
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../user/entities/user.entity';
 import { Model } from 'mongoose';
@@ -7,15 +6,13 @@ import { users } from './data/user';
 import { Friend } from '../friend/entities/friend.entity';
 import { Message } from '../message/entities/message.entity';
 import { messages } from './data/messages';
-import { UserService } from '../user/user.service';
 import { ConfigService } from '@nestjs/config';
 import { DEVELOPMENT, NODE_ENV } from 'src/common/constants/envvars';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class SeedService {
   constructor(
-    @Inject(UserService)
-    private readonly userService: UserService,
     @InjectModel(User.name)
     private readonly userModel: Model<User>,
     @InjectModel(Friend.name)
@@ -23,6 +20,7 @@ export class SeedService {
     @InjectModel(Message.name)
     private readonly messageModel: Model<Message>,
     private readonly configService: ConfigService,
+    private readonly authService: AuthService,
   ) {}
   async create() {
     if (this.configService.get(NODE_ENV) === DEVELOPMENT) {
@@ -40,9 +38,10 @@ export class SeedService {
 
   async createSeed() {
     try {
-      const createUsers = users.map(
-        async (user) => await this.userService.create(user),
-      );
+      const createUsers = users.map(async (user) => {
+        user.password = this.authService.hashPassword(user.password);
+        return await this.userModel.create(user);
+      });
       const usersDB = await Promise.all(createUsers);
       const testUser = usersDB.find((user) => user.email === users[0].email);
       const findFriend = usersDB.find((user) => user.email === users[1].email);

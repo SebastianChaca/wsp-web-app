@@ -27,7 +27,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly sendEmailService: SendEmailService,
   ) {}
-  hasPassword(password: string) {
+  hashPassword(password: string) {
     return hashSync(password, 10);
   }
   comparePassword(password: string, passwordModel: string) {
@@ -62,19 +62,26 @@ export class AuthService {
     const { email } = emailDto;
     const user = await this.userModel.findOne({ email });
     if (!user) throw new NotFoundException('user not found');
+    try {
+      const createToken = this.createToken();
+      user.passwordResetToken = this.createHashedToken(createToken);
+      //10 minutes
+      const timestamp = Date.now() + 10 * 60 * 1000; // Calculate the timestamp
+      user.passwordResetExpires = new Date(timestamp);
+      user.save();
 
-    const createToken = this.createToken();
-    user.passwordResetToken = this.createHashedToken(createToken);
-    //10 minutes
-    const timestamp = Date.now() + 10 * 60 * 1000; // Calculate the timestamp
-    user.passwordResetExpires = new Date(timestamp);
-    user.save();
+      this.sendEmailService.resetPasswordEmail(
+        { email },
+        createToken,
+        user.name,
+      );
 
-    this.sendEmailService.resetPasswordEmail({ email }, createToken);
-
-    return {
-      message: 'Reset token password has been sent',
-    };
+      return {
+        message: 'Reset token password has been sent',
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 
   async resetPassword(tokenDto: TokenDto, resetpasswordDto: ResetPasswordDto) {
@@ -88,7 +95,7 @@ export class AuthService {
     });
 
     if (!user) throw new BadRequestException('Invalid token or expired');
-    user.password = this.hasPassword(password);
+    user.password = this.hashPassword(password);
     user.passwordChangedAt = new Date(Date.now());
     user.passwordResetToken = null;
     user.passwordResetExpires = null;
@@ -107,8 +114,8 @@ export class AuthService {
     return randomBytes(32).toString('hex');
   }
   createHashedToken(resetToken: string) {
+    //cambiar a bcrypt
     const hashedToken = createHash('sha256').update(resetToken).digest('hex');
-
     return hashedToken;
   }
 }
