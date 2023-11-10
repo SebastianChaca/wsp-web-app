@@ -17,6 +17,7 @@ import {
 } from '../config/configuration';
 import { validationSchema } from 'config/validation';
 import { SendEmailModule } from './api/send-email/send-email.module';
+import { ThrottlerModule } from '@nestjs/throttler';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -54,6 +55,12 @@ import { SendEmailModule } from './api/send-email/send-email.module';
     MessageModule,
     SeedModule,
     SendEmailModule,
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 10,
+      },
+    ]),
   ],
   controllers: [AppController],
   providers: [AppService],
