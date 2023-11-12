@@ -18,6 +18,8 @@ import {
 import { validationSchema } from 'config/validation';
 import { SendEmailModule } from './api/send-email/send-email.module';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { EventsModule } from './events/events.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -61,6 +63,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
         limit: 10,
       },
     ]),
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

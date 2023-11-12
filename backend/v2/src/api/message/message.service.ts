@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 import { User } from '../user/entities/user.entity';
 import { PaginationDto } from '../../common/dto/pagination.dto';
 import { UpdateMessageSeen } from './dto/update-message-seen.dto';
+import { EventsGateway } from 'src/events/events.gateway';
 
 @Injectable()
 export class MessageService {
@@ -13,6 +14,7 @@ export class MessageService {
   constructor(
     @InjectModel(Message.name)
     private readonly messageModel: Model<Message>,
+    private readonly eventGateway: EventsGateway,
   ) {}
   async create(createMessageDto: CreateMessageDto) {
     this.logger.log('create message');
@@ -24,6 +26,8 @@ export class MessageService {
         message,
         responseTo,
       });
+      //socket
+      this.eventGateway.sendMessage(createMessage);
       return createMessage;
     } catch (error) {
       this.logger.error('create message error');
