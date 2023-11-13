@@ -28,7 +28,7 @@ export class MessageController {
   constructor(private readonly messageService: MessageService) {}
 
   @CreateMessageSwaggerDecorator()
-  //@Auth()
+  @Auth()
   @Post()
   create(@Body() createMessageDto: CreateMessageDto) {
     return this.messageService.create(createMessageDto);

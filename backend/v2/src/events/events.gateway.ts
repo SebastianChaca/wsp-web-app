@@ -13,12 +13,16 @@ import { JwtService } from '@nestjs/jwt';
 import { Logger, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { SocketAuthMiddleware } from 'src/api/auth/ws-jwt/ws.mw';
 import { WsJwtGuard } from 'src/api/auth/ws-jwt/ws-jwt.guard';
+import { ConfigService } from '@nestjs/config';
 
 @WebSocketGateway({ namespace: 'events' })
 @UseGuards(WsJwtGuard)
 export class EventsGateway implements OnGatewayConnection {
   private readonly logger: Logger;
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
+  ) {}
   @WebSocketServer()
   server: Server<any, ServerToClient>;
 
@@ -33,7 +37,10 @@ export class EventsGateway implements OnGatewayConnection {
   }
 
   afterInit(client: Socket) {
-    client.use(SocketAuthMiddleware(this.jwtService) as any);
+    //TODO:agregar modelo de usuario
+    client.use(
+      SocketAuthMiddleware(this.jwtService, this.configService) as any,
+    );
   }
 
   @SubscribeMessage('message')
