@@ -19,11 +19,11 @@ const SidebarEvents = ({ children }: Props) => {
   const { uid } = useAppSelector((state) => state.sessionSlice);
 
   // lista de amigos
-  useEffect(() => {
-    socket?.on('friend-list', (friends: friendsAPIResponse) => {
-      dispatch(setFriendsList(friends));
-    });
-  }, [socket, dispatch, uid]);
+  // useEffect(() => {
+  //   socket?.on('friend-list', (friends: friendsAPIResponse) => {
+  //     dispatch(setFriendsList(friends));
+  //   });
+  // }, [socket, dispatch, uid]);
 
   useEffect(() => {
     // online / offline

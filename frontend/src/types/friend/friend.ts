@@ -4,7 +4,7 @@ import {
   serverMessageResponse,
   serverMessageResponseNotPopulated,
 } from '../message/message';
-import { user } from '../session/session';
+import { user, userFromServer } from '../session/session';
 
 export interface friend {
   user: user;
@@ -18,7 +18,7 @@ export interface friend {
 }
 
 export interface friendFromApi {
-  user: user;
+  user: userFromServer;
   notifications: number;
   status: number;
   isRequesting: boolean;

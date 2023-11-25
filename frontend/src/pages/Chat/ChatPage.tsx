@@ -10,6 +10,7 @@ import { getMessages } from '../../services/messages/getMessages';
 
 import { useFriend } from '../../redux/chat/selectors';
 import { setActiveChat } from '../../redux/activeChat/activeChatSlice';
+import { getFriends } from '../../services/friends';
 
 const ChatPage = () => {
   const { friendId } = useAppSelector((state) => state.chatSlice);
@@ -18,6 +19,12 @@ const ChatPage = () => {
   const activeChatSelected = friendId;
 
   const dispatch = useAppDispatch();
+
+  // TODO:cambiar el get de listado de amigos de socket a api rest aca
+  useEffect(() => {
+    console.log('getfriends');
+    dispatch(getFriends());
+  }, [dispatch]);
 
   useEffect(() => {
     if (activeChatSelected) {

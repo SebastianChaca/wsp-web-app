@@ -59,8 +59,8 @@ const AddFriendModal = ({ isOpen, onClose }: Props) => {
                   // pongo al amigo agregado  primero en la lista de amigos
                   dispatch(addFierndToList(friend));
                   onClose();
-                  if (friend.user.uid) {
-                    dispatch(setFriendId(friend.user.uid));
+                  if (friend.user.id) {
+                    dispatch(setFriendId(friend.user.id));
                   }
                   // TODO: cuando seteo el active chat no me hace focus en el input
                 }

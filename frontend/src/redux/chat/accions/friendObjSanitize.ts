@@ -6,7 +6,7 @@ export const friendObjSanitize = (payload: friendFromApi): friend => {
     user: {
       email: payload.user.email,
       name: capitalizeFirstLetter(payload.user.name),
-      uid: payload.user.uid,
+      uid: payload.user.id,
       online: payload.user.online,
       lastActive: payload.user.lastActive,
     },

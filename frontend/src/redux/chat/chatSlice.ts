@@ -18,6 +18,7 @@ import {
   updateLastMessageSeen,
   friendObjSanitize,
 } from './accions';
+import { getFriends } from '../../services/friends/getFriends';
 
 const initialState: ChatState = {
   messages: [],
@@ -36,8 +37,8 @@ export const chatSlice = createSlice({
       state.friendId = action.payload;
     },
     setFriendsList: (state, action: PayloadAction<friendsAPIResponse>) => {
-      state.friends = updateFriendList(action.payload);
-      state.friendsLoading = false;
+      // state.friends = updateFriendList(action.payload);
+      // state.friendsLoading = false;
     },
     setFriendIsTyping: (state, action: PayloadAction<message>) => {
       state.friends = updateFriendIsTyping(state.friends, action.payload);
@@ -71,7 +72,7 @@ export const chatSlice = createSlice({
     },
     addFierndToList: (state, action: PayloadAction<friendFromApi>) => {
       const checkIfFriendExists = state.friends?.find(
-        (f) => f.user.uid === action.payload.user.uid
+        (f) => f.user.uid === action.payload.user.id
       );
       if (!checkIfFriendExists) {
         state.friends?.unshift(friendObjSanitize(action.payload));
@@ -94,6 +95,7 @@ export const chatSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // get messages
       .addCase(
         getMessages.fulfilled,
         (state, action: PayloadAction<messageUI[]>) => {
@@ -108,6 +110,7 @@ export const chatSlice = createSlice({
         state.error = 'error';
         state.messagesLoading = false;
       })
+      // add friends
       .addCase(addFriend.fulfilled, (state, action) => {
         state.friends?.unshift(friendObjSanitize(action.payload));
         state.isLoading = false;
@@ -117,6 +120,18 @@ export const chatSlice = createSlice({
       })
       .addCase(addFriend.rejected, (state, action) => {
         state.isLoading = false;
+        state.error = action.error.message!;
+      })
+      // get friends list
+      .addCase(
+        getFriends.fulfilled,
+        (state, action: PayloadAction<friendFromApi[]>) => {
+          state.friends = updateFriendList(action.payload);
+          state.friendsLoading = false;
+        }
+      )
+      .addCase(getFriends.rejected, (state, action) => {
+        state.friendsLoading = false;
         state.error = action.error.message!;
       });
   },

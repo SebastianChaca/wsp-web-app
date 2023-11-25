@@ -17,8 +17,7 @@ export const App = () => {
     if (token) {
       dispatch(refreshToken());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch, token]);
 
   return (
     <ChakraProvider theme={theme}>

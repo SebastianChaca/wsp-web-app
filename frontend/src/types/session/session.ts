@@ -15,7 +15,7 @@ export interface userFromServer {
   name: string;
   email: string;
   online: boolean;
-  lastActive: Date | null;
+  lastActive: string;
   isActive: boolean;
   roles: string;
   createdAt: Date;
