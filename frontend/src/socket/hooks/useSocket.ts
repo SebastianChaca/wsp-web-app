@@ -1,21 +1,21 @@
 import { useCallback, useEffect, useState } from 'react';
-import io, { Socket } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 
 export const useSocket = () => {
   const [online, setOnline] = useState(false);
+
   const [socket, setSocket] = useState<Socket | null>(null);
   // TODO: revisar tema desconectar sockets e implementacion de tipado
   // https://socket.io/how-to/use-with-react
   // https://socket.io/docs/v4/typescript/
   const conectarSocket = useCallback((token: string) => {
-    const socketTemp = io(`${process.env.REACT_APP_API_URL}/events` || '', {
+    const socketTemp = io(`${process.env.REACT_APP_API_URL}/events`, {
       transports: ['websocket'],
-      //  autoConnect: true,
+      autoConnect: true,
       // TODO:revisar esto
       // forceNew: true,
-      query: {
-        auth: token,
-      },
+
+      query: { token },
     });
 
     setSocket(socketTemp);
@@ -30,7 +30,14 @@ export const useSocket = () => {
   }, [socket]);
 
   useEffect(() => {
-    socket?.on('connect', () => setOnline(true));
+    socket?.on('connect_error', (err) => {
+      console.log(err);
+      console.log(`connect_error due to ${err.message}`);
+    });
+    socket?.on('connect', () => {
+      console.log('conectado');
+      setOnline(true);
+    });
   }, [socket]);
 
   useEffect(() => {

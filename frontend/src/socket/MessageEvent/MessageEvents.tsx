@@ -27,6 +27,7 @@ const MessageEvents = ({ children }: Props) => {
   // mensaje personal
   useEffect(() => {
     socket?.on('personal-message', (messagePayload: serverMessageResponse) => {
+      // todo: mover el sanitize al redux
       const sanitMsg = sanitizeMessage(messagePayload);
       dispatch(setMessages(sanitMsg));
     });
