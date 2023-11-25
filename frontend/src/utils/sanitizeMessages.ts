@@ -12,13 +12,13 @@ export const sanitizeMessages = (messages: serverMessageResponse[]) => {
         message: msg.message,
         date: msg.createdAt,
         seen: msg.seen,
-        id: msg._id,
+        id: msg.id,
         parseDate: capitalizeFirstLetter(formatDateMessage(msg.createdAt)),
         nameTo: capitalizeFirstLetter(msg.to.name),
         emailTo: msg.to.email ?? '',
         responseTo: msg.responseTo
           ? {
-              id: msg.responseTo._id ?? '',
+              id: msg.responseTo.id ?? '',
               from: msg.from.id,
               to: msg.to.id,
               nameTo: msg.to.name,
@@ -39,12 +39,12 @@ export const sanitizeMessage = (message: serverMessageResponse) => {
     from: message.from.id,
     date: message.createdAt,
     seen: message.seen,
-    id: message._id,
+    id: message.id,
     parseDate: capitalizeFirstLetter(formatDateMessage(message.createdAt)),
     nameTo: capitalizeFirstLetter(message.to.name),
     responseTo: message.responseTo
       ? {
-          id: message.responseTo._id ?? '',
+          id: message.responseTo.id ?? '',
           from: message.from.id,
           to: message.to.id,
           nameTo: message.to.name,

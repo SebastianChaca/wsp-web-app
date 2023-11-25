@@ -8,10 +8,12 @@ interface FriendApiResponse {
 
 export const aceptFriend = async (friendId: { friendId: string }) => {
   const response = await makePrivateRequest<FriendApiResponse>(
-    'friends/aceptfriend',
+    `friend/${friendId}`,
     {
-      data: friendId,
-      method: 'post',
+      data: {
+        status: 1,
+      },
+      method: 'patch',
     }
   );
   return response.friend;

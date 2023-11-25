@@ -8,13 +8,13 @@ export const useSocket = () => {
   // https://socket.io/how-to/use-with-react
   // https://socket.io/docs/v4/typescript/
   const conectarSocket = useCallback((token: string) => {
-    const socketTemp = io(process.env.REACT_APP_API_URL || '', {
+    const socketTemp = io(`${process.env.REACT_APP_API_URL}/events` || '', {
       transports: ['websocket'],
       //  autoConnect: true,
       // TODO:revisar esto
-      forceNew: true,
+      // forceNew: true,
       query: {
-        'x-token': token,
+        auth: token,
       },
     });
 

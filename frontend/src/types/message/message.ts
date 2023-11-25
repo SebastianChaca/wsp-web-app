@@ -41,7 +41,7 @@ export interface messageToServer extends message {
 export interface serverMessageResponse {
   updatedAt: string;
   createdAt: string;
-  _id: string;
+  id: string;
   seen: boolean;
   to: userFromServer;
   from: userFromServer;
@@ -49,7 +49,7 @@ export interface serverMessageResponse {
   responseTo?: {
     updatedAt: string;
     createdAt: string;
-    _id: string;
+    id: string;
     seen: boolean;
     to: userFromServer;
     from: userFromServer;
