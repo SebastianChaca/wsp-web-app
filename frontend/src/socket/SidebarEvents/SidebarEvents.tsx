@@ -1,13 +1,12 @@
 import { useEffect } from 'react';
 import { useSocketContext } from '../SocketContext/SocketContext';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useAppDispatch } from '../../redux/hooks';
 import {
   addFierndToList,
   setFriendIsTyping,
-  setFriendsList,
   updateFriendStatus,
 } from '../../redux/chat/chatSlice';
-import { friendsAPIResponse, friendFromApi } from '../../types/friend/friend';
+import { friendFromApi } from '../../types/friend/friend';
 import { message } from '../../types/message/message';
 
 interface Props {
@@ -16,14 +15,6 @@ interface Props {
 const SidebarEvents = ({ children }: Props) => {
   const { socket } = useSocketContext();
   const dispatch = useAppDispatch();
-  const { uid } = useAppSelector((state) => state.sessionSlice);
-
-  // lista de amigos
-  // useEffect(() => {
-  //   socket?.on('friend-list', (friends: friendsAPIResponse) => {
-  //     dispatch(setFriendsList(friends));
-  //   });
-  // }, [socket, dispatch, uid]);
 
   useEffect(() => {
     // online / offline

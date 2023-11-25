@@ -23,6 +23,8 @@ export const friendObjSanitize = (payload: friendFromApi): friend => {
       id: payload.lastMessage?._id,
     },
     isTyping: false,
-    statusIsApproved: payload.status === 1,
+    statusIsApproved: payload.isAccepted,
+    statusIsBlocked: payload.isBlocked,
+    statusIsPending: payload.isPending,
   };
 };

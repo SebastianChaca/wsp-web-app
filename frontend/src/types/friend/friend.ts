@@ -1,7 +1,5 @@
 import {
   lastMessage,
-  messageUI,
-  serverMessageResponse,
   serverMessageResponseNotPopulated,
 } from '../message/message';
 import { user, userFromServer } from '../session/session';
@@ -15,6 +13,8 @@ export interface friend {
   lastMessage: lastMessage;
   isTyping?: boolean;
   statusIsApproved: boolean;
+  statusIsPending: boolean;
+  statusIsBlocked: boolean;
 }
 
 export interface friendFromApi {
@@ -24,6 +24,9 @@ export interface friendFromApi {
   isRequesting: boolean;
   _id: string;
   lastMessage: serverMessageResponseNotPopulated;
+  isPending: boolean;
+  isAccepted: boolean;
+  isBlocked: boolean;
 }
 
 export interface friendsAPIResponse {

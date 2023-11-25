@@ -1,7 +1,4 @@
-import {
-  friendFromApi,
-  friendsAPIResponse,
-} from '../../../types/friend/friend';
+import { friendFromApi } from '../../../types/friend/friend';
 import { friendObjSanitize } from './friendObjSanitize';
 
 export const updateFriendList = (payload: friendFromApi[]) => {
