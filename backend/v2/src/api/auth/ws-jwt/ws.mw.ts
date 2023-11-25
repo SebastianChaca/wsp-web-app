@@ -16,7 +16,9 @@ export const SocketAuthMiddleware = (
 ): SocketIOModdielware => {
   return async (client, next) => {
     try {
-      const token = client?.handshake?.headers?.auth as string;
+      //const token = client?.handshake?.headers?.auth?.token as string;
+      const token = client?.handshake?.query?.token as string;
+
       const { id, iat } = jwtService.verify(token, {
         secret: configService.get('jwt.secret'),
       });

@@ -49,7 +49,7 @@ export class FriendService {
 
   async findAllFriends(user: User, paginationDto: PaginationDto) {
     this.logger.log('search friends');
-    const { limit = 10, offset = 0 } = paginationDto;
+    const { limit = 15, offset = 0 } = paginationDto;
 
     try {
       const friends = await this.friendModel

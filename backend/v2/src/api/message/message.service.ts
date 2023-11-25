@@ -26,8 +26,13 @@ export class MessageService {
         message,
         responseTo,
       });
+      await this.messageModel.populate(createMessage, [
+        { path: 'to' },
+        { path: 'from' },
+        { path: 'responseTo' },
+      ]);
       //socket
-      this.eventGateway.sendMessage(createMessage);
+      this.eventGateway.sendMessage(createMessage.toObject());
       return createMessage;
     } catch (error) {
       this.logger.error('create message error');

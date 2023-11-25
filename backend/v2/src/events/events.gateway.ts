@@ -8,7 +8,6 @@ import {
 import { WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { ServerToClient } from './interfaces/serverToclient';
-import { Message } from 'src/api/message/entities/message.entity';
 import { JwtService } from '@nestjs/jwt';
 import { Logger, UseGuards } from '@nestjs/common';
 import { SocketAuthMiddleware } from 'src/api/auth/ws-jwt/ws.mw';
@@ -17,8 +16,12 @@ import { ConfigService } from '@nestjs/config';
 import { User } from 'src/api/user/entities/user.entity';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { PopulatedMessage } from './interfaces/message-populated.interface';
 
-@WebSocketGateway({ namespace: 'events', cors: true })
+@WebSocketGateway({
+  namespace: 'events',
+  cors: true,
+})
 @UseGuards(WsJwtGuard)
 export class EventsGateway
   implements OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit
@@ -52,9 +55,10 @@ export class EventsGateway
 
   async handleConnection(client: Socket) {
     try {
-      const token = client?.handshake?.headers?.auth as string;
+      const token = client?.handshake?.query?.token as string;
       await this.findUserAndUpdateOnlineStatus(token, true);
-      client.join(this.loggedInUser.id);
+
+      client.join(this.loggedInUser.id.toString());
     } catch (error) {
       client.disconnect();
       throw error;
@@ -62,7 +66,7 @@ export class EventsGateway
   }
   async handleDisconnect(client: Socket) {
     try {
-      const token = client?.handshake?.headers?.auth as string;
+      const token = client?.handshake?.query?.token as string;
       await this.findUserAndUpdateOnlineStatus(token, false);
       this.loggedInUser = null;
       client.disconnect();
@@ -87,7 +91,7 @@ export class EventsGateway
     return 'Hello world!';
   }
 
-  sendMessage(message: Message) {
-    this.server.emit('newMessage', message);
+  sendMessage(message: PopulatedMessage) {
+    this.server.to(message.to.id.toString()).emit('personal-message', message);
   }
 }
