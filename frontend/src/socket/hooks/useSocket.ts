@@ -4,11 +4,14 @@ import io, { Socket } from 'socket.io-client';
 export const useSocket = () => {
   const [online, setOnline] = useState(false);
   const [socket, setSocket] = useState<Socket | null>(null);
-
+  // TODO: revisar tema desconectar sockets e implementacion de tipado
+  // https://socket.io/how-to/use-with-react
+  // https://socket.io/docs/v4/typescript/
   const conectarSocket = useCallback((token: string) => {
     const socketTemp = io(process.env.REACT_APP_API_URL || '', {
       transports: ['websocket'],
-      autoConnect: true,
+      //  autoConnect: true,
+      // TODO:revisar esto
       forceNew: true,
       query: {
         'x-token': token,

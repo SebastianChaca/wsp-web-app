@@ -10,18 +10,18 @@ interface SignUpProps {
 }
 
 export const signUp = (props: SignUpProps): Promise<SessionAPIResponse> =>
-  makeRequest<SessionAPIResponse>('/api/login/new', {
+  makeRequest<SessionAPIResponse>('/user', {
     data: props,
     method: 'post',
   });
 export const fetchSignUp = createAsyncThunk(
   'session/signUp',
   async (props: SignUpProps) => {
-    const response = await makeRequest<SessionAPIResponse>('/login/new', {
+    const response = await makeRequest<SessionAPIResponse>('/user', {
       data: props,
       method: 'post',
     });
-    setUser(response.token, response.usuario.uid);
+    setUser(response.token, response.user.id);
     return response;
   }
 );

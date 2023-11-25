@@ -9,19 +9,19 @@ interface SignInProps {
 }
 
 export const signIn = (props: SignInProps): Promise<SessionAPIResponse> =>
-  makeRequest<SessionAPIResponse>('/api/login', {
+  makeRequest<SessionAPIResponse>('/auth/login', {
     data: props,
     method: 'post',
   });
 export const fetchSignIn = createAsyncThunk(
   'session/login',
   async (props: SignInProps) => {
-    const response = await makeRequest<SessionAPIResponse>('login', {
+    const response = await makeRequest<SessionAPIResponse>('/auth/login', {
       data: props,
       method: 'post',
     });
 
-    setUser(response.token, response.usuario.uid);
+    setUser(response.token, response.user.id);
     return response;
   }
 );

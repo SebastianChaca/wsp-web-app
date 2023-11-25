@@ -7,8 +7,8 @@ export const sanitizeMessages = (messages: serverMessageResponse[]) => {
   return messages
     .map((msg) => {
       const messageObj: messageUI = {
-        to: msg.to._id,
-        from: msg.from._id,
+        to: msg.to.id,
+        from: msg.from.id,
         message: msg.message,
         date: msg.createdAt,
         seen: msg.seen,
@@ -19,8 +19,8 @@ export const sanitizeMessages = (messages: serverMessageResponse[]) => {
         responseTo: msg.responseTo
           ? {
               id: msg.responseTo._id ?? '',
-              from: msg.from._id,
-              to: msg.to._id,
+              from: msg.from.id,
+              to: msg.to.id,
               nameTo: msg.to.name,
               emailTo: msg.to.email,
               message: msg.responseTo.message,
@@ -35,8 +35,8 @@ export const sanitizeMessages = (messages: serverMessageResponse[]) => {
 export const sanitizeMessage = (message: serverMessageResponse) => {
   const messageObj: messageUI = {
     message: message.message,
-    to: message.to._id,
-    from: message.from._id,
+    to: message.to.id,
+    from: message.from.id,
     date: message.createdAt,
     seen: message.seen,
     id: message._id,
@@ -45,8 +45,8 @@ export const sanitizeMessage = (message: serverMessageResponse) => {
     responseTo: message.responseTo
       ? {
           id: message.responseTo._id ?? '',
-          from: message.from._id,
-          to: message.to._id,
+          from: message.from.id,
+          to: message.to.id,
           nameTo: message.to.name,
           emailTo: message.to.email,
           message: message.responseTo.message,
