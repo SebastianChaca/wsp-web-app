@@ -74,9 +74,12 @@ export class FriendService {
             .sort({ createdAt: 'desc' })
             .select('-responseTo')
             .limit(1);
-
+          const friendObject = f.toObject();
+          const userFriend = friendObject.friendId;
+          delete friendObject.friendId;
           return {
-            ...f.toObject(),
+            ...friendObject,
+            user: userFriend,
             lastMessage: findMessages && findMessages.toJSON(),
           };
         }

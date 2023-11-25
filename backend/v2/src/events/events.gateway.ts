@@ -18,7 +18,7 @@ import { User } from 'src/api/user/entities/user.entity';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
-@WebSocketGateway({ namespace: 'events' })
+@WebSocketGateway({ namespace: 'events', cors: true })
 @UseGuards(WsJwtGuard)
 export class EventsGateway
   implements OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit

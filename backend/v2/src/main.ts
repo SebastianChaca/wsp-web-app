@@ -5,6 +5,7 @@ import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  app.enableCors();
   app.useLogger(app.get(Logger));
   app.setGlobalPrefix('api/v2');
   app.useGlobalPipes(

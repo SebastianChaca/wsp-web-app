@@ -49,13 +49,13 @@ export class AuthService {
     const userObj = user.toObject();
     delete userObj.password;
     return {
-      ...userObj,
+      user: { ...userObj },
       token: this.getJwtToken({ id: user.id }),
     };
   }
 
   async checkAuthStatus(user: User) {
-    return { ...user, token: this.getJwtToken({ id: user.id }) };
+    return { user: { ...user }, token: this.getJwtToken({ id: user.id }) };
   }
 
   async forgotPassword(emailDto: EmailDto) {
