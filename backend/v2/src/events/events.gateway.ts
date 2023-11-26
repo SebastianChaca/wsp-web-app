@@ -60,7 +60,7 @@ export class EventsGateway
       { online: update.online, lastActive: update.lastActive },
       { new: true },
     );
-    return user.toObject();
+    return user;
   }
   async findUserFriendsIds(id: string) {
     const friends = await this.friendModel.find({ userId: id });
