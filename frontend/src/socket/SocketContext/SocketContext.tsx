@@ -7,21 +7,28 @@ import { useAppSelector } from '../../redux/hooks';
 interface SocketCont {
   socket: Socket | null;
   online: boolean;
+  socketErrorConnection: null | string;
 }
 const SocketContext = createContext<SocketCont>({} as SocketCont);
 interface Props {
   children: JSX.Element | JSX.Element[];
 }
 const SocketProvider = ({ children }: Props) => {
-  const { conectarSocket, desconectarSocket, socket, online } = useSocket();
+  const {
+    conectarSocket,
+    desconectarSocket,
+    socket,
+    online,
+    socketErrorConnection,
+  } = useSocket();
 
   const { token } = useAppSelector((state) => state.sessionSlice);
 
   useEffect(() => {
-    if (token) {
+    if (token && !socketErrorConnection) {
       conectarSocket(token);
     }
-  }, [token, conectarSocket]);
+  }, [token, conectarSocket, socketErrorConnection]);
 
   useEffect(() => {
     if (!token) {
@@ -31,7 +38,7 @@ const SocketProvider = ({ children }: Props) => {
 
   return (
     // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <SocketContext.Provider value={{ socket, online }}>
+    <SocketContext.Provider value={{ socket, online, socketErrorConnection }}>
       {children}
     </SocketContext.Provider>
   );

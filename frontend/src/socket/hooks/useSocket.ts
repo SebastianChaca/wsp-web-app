@@ -3,6 +3,7 @@ import { io, Socket } from 'socket.io-client';
 
 export const useSocket = () => {
   const [online, setOnline] = useState(false);
+  const [socketErrorConnection, setSocketError] = useState<string | null>(null);
 
   const [socket, setSocket] = useState<Socket | null>(null);
   // TODO: revisar tema desconectar sockets e implementacion de tipado
@@ -11,7 +12,7 @@ export const useSocket = () => {
   const conectarSocket = useCallback((token: string) => {
     const socketTemp = io(`${process.env.REACT_APP_API_URL}/events`, {
       transports: ['websocket'],
-      autoConnect: true,
+      // autoConnect: true,
       // TODO:revisar esto
       // forceNew: true,
 
@@ -23,6 +24,7 @@ export const useSocket = () => {
 
   const desconectarSocket = useCallback(() => {
     socket?.disconnect();
+    setSocket(null);
   }, [socket]);
 
   useEffect(() => {
@@ -31,10 +33,14 @@ export const useSocket = () => {
 
   useEffect(() => {
     socket?.on('connect_error', (err) => {
-      console.log(err);
-      console.log(`connect_error due to ${err.message}`);
+      console.warn(`connect_error due to ${err.message}`);
+      setSocketError(err.message);
     });
+  }, [socket]);
+
+  useEffect(() => {
     socket?.on('connect', () => {
+      setSocketError(null);
       console.log('conectado');
       setOnline(true);
     });
@@ -45,6 +51,7 @@ export const useSocket = () => {
   }, [socket]);
 
   return {
+    socketErrorConnection,
     conectarSocket,
     desconectarSocket,
     socket,

@@ -1,4 +1,4 @@
-import { Grid } from '@chakra-ui/react';
+import { Grid, Text } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import {
   LeftContainer,
@@ -11,8 +11,10 @@ import { getMessages } from '../../services/messages/getMessages';
 import { useFriend } from '../../redux/chat/selectors';
 import { setActiveChat } from '../../redux/activeChat/activeChatSlice';
 import { getFriends } from '../../services/friends';
+import { useSocketContext } from '../../socket/SocketContext/SocketContext';
 
 const ChatPage = () => {
+  const { socketErrorConnection } = useSocketContext();
   const { friendId } = useAppSelector((state) => state.chatSlice);
   const findFriend = useFriend(friendId);
 
@@ -49,6 +51,13 @@ const ChatPage = () => {
       );
     }
   }, [dispatch, findFriend]);
+  if (socketErrorConnection) {
+    return (
+      <>
+        <Text>Error</Text>
+      </>
+    );
+  }
   return (
     <Grid templateColumns="30% 70%" height="100vh" overflow="hidden">
       <LeftContainer>
