@@ -17,6 +17,8 @@ import { User } from 'src/api/user/entities/user.entity';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { PopulatedMessage } from './interfaces/message-populated.interface';
+import { Friend } from 'src/api/friend/entities/friend.entity';
+import { UserStatus } from './interfaces/user-status.interface';
 
 @WebSocketGateway({
   namespace: 'events',
@@ -33,32 +35,47 @@ export class EventsGateway
     private readonly configService: ConfigService,
     @InjectModel(User.name)
     private readonly userModel: Model<User>,
+    @InjectModel(Friend.name)
+    private readonly friendModel: Model<Friend>,
   ) {}
 
   @WebSocketServer()
   server: Server<any, ServerToClient>;
 
-  async findUserAndUpdateOnlineStatus(token: string, online: boolean) {
-    const { id } = this.jwtService.verify(token, {
+  getUserId(client: Socket) {
+    const token = client?.handshake?.query?.token as string;
+    const payload = this.jwtService.verify(token, {
       secret: this.configService.get('jwt.secret'),
     });
+    return payload;
+  }
+  async findUserAndUpdateOnlineStatus(
+    id: string,
+    update: { online: boolean; lastActive?: string },
+  ) {
     const user = await this.userModel.findOneAndUpdate(
       {
         _id: id,
       },
-      { online },
+      { online: update.online, lastActive: update.lastActive },
       { new: true },
     );
-    this.loggedInUser = user.toObject();
-    //TODO:notificar a los amigos
+    return user.toObject();
+  }
+  async findUserFriendsIds(id: string) {
+    const friends = await this.friendModel.find({ userId: id });
+    const friendsIds = friends.map((friend) => friend.friendId.toString());
+    return friendsIds;
   }
 
   async handleConnection(client: Socket) {
     try {
-      const token = client?.handshake?.query?.token as string;
-      await this.findUserAndUpdateOnlineStatus(token, true);
-
-      client.join(this.loggedInUser.id.toString());
+      const { id } = this.getUserId(client);
+      const user = await this.findUserAndUpdateOnlineStatus(id, {
+        online: true,
+      });
+      client.join(user.id.toString());
+      await this.updateOnlineStatus(user);
     } catch (error) {
       client.disconnect();
       throw error;
@@ -66,9 +83,12 @@ export class EventsGateway
   }
   async handleDisconnect(client: Socket) {
     try {
-      const token = client?.handshake?.query?.token as string;
-      await this.findUserAndUpdateOnlineStatus(token, false);
-      this.loggedInUser = null;
+      const { id } = this.getUserId(client);
+      const user = await this.findUserAndUpdateOnlineStatus(id, {
+        online: false,
+        lastActive: new Date().toString(),
+      });
+      await this.updateOnlineStatus(user);
       client.disconnect();
     } catch (error) {
       client.disconnect();
@@ -91,6 +111,14 @@ export class EventsGateway
     return 'Hello world!';
   }
 
+  async updateOnlineStatus(user: User) {
+    const friendsIds = await this.findUserFriendsIds(user.id);
+    this.server.to(friendsIds).emit('friend-online-status', {
+      uid: user.id,
+      online: user.online,
+      lastActive: user.lastActive,
+    });
+  }
   sendMessage(message: PopulatedMessage) {
     this.server.to(message.to.id.toString()).emit('personal-message', message);
   }
