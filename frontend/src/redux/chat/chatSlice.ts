@@ -80,11 +80,18 @@ export const chatSlice = createSlice({
     },
     updateFriendStatus: (
       state,
-      action: PayloadAction<{ uid: string; online: boolean }>
+      action: PayloadAction<{
+        uid: string;
+        online: boolean;
+        lastActive?: string;
+      }>
     ) => {
       state.friends?.forEach((friendItem) => {
         if (friendItem.user.uid === action.payload.uid) {
           friendItem.user.online = action.payload.online;
+          if (!action.payload.online && action.payload.lastActive) {
+            friendItem.user.lastActive = action.payload.lastActive;
+          }
         }
       });
     },

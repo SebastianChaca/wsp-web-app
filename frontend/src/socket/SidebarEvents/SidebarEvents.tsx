@@ -17,11 +17,10 @@ const SidebarEvents = ({ children }: Props) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // online / offline
+    // online / offline and last active
     socket?.on(
-      'friend-status',
+      'friend-online-status',
       (friendStatus: { uid: string; online: boolean }) => {
-        // TODO: aca habria que actualizar todo el objecto de friend en vez de solo el online booleano
         dispatch(updateFriendStatus(friendStatus));
       }
     );
