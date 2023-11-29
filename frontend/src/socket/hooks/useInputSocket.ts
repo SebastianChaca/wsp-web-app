@@ -11,8 +11,8 @@ const useInputSocket = (messageProps: string) => {
 
   const msg: messageToServer = useMemo(
     () => ({
-      from: session.uid,
-      to: activeChat.uid,
+      from: session.uid ?? '',
+      to: activeChat.uid ?? '',
       message: messageProps,
       responseTo: activeChat.responseTo?.id,
     }),

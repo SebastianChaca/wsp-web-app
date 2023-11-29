@@ -1,24 +1,29 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getMessages } from '../../services/messages/index';
 import { addFriend } from '../../services/friends';
-import { message, messageUI } from '../../types/message/message';
 import {
-  friend,
-  friendFromApi,
-  friendsAPIResponse,
-} from '../../types/friend/friend';
+  message,
+  messageUI,
+  serverMessageResponse,
+} from '../../types/message/message';
+import { friend, friendFromApi } from '../../types/friend/friend';
 import { ChatState } from '../../types/chatState/chatState';
 import {
   friendUpdate,
   resetNotification,
   updateFriendIsTyping,
-  updateFriendList,
   updateLastMessage,
   updateNotification,
   updateLastMessageSeen,
   friendObjSanitize,
 } from './accions';
 import { getFriends } from '../../services/friends/getFriends';
+import { sanitizeMessage } from '../../utils/sanitizeMessages';
+import {
+  addFriendsExtraReducer,
+  getFriendsExtraReducer,
+  getMessagesExtraReducer,
+} from './extraReducers';
 
 const initialState: ChatState = {
   messages: [],
@@ -36,24 +41,22 @@ export const chatSlice = createSlice({
     setFriendId: (state, action: PayloadAction<string>) => {
       state.friendId = action.payload;
     },
-    setFriendsList: (state, action: PayloadAction<friendsAPIResponse>) => {
-      // state.friends = updateFriendList(action.payload);
-      // state.friendsLoading = false;
-    },
     setFriendIsTyping: (state, action: PayloadAction<message>) => {
       state.friends = updateFriendIsTyping(state.friends, action.payload);
     },
-    setMessages: (state, action: PayloadAction<messageUI>) => {
+    setMessages: (state, action: PayloadAction<serverMessageResponse>) => {
+      const parsedMessage = sanitizeMessage(action.payload);
+
       if (
-        state.friendId === action.payload.to ||
-        state.friendId === action.payload.from
+        state.friendId === parsedMessage.to ||
+        state.friendId === parsedMessage.from
       ) {
-        state.messages.push(action.payload);
+        state.messages.push(parsedMessage);
       }
       if (action.payload.from) {
-        state.friends = updateNotification(state.friends, action.payload.from);
+        state.friends = updateNotification(state.friends, parsedMessage.from);
       }
-      state.friends = updateLastMessage(state.friends, action.payload);
+      state.friends = updateLastMessage(state.friends, parsedMessage);
     },
     updateSeenMessages: (state, action: PayloadAction<messageUI[]>) => {
       const elementsToDelete = action.payload.length;
@@ -101,50 +104,12 @@ export const chatSlice = createSlice({
     resetChatState: () => initialState,
   },
   extraReducers: (builder) => {
-    builder
-      // get messages
-      .addCase(
-        getMessages.fulfilled,
-        (state, action: PayloadAction<messageUI[]>) => {
-          state.messages = action.payload;
-          state.messagesLoading = false;
-        }
-      )
-      .addCase(getMessages.pending, (state) => {
-        state.messagesLoading = true;
-      })
-      .addCase(getMessages.rejected, (state) => {
-        state.error = 'error';
-        state.messagesLoading = false;
-      })
-      // add friends
-      .addCase(addFriend.fulfilled, (state, action) => {
-        state.friends?.unshift(friendObjSanitize(action.payload));
-        state.isLoading = false;
-      })
-      .addCase(addFriend.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(addFriend.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message!;
-      })
-      // get friends list
-      .addCase(
-        getFriends.fulfilled,
-        (state, action: PayloadAction<friendFromApi[]>) => {
-          state.friends = updateFriendList(action.payload);
-          state.friendsLoading = false;
-        }
-      )
-      .addCase(getFriends.rejected, (state, action) => {
-        state.friendsLoading = false;
-        state.error = action.error.message!;
-      });
+    getFriendsExtraReducer(builder, getFriends);
+    getMessagesExtraReducer(builder, getMessages);
+    addFriendsExtraReducer(builder, addFriend);
   },
 });
 export const {
-  setFriendsList,
   setMessages,
   updateSeenMessages,
   addFierndToList,

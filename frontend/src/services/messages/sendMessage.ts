@@ -1,9 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { makePrivateRequest } from '../makePrivateRequest';
 import { serverMessageResponse } from '../../types/message/message';
-import { sanitizeMessages } from '../../utils/sanitizeMessages';
 
-export const getMessages = createAsyncThunk(
+export const sendMessage = createAsyncThunk(
   'chat/messages',
   async (uid: string) => {
     const response = await makePrivateRequest<serverMessageResponse[]>(
@@ -11,8 +10,8 @@ export const getMessages = createAsyncThunk(
     );
 
     // TODO: mover a redux
-    const sanitMessages = sanitizeMessages(response);
+    //   const sanitMessages = sanitizeMessage(response);
 
-    return sanitMessages;
+    //   return sanitMessages;
   }
 );

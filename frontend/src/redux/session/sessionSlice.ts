@@ -2,6 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 import { refreshToken } from '../../services/session/refreshToken';
 import { fetchSignIn, fetchSignUp } from '../../services/session/index';
 import { sessionState } from '../../types/session/session';
+import {
+  refreshTokenExtraReducer,
+  signInExtraReducer,
+  signUpExtraReducer,
+} from './extraReducers';
 
 const initialState: sessionState = {
   token: null,
@@ -29,65 +34,9 @@ export const sessionSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder
-      // TODO: atomizar casos ?
-      // signin
-      .addCase(fetchSignIn.pending, (state) => {
-        state.status = 'loading';
-        state.isLoading = true;
-      })
-      .addCase(fetchSignIn.fulfilled, (state, action) => {
-        state.status = 'idle';
-        state.token = action.payload.token;
-        state.email = action.payload.user.email;
-        state.name = action.payload.user.name;
-        state.uid = action.payload.user.id;
-        state.isLoading = false;
-        state.online = true;
-      })
-      .addCase(fetchSignIn.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-        state.isLoading = false;
-      })
-      // signUp
-      .addCase(fetchSignUp.pending, (state) => {
-        state.status = 'loading';
-        state.isLoading = true;
-      })
-      .addCase(fetchSignUp.fulfilled, (state, action) => {
-        state.status = 'idle';
-        state.token = action.payload.token;
-        state.email = action.payload.user.email;
-        state.name = action.payload.user.name;
-        state.uid = action.payload.user.id;
-        state.isLoading = false;
-        state.online = true;
-      })
-      .addCase(fetchSignUp.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-        state.isLoading = false;
-      })
-      // refresh okten
-      .addCase(refreshToken.pending, (state) => {
-        state.status = 'loading';
-        state.isLoading = true;
-      })
-      .addCase(refreshToken.fulfilled, (state, action) => {
-        state.status = 'idle';
-        state.token = action.payload.token;
-        state.email = action.payload.user.email;
-        state.name = action.payload.user.name;
-        state.uid = action.payload.user.id;
-        state.isLoading = false;
-        state.online = true;
-      })
-      .addCase(refreshToken.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-        state.isLoading = false;
-      });
+    signInExtraReducer(builder, fetchSignIn);
+    signUpExtraReducer(builder, fetchSignUp);
+    refreshTokenExtraReducer(builder, refreshToken);
   },
 });
 export const { signOut } = sessionSlice.actions;

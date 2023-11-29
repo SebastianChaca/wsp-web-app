@@ -1,8 +1,8 @@
-import { userFromServer, user } from '../session/session';
+import { userFromServer } from '../session/session';
 
 export interface message {
-  to: string | null;
-  from: string | null;
+  to: string;
+  from: string;
   message: string | null;
 }
 export interface responseTo {

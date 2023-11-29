@@ -3,7 +3,7 @@ import { makeRequest } from '../makeRequest';
 import { setUser } from './utils/setUser';
 import { SessionAPIResponse } from '../../types/session/session';
 
-interface SignInProps {
+export interface SignInProps {
   email: string;
   password: string;
 }

@@ -1,11 +1,23 @@
 import { useCallback, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 
+export interface ServerToClientEvents {
+  noArg: () => void;
+  basicEmit: (a: number, b: string, c: Buffer) => void;
+  withAck: (d: string, callback: (e: number) => void) => void;
+}
+
+export interface ClientToServerEvents {
+  hello: () => void;
+}
 export const useSocket = () => {
   const [online, setOnline] = useState(false);
   const [socketErrorConnection, setSocketError] = useState<string | null>(null);
 
-  const [socket, setSocket] = useState<Socket | null>(null);
+  const [socket, setSocket] = useState<Socket<
+    ServerToClientEvents,
+    ClientToServerEvents
+  > | null>(null);
   // TODO: revisar tema desconectar sockets e implementacion de tipado
   // https://socket.io/how-to/use-with-react
   // https://socket.io/docs/v4/typescript/
