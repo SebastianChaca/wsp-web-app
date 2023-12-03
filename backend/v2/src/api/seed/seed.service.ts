@@ -43,24 +43,25 @@ export class SeedService {
         return await this.userModel.create(user);
       });
       const usersDB = await Promise.all(createUsers);
-      const testUser = usersDB.find((user) => user.email === users[0].email);
+      const adminUser = usersDB.find((user) => user.email === users[0].email);
       const findFriend = usersDB.find((user) => user.email === users[1].email);
+
       //adds friends to admin@test.com user
       const addFriendsToTestUser = usersDB.map(async (user) => {
-        if (user.email !== users[0].email || user.email !== users[5].email) {
+        if (user.email !== adminUser.email && user.email !== users[5].email) {
           return await this.friendModel.create({
-            userId: testUser.id,
+            userId: adminUser.id,
             friendId: user.id,
             status: 1,
           });
         }
       });
-      // ads admin@test.com to friend1@test.com friend list
+      // ads admin@test.com to test@test.com friend list
       const addTestUserToFriendList = usersDB.map(async (user) => {
         if (user.email === users[1].email) {
           return await this.friendModel.create({
             userId: user.id,
-            friendId: testUser.id,
+            friendId: adminUser.id,
             status: 1,
           });
         }
@@ -75,11 +76,11 @@ export class SeedService {
         index % 2 === 0
           ? await this.messageModel.create({
               to: findFriend.id,
-              from: testUser.id,
+              from: adminUser.id,
               message: msg,
             })
           : await this.messageModel.create({
-              to: testUser.id,
+              to: adminUser.id,
               from: findFriend.id,
               message: msg,
             });
