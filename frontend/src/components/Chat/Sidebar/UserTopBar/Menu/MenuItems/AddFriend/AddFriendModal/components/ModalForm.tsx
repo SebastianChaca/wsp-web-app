@@ -4,7 +4,7 @@ import { Button } from '@chakra-ui/react';
 import { FormikInput } from '../../../../../../../../FormComponents';
 
 interface ModalFormTypes {
-  isValid: boolean;
+  isValid: string | null;
   isLoading: boolean;
 }
 type Ref = HTMLInputElement;
@@ -19,8 +19,7 @@ const ModalForm = React.forwardRef<Ref, ModalFormTypes>(
           type="submit"
           w="100%"
           mt="20px"
-          // TODO: cuando tengo un solo input funciona mal la validacion
-          disabled={!isValid}
+          isDisabled={!isValid}
           isLoading={isLoading}
         >
           Send

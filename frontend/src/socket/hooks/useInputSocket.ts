@@ -26,18 +26,18 @@ const useInputSocket = (messageProps: string) => {
     socket?.emit('typing', msg);
   }, [msg, socket]);
 
-  const submitEvent = useCallback(() => {
-    // TODO:revisar esto
-    // if (activeChat.status === 0 && !messages.length) {
-    //   // chequeo si el estado de amistad esta pendiente, si es asi mando al destinatario
-    //   // los datos del usuario que le esta escribiendo para agregarlo a su listao de amigos
-    //   socket?.emit('request-friend', msg);
-    // }
+  const submitEvent = useCallback(async () => {
+    // TODO: si no se mandaron mensajes tengo que agregar al remitente a la lista del destinatario
+    if (activeChat.status === 0 && !messages.length) {
+      // chequeo si el estado de amistad esta pendiente, si es asi mando al destinatario
+      // los datos del usuario que le esta escribiendo para agregarlo a su listao de amigos
+      // socket?.emit('request-friend', msg);
+    }
 
     dispatch(sendMessage(msg));
 
     // socket?.emit('personal-message', msg);
-  }, [dispatch, msg]);
+  }, [dispatch, msg, activeChat.status, messages.length]);
 
   const seenEvent = useCallback(() => {
     // filtrar los mensajes que me mandaron y que seen === false y mandarlos al back

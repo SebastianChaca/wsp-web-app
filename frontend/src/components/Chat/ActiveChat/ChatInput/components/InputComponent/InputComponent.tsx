@@ -1,4 +1,4 @@
-import { Input, GridItem } from '@chakra-ui/react';
+import { Input, GridItem, FormControl } from '@chakra-ui/react';
 import React, {
   forwardRef,
   Ref,
@@ -20,18 +20,19 @@ const InputComponent = forwardRef(
     return (
       <GridItem>
         <form onSubmit={handleSubmit}>
-          <Input
-            id="inputChat"
-            placeholder="Escribe un mensaje aquí"
-            ref={ref}
-            variant="unstyled"
-            bg="#E2E8F0"
-            p="8px"
-            value={message}
-            onChange={handleChange}
-            type="text"
-            autoFocus
-          />
+          <FormControl>
+            <Input
+              id="inputChat"
+              placeholder="Escribe un mensaje aquí"
+              ref={ref}
+              variant="unstyled"
+              bg="#E2E8F0"
+              p="8px"
+              value={message}
+              onChange={handleChange}
+              type="text"
+            />
+          </FormControl>
         </form>
       </GridItem>
     );

@@ -15,7 +15,7 @@ import { setResponseTo } from '../../../../redux/activeChat/activeChatSlice';
 
 const ChatInput = () => {
   const [message, setMessage] = useState<string>('');
-  const { messages } = useAppSelector((state) => state.chatSlice);
+  const { messages, friendId } = useAppSelector((state) => state.chatSlice);
   const activeChat = useAppSelector((state) => state.activeChatSlice);
   const dispatch = useDispatch();
   const { setTypingEvent, submitEvent, seenEvent } = useInputSocket(message);
@@ -30,8 +30,15 @@ const ChatInput = () => {
         inputRef.current.focus();
       }
     };
-    requestAnimationFrame(setFocus);
-  }, [activeChat.uid, activeChat.responseTo?.to]);
+    // TODO: this is wrong
+    const timer = setTimeout(() => {
+      requestAnimationFrame(setFocus);
+    }, 200);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [activeChat.uid, activeChat.responseTo?.to, friendId]);
 
   useEffect(() => {
     // marcar mensaje como visto

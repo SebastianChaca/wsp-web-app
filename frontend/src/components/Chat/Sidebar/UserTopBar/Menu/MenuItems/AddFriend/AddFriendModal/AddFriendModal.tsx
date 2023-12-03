@@ -10,10 +10,7 @@ import { Formik } from 'formik';
 import { useRef, useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useAppDispatch } from '../../../../../../../../redux/hooks';
-import {
-  addFriend,
-  addFriendRequest,
-} from '../../../../../../../../services/friends/addFriends';
+import { addFriendRequest } from '../../../../../../../../services/friends/addFriends';
 import {
   addFierndToList,
   setFriendId,
@@ -30,29 +27,34 @@ interface initial {
 const AddFriendModal = ({ isOpen, onClose }: Props) => {
   const dispatch = useAppDispatch();
   const [error, setError] = useState<string | null>(null);
+
   const [isLoading, setIsloading] = useState(false);
   const ref = useRef<HTMLInputElement>(null);
   const validationSchema = Yup.object().shape({
-    email: Yup.string().email('Invalid email'),
+    email: Yup.string().email('Invalid email').required(),
   });
   useEffect(() => {
     if (ref.current) {
-      ref.current.focus({ preventScroll: true });
+      ref.current.focus();
     }
   }, []);
+
   const initialValue: initial = {
     email: '',
   };
   return (
-    <Modal isOpen={isOpen} onClose={onClose} initialFocusRef={ref}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent w="700px" p="20px">
+      <ModalContent w="700px" p="20px" h="275px">
         <ModalHeader>Add a Friend</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Formik
             initialValues={initialValue}
             onSubmit={async (values) => {
+              if (ref.current) {
+                ref.current.blur();
+              }
               try {
                 setIsloading(true);
                 setError(null);
@@ -64,10 +66,12 @@ const AddFriendModal = ({ isOpen, onClose }: Props) => {
 
                   // pongo al amigo agregado  primero en la lista de amigos
                   dispatch(addFierndToList(friend));
-                  onClose();
+
                   if (friend.user.id) {
                     dispatch(setFriendId(friend.user.id));
                   }
+
+                  onClose();
                   // TODO: cuando seteo el active chat no me hace focus en el input
                 }
               } catch (errorMsg) {
@@ -78,8 +82,8 @@ const AddFriendModal = ({ isOpen, onClose }: Props) => {
             }}
             validationSchema={validationSchema}
           >
-            {({ isValid }) => (
-              <ModalForm isValid={isValid} isLoading={isLoading} ref={ref} />
+            {({ values }) => (
+              <ModalForm isValid={values.email} isLoading={isLoading} />
             )}
           </Formik>
           {error && error}
