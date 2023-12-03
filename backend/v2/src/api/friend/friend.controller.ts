@@ -20,6 +20,7 @@ import {
   CreateSwaggerDecorator,
   FindFriendsSwaggerDecorator,
   UpdateFriendSwaggerDecorator,
+  GetFriendByIdSwaggerDecorator,
 } from './swagger';
 import { PaginationDto } from '../../common/dto/pagination.dto';
 import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe';
@@ -46,13 +47,24 @@ export class FriendController {
   ) {
     return this.friendService.findAllFriends(user, paginationDto);
   }
+  @GetFriendByIdSwaggerDecorator()
+  @Auth()
+  @Get(':id')
+  findFriendById(
+    @Param('id', ParseMongoIdPipe) friendId: string,
+    @GetUser() user: User,
+  ) {
+    return this.friendService.getFriendById(friendId, user.id);
+  }
 
   @UpdateFriendSwaggerDecorator()
+  @Auth()
   @Patch(':id')
   update(
+    @GetUser() user: User,
     @Param('id', ParseMongoIdPipe) id: string,
     @Body() updateFriendDto: UpdateFriendDto,
   ) {
-    return this.friendService.update(id, updateFriendDto);
+    return this.friendService.update(id, updateFriendDto, user.id);
   }
 }

@@ -58,9 +58,31 @@ export class FriendService {
     }
   }
 
+  async getFriendById(friendIdParam: string, userId: string) {
+    this.logger.log('search friend by id');
+    try {
+      const findFriend = await this.friendModel
+        .findOne({
+          userId,
+          friendId: friendIdParam,
+        })
+        .populate('friendId', '-roles -password')
+        .select('-userId');
+      const { friendId, ...rest } = findFriend.toObject();
+
+      return {
+        user: friendId,
+        ...rest,
+      };
+    } catch (error) {
+      this.logger.error('search friend by id error');
+      throw error;
+    }
+  }
+
   async findAllFriends(user: User, paginationDto: PaginationDto) {
     this.logger.log('search friends');
-    const { limit = 15, offset = 0 } = paginationDto;
+    const { limit = 1, offset = 0 } = paginationDto;
 
     try {
       const friends = await this.friendModel
@@ -102,11 +124,11 @@ export class FriendService {
     }
   }
 
-  update(id: string, updateFriendDto: UpdateFriendDto) {
+  update(id: string, updateFriendDto: UpdateFriendDto, userId: string) {
     this.logger.log('update friend');
     try {
       const friend = this.friendModel.findOneAndUpdate(
-        { friendId: id },
+        { friendId: id, userId },
         updateFriendDto,
         { new: true },
       );
