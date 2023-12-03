@@ -58,7 +58,7 @@ export class FriendService {
         .skip(offset)
         .populate('friendId', '-roles -password')
         .select('-userId')
-        .sort({ updatedAt: 'desc' });
+        .sort({ updatedAt: -1 });
 
       const addLastMessage = friends.map(async (f) => {
         if (typeof f !== 'string') {

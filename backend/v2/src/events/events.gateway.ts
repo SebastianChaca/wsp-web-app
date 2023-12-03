@@ -7,7 +7,7 @@ import {
 } from '@nestjs/websockets';
 import { WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { ServerToClient } from './interfaces/serverToclient';
+import { ClientToServer, ServerToClient } from './interfaces/serverToclient';
 import { JwtService } from '@nestjs/jwt';
 import { Logger, UseGuards } from '@nestjs/common';
 import { SocketAuthMiddleware } from 'src/api/auth/ws-jwt/ws.mw';
@@ -16,9 +16,11 @@ import { ConfigService } from '@nestjs/config';
 import { User } from 'src/api/user/entities/user.entity';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { PopulatedMessage } from './interfaces/message-populated.interface';
+import {
+  PopulatedMessage,
+  isTyping,
+} from './interfaces/message-populated.interface';
 import { Friend } from 'src/api/friend/entities/friend.entity';
-import { UserStatus } from './interfaces/user-status.interface';
 
 @WebSocketGateway({
   namespace: 'events',
@@ -40,7 +42,7 @@ export class EventsGateway
   ) {}
 
   @WebSocketServer()
-  server: Server<any, ServerToClient>;
+  server: Server<ClientToServer, ServerToClient>;
 
   getUserId(client: Socket) {
     const token = client?.handshake?.query?.token as string;
@@ -107,7 +109,7 @@ export class EventsGateway
   }
 
   @SubscribeMessage('message')
-  handleMessage(client: Socket, payload: any): string {
+  handleMessage(): string {
     return 'Hello world!';
   }
 
@@ -121,5 +123,9 @@ export class EventsGateway
   }
   sendMessage(message: PopulatedMessage) {
     this.server.to(message.to.id.toString()).emit('personal-message', message);
+  }
+  @SubscribeMessage('typing')
+  userIsTyping(client: Socket, payload: isTyping) {
+    this.server.to(payload.to).emit('typing', payload);
   }
 }

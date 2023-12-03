@@ -7,6 +7,7 @@ import { User } from '../user/entities/user.entity';
 import { PaginationDto } from '../../common/dto/pagination.dto';
 import { UpdateMessageSeen } from './dto/update-message-seen.dto';
 import { EventsGateway } from 'src/events/events.gateway';
+import { Friend } from '../friend/entities/friend.entity';
 
 @Injectable()
 export class MessageService {
@@ -15,6 +16,8 @@ export class MessageService {
     @InjectModel(Message.name)
     private readonly messageModel: Model<Message>,
     private readonly eventGateway: EventsGateway,
+    @InjectModel(Friend.name)
+    private readonly friendModel: Model<Friend>,
   ) {}
   async create(createMessageDto: CreateMessageDto) {
     this.logger.log('create message');
@@ -31,6 +34,11 @@ export class MessageService {
         { path: 'from' },
         { path: 'responseTo' },
       ]);
+      //update notif
+      await this.friendModel.updateOne(
+        { userId: to, friendId: from },
+        { $inc: { notifications: 1 } },
+      );
       //socket
       this.eventGateway.sendMessage(createMessage.toObject());
       return createMessage;
@@ -53,6 +61,7 @@ export class MessageService {
         })
         .sort({ createdAt: 'desc' })
         .populate('to', '-roles -isActive -online -lastActive')
+        .populate('from', '-roles -isActive -online -lastActive')
         .populate('responseTo', '-responseTo -from -to -seen')
         .limit(limit)
         .skip(offset);

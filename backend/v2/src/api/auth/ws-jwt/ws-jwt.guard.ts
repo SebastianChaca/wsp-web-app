@@ -16,7 +16,7 @@ export class WsJwtGuard implements CanActivate {
       return true;
     }
     const client: Socket = context.switchToWs().getClient();
-    const token = client?.handshake?.headers?.auth as string;
+    const token = client?.handshake?.query?.token as string;
     const payload = this.jwtService.verify(token, {
       secret: this.configService.get('jwt.secret'),
     });

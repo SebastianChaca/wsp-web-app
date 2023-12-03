@@ -22,3 +22,9 @@ export interface User {
   isSuperAdmin: boolean;
   id: string;
 }
+
+export interface isTyping {
+  to: string;
+  from: string;
+  messages: string;
+}

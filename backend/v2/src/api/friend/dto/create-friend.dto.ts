@@ -5,7 +5,7 @@ import {
   IsIn,
   IsInt,
   IsNumber,
-  IsPositive,
+  Min,
 } from 'class-validator';
 export class CreateFriendDto {
   @ApiProperty({
@@ -20,7 +20,7 @@ export class CreateFriendDto {
     description: 'number of notificacions of messages unread',
   })
   @IsNumber()
-  @IsPositive()
+  @Min(0)
   notifications?: number;
 
   @ApiProperty({
