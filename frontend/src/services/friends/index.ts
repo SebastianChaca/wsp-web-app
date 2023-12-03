@@ -1,3 +1,4 @@
+export { getFriendById } from './getFriendById';
 export { getFriends } from './getFriends';
 export { aceptFriend } from './aceptFriend';
 export { addFriend } from './addFriends';

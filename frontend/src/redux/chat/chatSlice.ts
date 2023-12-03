@@ -54,9 +54,9 @@ export const chatSlice = createSlice({
       ) {
         state.messages.push(parsedMessage);
       }
-      if (action.payload.from) {
-        state.friends = updateNotification(state.friends, parsedMessage.from);
-      }
+      // if (action.payload.from) {
+      //   state.friends = updateNotification(state.friends, parsedMessage.from);
+      // }
       state.friends = updateLastMessage(state.friends, parsedMessage);
       state.friends = unshiftFriend(state.friends, parsedMessage.from);
     },

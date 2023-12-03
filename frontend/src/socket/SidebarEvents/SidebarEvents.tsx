@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSocketContext } from '../SocketContext/SocketContext';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
   addFierndToList,
   setFriendIsTyping,
@@ -14,6 +14,7 @@ interface Props {
 }
 const SidebarEvents = ({ children }: Props) => {
   const { socket } = useSocketContext();
+  const { friends } = useAppSelector((state) => state.chatSlice);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
