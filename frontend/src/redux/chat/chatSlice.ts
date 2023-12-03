@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getMessages } from '../../services/messages/index';
-import { addFriend } from '../../services/friends';
+import { getMessages, sendMessage } from '../../services/messages/index';
+
 import {
   message,
   messageUI,
@@ -20,9 +20,9 @@ import {
 import { getFriends } from '../../services/friends/getFriends';
 import { sanitizeMessage } from '../../utils/sanitizeMessages';
 import {
-  addFriendsExtraReducer,
   getFriendsExtraReducer,
   getMessagesExtraReducer,
+  sendMessagesExtraReducer,
 } from './extraReducers';
 
 const initialState: ChatState = {
@@ -58,6 +58,7 @@ export const chatSlice = createSlice({
       }
       state.friends = updateLastMessage(state.friends, parsedMessage);
     },
+
     updateSeenMessages: (state, action: PayloadAction<messageUI[]>) => {
       const elementsToDelete = action.payload.length;
 
@@ -106,7 +107,8 @@ export const chatSlice = createSlice({
   extraReducers: (builder) => {
     getFriendsExtraReducer(builder, getFriends);
     getMessagesExtraReducer(builder, getMessages);
-    addFriendsExtraReducer(builder, addFriend);
+    sendMessagesExtraReducer(builder, sendMessage);
+    // addFriendsExtraReducer(builder, addFriend);
   },
 });
 export const {

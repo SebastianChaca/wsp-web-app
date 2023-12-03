@@ -9,11 +9,7 @@ import {
 import { useSocketContext } from '../SocketContext/SocketContext';
 import { serverMessageResponse } from '../../types/message/message';
 
-import {
-  sanitizeMessages,
-  sanitizeMessage,
-} from '../../utils/sanitizeMessages';
-// import { setIsTyping } from '../../redux/activeChat/activeChatSlice';
+import { sanitizeMessages } from '../../utils/sanitizeMessages';
 
 interface Props {
   children?: JSX.Element | JSX.Element[];

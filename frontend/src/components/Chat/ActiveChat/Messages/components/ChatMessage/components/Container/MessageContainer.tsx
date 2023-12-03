@@ -6,14 +6,32 @@ interface Props {
   children?: ReactNode;
 }
 const MessageContainer = ({ children }: Props) => {
-  const { isOutgoing, setShowDropDown } = useMessageContext();
+  const { isOutgoing, setShowDropDown, msg } = useMessageContext();
+  const getBackgroundColor = () => {
+    if (msg.isLoading || msg.hasFailed) {
+      return 'blackAlpha.100';
+    }
+    if (isOutgoing) {
+      return 'message.out.bg';
+    }
+    return 'message.in.bg';
+  };
+
+  // const getColor = () => {
+  //   if (msg.isLoading) {
+  //     return 'red';
+  //   }
+  //   if (isOutgoing) {
+  //     return 'message.out.color';
+  //   }
+  //   return 'message.in.color';
+  // };
   return (
     <Flex w="100%" justifyContent={isOutgoing ? 'right' : 'left'}>
       <Box
         p="4px"
         verticalAlign="top"
-        bg={isOutgoing ? 'message.out.bg' : 'message.in.bg'}
-        color={isOutgoing ? 'message.out.color' : 'message.in.color'}
+        bg={getBackgroundColor()}
         borderRadius="3px"
         w="auto"
         my="10px"

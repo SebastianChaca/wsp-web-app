@@ -32,11 +32,16 @@ export interface messageUI extends message {
   nameTo?: string;
   emailTo?: string;
   responseTo?: responseTo;
+  isLoading?: boolean;
+  hasFailed?: boolean;
+  temporalId?: string;
 }
 
 export interface messageToServer extends message {
   isTyping?: boolean;
   responseTo?: string;
+  isLoading?: boolean;
+  temporalId?: string;
 }
 export interface serverMessageResponse {
   updatedAt: string;

@@ -10,7 +10,10 @@ import { Formik } from 'formik';
 import { useRef, useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useAppDispatch } from '../../../../../../../../redux/hooks';
-import { addFriendd } from '../../../../../../../../services/friends/addFriends';
+import {
+  addFriend,
+  addFriendRequest,
+} from '../../../../../../../../services/friends/addFriends';
 import {
   addFierndToList,
   setFriendId,
@@ -54,7 +57,10 @@ const AddFriendModal = ({ isOpen, onClose }: Props) => {
                 setIsloading(true);
                 setError(null);
                 if (values.email) {
-                  const friend = await addFriendd({ email: values.email });
+                  // TODO: usar la funcion thunk y sacar esta ?
+                  const friend = await addFriendRequest({
+                    email: values.email,
+                  });
 
                   // pongo al amigo agregado  primero en la lista de amigos
                   dispatch(addFierndToList(friend));

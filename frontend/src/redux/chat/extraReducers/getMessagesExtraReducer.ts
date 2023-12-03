@@ -19,7 +19,7 @@ export const getMessagesExtraReducer = (
         state.messagesLoading = false;
       }
     )
-    .addCase(getMessages.pending, (state) => {
+    .addCase(getMessages.pending, (state, action) => {
       state.messagesLoading = true;
     })
     .addCase(getMessages.rejected, (state) => {

@@ -16,6 +16,7 @@ export const sanitizeMessages = (messages: serverMessageResponse[]) => {
         parseDate: capitalizeFirstLetter(formatDateMessage(msg.createdAt)),
         nameTo: capitalizeFirstLetter(msg.to.name),
         emailTo: msg.to.email ?? '',
+        isLoading: false,
         responseTo: msg.responseTo
           ? {
               id: msg.responseTo.id ?? '',

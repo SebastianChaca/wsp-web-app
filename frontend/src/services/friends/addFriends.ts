@@ -16,7 +16,7 @@ export const addFriend = createAsyncThunk(
     return response.friend;
   }
 );
-export const addFriendd = async (email: { email: string }) => {
+export const addFriendRequest = async (email: { email: string }) => {
   const response = await makePrivateRequest<FriendApiResponse>('friend', {
     data: email,
     method: 'post',

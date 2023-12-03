@@ -1,7 +1,6 @@
-import { Text, Flex } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { messageUI } from '../../../../../../types/message/message';
 import { Message } from '..';
-import { ResponseTo } from '../../../../../Ui';
 
 interface Props {
   msg: messageUI;
@@ -9,30 +8,20 @@ interface Props {
   showDate: boolean;
 }
 const ChatMessage = ({ msg, isOutgoing, showDate }: Props) => {
-  const { message } = msg;
-
   return (
     <Message.Provider msg={msg} isOutgoing={isOutgoing} showDate={showDate}>
       <Message.Date />
-
-      <Message.Container>
-        {msg.responseTo && (
-          <ResponseTo.Container>
-            <ResponseTo.Decoration />
-            <ResponseTo.Message
-              nameTo={msg.responseTo.nameTo!}
-              message={msg.responseTo.message!}
-            />
-          </ResponseTo.Container>
-        )}
-        <Message.DropDownOptions />
-        <Flex alignItems="end">
-          <Text p="2px 10px 5px 5px" color="black">
-            {message}
-          </Text>
-          <Message.Status />
-        </Flex>
-      </Message.Container>
+      <Flex alignItems="center">
+        <Message.Container>
+          <Message.ResponseToMessage />
+          <Message.DropDownOptions />
+          <Flex alignItems="end">
+            <Message.MessageText />
+            <Message.Status />
+          </Flex>
+        </Message.Container>
+        <Message.ErrorIcon />
+      </Flex>
     </Message.Provider>
   );
 };

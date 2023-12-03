@@ -1,17 +1,19 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { makePrivateRequest } from '../makePrivateRequest';
-import { serverMessageResponse } from '../../types/message/message';
+import {
+  messageToServer,
+  serverMessageResponse,
+} from '../../types/message/message';
 
 export const sendMessage = createAsyncThunk(
-  'chat/messages',
-  async (uid: string) => {
-    const response = await makePrivateRequest<serverMessageResponse[]>(
-      `/message/${uid}`
+  'chat/getMessage',
+  async (props: messageToServer) => {
+    delete props.isLoading;
+    delete props.temporalId;
+    const response = await makePrivateRequest<serverMessageResponse>(
+      `/message`,
+      { data: props, method: 'post' }
     );
-
-    // TODO: mover a redux
-    //   const sanitMessages = sanitizeMessage(response);
-
-    //   return sanitMessages;
+    return response;
   }
 );

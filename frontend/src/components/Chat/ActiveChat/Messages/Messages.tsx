@@ -40,7 +40,7 @@ const Messages = () => {
           return (
             <ChatMessage
               msg={msg}
-              key={msg.id}
+              key={msg.id || index}
               isOutgoing={msg.from === uid}
               showDate={msg.parseDate !== arr[index - 1]?.parseDate}
             />
