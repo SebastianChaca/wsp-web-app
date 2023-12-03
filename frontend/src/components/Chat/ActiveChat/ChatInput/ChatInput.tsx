@@ -42,6 +42,7 @@ const ChatInput = () => {
 
   useEffect(() => {
     // evento para saber si estoy escribiendo
+
     setTypingEvent();
   }, [message, setTypingEvent]);
 

@@ -14,10 +14,7 @@ export const useSocket = () => {
   const [online, setOnline] = useState(false);
   const [socketErrorConnection, setSocketError] = useState<string | null>(null);
 
-  const [socket, setSocket] = useState<Socket<
-    ServerToClientEvents,
-    ClientToServerEvents
-  > | null>(null);
+  const [socket, setSocket] = useState<Socket | null>(null);
   // TODO: revisar tema desconectar sockets e implementacion de tipado
   // https://socket.io/how-to/use-with-react
   // https://socket.io/docs/v4/typescript/
