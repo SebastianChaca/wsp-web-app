@@ -40,7 +40,18 @@ export class FriendService {
         userId: user.id,
         friendId: friend.id,
       });
-      return createFriend;
+
+      const populatedFriend = await this.friendModel.populate(createFriend, [
+        { path: 'friendId', select: '-password' },
+      ]);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { userId, friendId, ...friendWithoutId } =
+        populatedFriend.toObject();
+
+      return {
+        user: friendId,
+        ...friendWithoutId,
+      };
     } catch (error) {
       this.logger.error('Create friend error');
       throw error;

@@ -5,6 +5,7 @@ import {
   IsIn,
   IsInt,
   IsNumber,
+  IsOptional,
   Min,
 } from 'class-validator';
 export class CreateFriendDto {
@@ -21,12 +22,14 @@ export class CreateFriendDto {
   })
   @IsNumber()
   @Min(0)
+  @IsOptional()
   notifications?: number;
 
   @ApiProperty({
     example: true,
   })
   @IsBoolean()
+  @IsOptional()
   isRequesting?: boolean;
 
   @ApiProperty({
@@ -36,5 +39,6 @@ export class CreateFriendDto {
   @IsNumber()
   @IsInt()
   @IsIn([0, 1, 2])
+  @IsOptional()
   status?: number;
 }

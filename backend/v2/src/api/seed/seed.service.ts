@@ -47,7 +47,7 @@ export class SeedService {
       const findFriend = usersDB.find((user) => user.email === users[1].email);
       //adds friends to admin@test.com user
       const addFriendsToTestUser = usersDB.map(async (user) => {
-        if (user.email !== users[0].email) {
+        if (user.email !== users[0].email || user.email !== users[5].email) {
           return await this.friendModel.create({
             userId: testUser.id,
             friendId: user.id,
