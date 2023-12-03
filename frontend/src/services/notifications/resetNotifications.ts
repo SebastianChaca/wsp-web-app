@@ -4,8 +4,8 @@ interface response {
   ok: boolean;
 }
 export const resetNotificationsAPI = async (uid: string) => {
-  await makePrivateRequest<response>('notifications/messages/reset', {
-    data: { uid },
-    method: 'post',
+  await makePrivateRequest<response>(`friend/${uid}`, {
+    data: { notifications: 0 },
+    method: 'patch',
   });
 };

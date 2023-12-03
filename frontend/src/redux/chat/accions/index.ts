@@ -1,3 +1,4 @@
+export { unshiftFriend } from './unshiftFriend';
 export { updateFriendList } from './updateFriendsList';
 export { updateFriendIsTyping } from './updateFriendIsTyping';
 export { updateLastMessage } from './updateLastMessage';

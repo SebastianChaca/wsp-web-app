@@ -3,6 +3,7 @@ import { capitalizeFirstLetter } from '../../../utils/capitalizeFirstLetter';
 
 export const friendObjSanitize = (payload: friendFromApi): friend => {
   return {
+    id: payload.id,
     user: {
       email: payload.user.email,
       name: capitalizeFirstLetter(payload.user.name),
@@ -13,7 +14,7 @@ export const friendObjSanitize = (payload: friendFromApi): friend => {
     notifications: payload.notifications,
     status: payload.status,
     isRequesting: payload.isRequesting,
-    uid: payload._id,
+    uid: payload.id,
     lastMessage: {
       to: payload.lastMessage?.to,
       from: payload.lastMessage?.from,

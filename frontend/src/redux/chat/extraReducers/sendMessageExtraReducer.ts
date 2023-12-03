@@ -6,6 +6,7 @@ import {
   serverMessageResponse,
 } from '../../../types/message/message';
 import { sanitizeMessage } from '../../../utils/sanitizeMessages';
+import { updateLastMessage, updateNotification } from '../accions';
 
 export const sendMessagesExtraReducer = (
   builder: ActionReducerMapBuilder<ChatState>,
@@ -19,6 +20,11 @@ export const sendMessagesExtraReducer = (
         (msg) => msg.id === action.meta.requestId
       );
       state.messages.splice(findIndex, 1, parsedMessage);
+      state.friends = updateLastMessage(state.friends, parsedMessage);
+      if (action.payload.from) {
+        state.friends = updateNotification(state.friends, parsedMessage.from);
+      }
+      // TODO:falta agregar last message y notif
     })
     .addCase(sendMessages.pending, (state, action) => {
       const payload: messageUI = {
@@ -29,8 +35,11 @@ export const sendMessagesExtraReducer = (
         date: new Date().toLocaleString(),
         isLoading: true,
       };
+      if (state.friendId === payload.to || state.friendId === payload.from) {
+        state.messages.push(payload);
+      }
 
-      state.messages.push(payload);
+      state.friends = updateLastMessage(state.friends, payload);
     })
 
     .addCase(sendMessages.rejected, (state, action) => {

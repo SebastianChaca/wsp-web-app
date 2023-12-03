@@ -26,17 +26,17 @@ const SidebarItem = ({ friend }: Props) => {
     }
   }, [uid, dispatch]);
 
-  // useEffect(() => {
-  //   if (!selected && friend.lastMessage.seen && friend.notifications > 0) {
-  //     resetNotif();
-  //   }
-  // }, [dispatch, friend, selected, uid, resetNotif]);
+  useEffect(() => {
+    if (!selected && friend.lastMessage.seen && friend.notifications > 0) {
+      resetNotif();
+    }
+  }, [dispatch, friend, selected, uid, resetNotif]);
 
-  // useEffect(() => {
-  //   if (isTabActive && selected) {
-  //     resetNotif();
-  //   }
-  // }, [selected, isTabActive, resetNotif]);
+  useEffect(() => {
+    if (isTabActive && selected) {
+      resetNotif();
+    }
+  }, [selected, isTabActive, resetNotif]);
 
   const handleClick = async () => {
     if (uid) {

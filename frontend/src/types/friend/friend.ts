@@ -5,6 +5,7 @@ import {
 import { user, userFromServer } from '../session/session';
 
 export interface friend {
+  id: string;
   user: user;
   notifications: number;
   status: number;
@@ -22,7 +23,7 @@ export interface friendFromApi {
   notifications: number;
   status: number;
   isRequesting: boolean;
-  _id: string;
+  id: string;
   lastMessage: serverMessageResponseNotPopulated;
   isPending: boolean;
   isAccepted: boolean;

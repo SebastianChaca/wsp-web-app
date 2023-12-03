@@ -1,4 +1,4 @@
-import { useCallback, useId, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useSocketContext } from '../SocketContext/SocketContext';
@@ -12,7 +12,6 @@ const useInputSocket = (messageProps: string) => {
   const session = useAppSelector((state) => state.sessionSlice);
   const dispatch = useAppDispatch();
   const { socket } = useSocketContext();
-  const id = useId();
 
   const msg: messageToServer = useMemo(
     () => ({

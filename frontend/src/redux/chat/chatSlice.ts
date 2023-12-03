@@ -16,6 +16,7 @@ import {
   updateNotification,
   updateLastMessageSeen,
   friendObjSanitize,
+  unshiftFriend,
 } from './accions';
 import { getFriends } from '../../services/friends/getFriends';
 import { sanitizeMessage } from '../../utils/sanitizeMessages';
@@ -57,6 +58,7 @@ export const chatSlice = createSlice({
         state.friends = updateNotification(state.friends, parsedMessage.from);
       }
       state.friends = updateLastMessage(state.friends, parsedMessage);
+      state.friends = unshiftFriend(state.friends, parsedMessage.from);
     },
 
     updateSeenMessages: (state, action: PayloadAction<messageUI[]>) => {
