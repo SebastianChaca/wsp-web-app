@@ -24,6 +24,9 @@ import {
 } from './swagger';
 import { PaginationDto } from '../../common/dto/pagination.dto';
 import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe';
+import { FriendParamsDto } from './dto/params.dto';
+import { FriendApiResponse } from './interfaces/friendApiResponse.interface';
+import { Message } from '../message/entities/message.entity';
 
 @ApiTags('friend')
 @Controller('friend')
@@ -41,11 +44,25 @@ export class FriendController {
   @FindFriendsSwaggerDecorator()
   @Auth()
   @Get()
-  findAllFriendsById(
+  async findAllFriendsById(
     @GetUser() user: User,
-    @Query() paginationDto: PaginationDto,
-  ) {
-    return this.friendService.findAllFriends(user, paginationDto);
+    @Query() friendParamsDto: FriendParamsDto,
+  ): Promise<
+    FriendApiResponse[] | (FriendApiResponse | { lastMessage: Message })[]
+  > {
+    const { lastMessage } = friendParamsDto;
+    const friends = await this.friendService.findAllFriends(
+      user,
+      friendParamsDto,
+    );
+
+    if (lastMessage) {
+      return await this.friendService.addLastMessageToFriends(friends, user.id);
+    } else {
+      return friends.map((f) => {
+        return this.friendService.serializeFriendResponse(f);
+      });
+    }
   }
   @GetFriendByIdSwaggerDecorator()
   @Auth()

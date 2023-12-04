@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { CreateFriendDto } from './dto/create-friend.dto';
 import { UpdateFriendDto } from './dto/update-friend.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Friend } from './entities/friend.entity';
+import { Friend, FriendDocument } from './entities/friend.entity';
 import { User } from '../user/entities/user.entity';
 import { Model } from 'mongoose';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
@@ -47,20 +47,23 @@ export class FriendService {
       const populatedFriend = await this.friendModel.populate(createFriend, [
         { path: 'friendId', select: '-password' },
       ]);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { userId, friendId, ...friendWithoutId } =
-        populatedFriend.toObject();
 
-      return {
-        user: populatedFriend.friendId,
-        ...friendWithoutId,
-      };
+      return this.serializeFriendResponse(populatedFriend);
     } catch (error) {
       this.logger.error('Create friend error');
       throw error;
     }
   }
 
+  serializeFriendResponse(friend: FriendDocument): FriendApiResponse {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { friendId, userId, ...restFriend } = friend.toObject();
+
+    return {
+      user: friendId,
+      ...restFriend,
+    };
+  }
   async getFriendById(
     friendIdParam: string,
     userId: string,
@@ -79,12 +82,9 @@ export class FriendService {
         userId,
         friendIdParam,
       );
-      const { friendId, ...rest } = findFriend.toObject();
-
       return {
+        ...this.serializeFriendResponse(findFriend),
         lastMessage: findMessage,
-        user: friendId,
-        ...rest,
       };
     } catch (error) {
       this.logger.error('search friend by id error');
@@ -92,10 +92,31 @@ export class FriendService {
     }
   }
 
+  async addLastMessageToFriends(
+    friends: FriendDocument[],
+    idUser: string,
+  ): Promise<({ lastMessage: Message } | FriendApiResponse)[]> {
+    const addLastMessage = friends.map(async (f) => {
+      if (typeof f !== 'string') {
+        const friendIDD = f.friendId.id;
+        const findMessage = await this.messageService.getLastMessage(
+          idUser,
+          friendIDD,
+        );
+
+        return {
+          ...this.serializeFriendResponse(f),
+          lastMessage: findMessage,
+        };
+      }
+    });
+    return await Promise.all(addLastMessage);
+  }
+
   async findAllFriends(
     user: User,
     paginationDto: PaginationDto,
-  ): Promise<({ lastMessage: Message } | FriendApiResponse)[]> {
+  ): Promise<FriendDocument[]> {
     this.logger.log('search friends');
     const { limit = 1, offset = 0 } = paginationDto;
 
@@ -107,27 +128,7 @@ export class FriendService {
         .populate('friendId', '-roles -password')
         .select('-userId')
         .sort({ updatedAt: -1 });
-
-      const addLastMessage = friends.map(async (f) => {
-        if (typeof f !== 'string') {
-          const friendPopulated = f.friendId as unknown;
-          const friendIDD = (friendPopulated as User).id;
-          const findMessage = await this.messageService.getLastMessage(
-            user.id,
-            friendIDD,
-          );
-
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { friendId, userId, ...restFriend } = f.toObject();
-
-          return {
-            ...restFriend,
-            user: friendId,
-            lastMessage: findMessage,
-          };
-        }
-      });
-      return await Promise.all(addLastMessage);
+      return friends;
     } catch (error) {
       this.logger.error('search friends error');
       throw error;
