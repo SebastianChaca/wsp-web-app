@@ -8,6 +8,7 @@ import { Model } from 'mongoose';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { Message } from '../message/entities/message.entity';
 import { FriendApiResponse } from './interfaces/friendApiResponse.interface';
+import { MessageService } from '../message/message.service';
 
 @Injectable()
 export class FriendService {
@@ -17,20 +18,8 @@ export class FriendService {
     private readonly friendModel: Model<Friend>,
     @InjectModel(User.name)
     private readonly userModel: Model<User>,
-
-    @InjectModel(Message.name)
-    private readonly messageModel: Model<Message>,
+    private readonly messageService: MessageService,
   ) {}
-
-  // async createFriend(user: User, friend: User): Promise<FriendDocument> {
-  //   const friendEntity = new this.friendModel({
-  //     userId: user.id,
-  //     friendId: friend.id,
-  //     // Other properties...
-  //   });
-
-  //   return friendEntity.save();
-  // }
 
   async create(
     createFriendDto: CreateFriendDto,
@@ -50,7 +39,6 @@ export class FriendService {
       });
       if (relationExist) throw new BadRequestException('Relation alredy exist');
 
-      //const createFriend = await this.createFriend(user, friend);
       const createFriend = await this.friendModel.create({
         userId: user.id,
         friendId: friend.id,
@@ -76,7 +64,7 @@ export class FriendService {
   async getFriendById(
     friendIdParam: string,
     userId: string,
-  ): Promise<FriendApiResponse> {
+  ): Promise<Promise<{ lastMessage: Message } | FriendApiResponse>> {
     this.logger.log('search friend by id');
     try {
       const findFriend = await this.friendModel
@@ -86,9 +74,15 @@ export class FriendService {
         })
         .populate('friendId', '-roles -password')
         .select('-userId');
+
+      const findMessage = await this.messageService.getLastMessage(
+        userId,
+        friendIdParam,
+      );
       const { friendId, ...rest } = findFriend.toObject();
 
       return {
+        lastMessage: findMessage,
         user: friendId,
         ...rest,
       };
@@ -118,23 +112,18 @@ export class FriendService {
         if (typeof f !== 'string') {
           const friendPopulated = f.friendId as unknown;
           const friendIDD = (friendPopulated as User).id;
-          const findMessages = await this.messageModel
-            .findOne({
-              $or: [
-                { from: user.id, to: friendIDD },
-                { from: friendIDD, to: user.id },
-              ],
-            })
-            .sort({ createdAt: 'desc' })
-            .select('-responseTo')
-            .limit(1);
-          const friendObject = f.toObject();
-          const userFriend = friendObject.friendId;
-          delete friendObject.friendId;
+          const findMessage = await this.messageService.getLastMessage(
+            user.id,
+            friendIDD,
+          );
+
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { friendId, userId, ...restFriend } = f.toObject();
+
           return {
-            ...friendObject,
-            user: userFriend,
-            lastMessage: findMessages && findMessages.toJSON(),
+            ...restFriend,
+            user: friendId,
+            lastMessage: findMessage,
           };
         }
       });

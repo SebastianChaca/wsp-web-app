@@ -19,7 +19,7 @@ export class MessageService {
     @InjectModel(Friend.name)
     private readonly friendModel: Model<Friend>,
   ) {}
-  async create(createMessageDto: CreateMessageDto) {
+  async create(createMessageDto: CreateMessageDto): Promise<Message> {
     this.logger.log('create message');
     const { to, from, message, responseTo } = createMessageDto;
     const relationExist = await this.friendModel.findOne({
@@ -53,7 +53,11 @@ export class MessageService {
     }
   }
 
-  async findAll(user: User, id: string, paginationDto: PaginationDto) {
+  async findAll(
+    user: User,
+    id: string,
+    paginationDto: PaginationDto,
+  ): Promise<Message[]> {
     this.logger.log('search messages');
     const { limit = 20, offset = 0 } = paginationDto;
     try {
@@ -76,7 +80,10 @@ export class MessageService {
     }
   }
 
-  async update(id: string, updateMessageSeen: UpdateMessageSeen) {
+  async update(
+    id: string,
+    updateMessageSeen: UpdateMessageSeen,
+  ): Promise<Message> {
     this.logger.log('update message');
     try {
       const updatedMessage = await this.messageModel.findOneAndUpdate(
@@ -91,7 +98,7 @@ export class MessageService {
     }
   }
 
-  async getLastMessage(userId: string, friendId: string) {
+  async getLastMessage(userId: string, friendId: string): Promise<Message> {
     return await this.messageModel
       .findOne({
         $or: [
