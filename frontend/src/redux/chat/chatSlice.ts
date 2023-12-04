@@ -13,10 +13,10 @@ import {
   resetNotification,
   updateFriendIsTyping,
   updateLastMessage,
-  updateNotification,
   updateLastMessageSeen,
   friendObjSanitize,
   unshiftFriend,
+  updateNotification,
 } from './accions';
 import { getFriends } from '../../services/friends/getFriends';
 import { sanitizeMessage } from '../../utils/sanitizeMessages';
@@ -54,10 +54,10 @@ export const chatSlice = createSlice({
       ) {
         state.messages.push(parsedMessage);
       }
-      // TODO cuando me manda mensaje un amigo que no esta en el listado de UI se duplican las notif por esto
-      // if (action.payload.from) {
-      //   state.friends = updateNotification(state.friends, parsedMessage.from);
-      // }
+
+      if (action.payload.from) {
+        state.friends = updateNotification(state.friends, parsedMessage.from);
+      }
       state.friends = updateLastMessage(state.friends, parsedMessage);
       state.friends = unshiftFriend(state.friends, parsedMessage.from);
     },
