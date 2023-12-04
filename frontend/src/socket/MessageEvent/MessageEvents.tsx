@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import {
   setMessages,
@@ -11,8 +11,8 @@ import { useSocketContext } from '../SocketContext/SocketContext';
 import { serverMessageResponse } from '../../types/message/message';
 
 import { sanitizeMessages } from '../../utils/sanitizeMessages';
+
 import { getFriendById } from '../../services/friends';
-import { friendFromApi } from '../../types/friend/friend';
 
 interface Props {
   children?: JSX.Element | JSX.Element[];
