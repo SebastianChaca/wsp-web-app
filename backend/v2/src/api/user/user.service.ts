@@ -5,6 +5,7 @@ import { User } from './entities/user.entity';
 import { Model } from 'mongoose';
 import { AuthService } from 'src/api/auth/auth.service';
 import { SendEmailService } from '../send-email/send-email.service';
+import { UserApiResponse } from './interfaces/userApiResponse.interface';
 
 @Injectable()
 export class UserService {
@@ -15,7 +16,7 @@ export class UserService {
     private readonly authService: AuthService,
     private readonly sendEmailServide: SendEmailService,
   ) {}
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<UserApiResponse> {
     try {
       this.logger.log('Create user');
       createUserDto.password = this.authService.hashPassword(
@@ -27,7 +28,7 @@ export class UserService {
       this.sendEmailServide.userCreationEmail({ email: user.email });
       //TODO: verificar cuenta
       return {
-        ...userObj,
+        user: { ...userObj },
         token: this.authService.getJwtToken({ id: user.id }),
       };
     } catch (error) {

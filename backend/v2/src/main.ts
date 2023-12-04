@@ -22,7 +22,7 @@ async function bootstrap() {
     .setTitle('Wsp web clone api')
     .setDescription('API description')
     .setVersion('2.0')
-    .addServer(process.env.PORT)
+    // .addServer(process.env.PORT)
     .addBearerAuth(
       {
         type: 'http',

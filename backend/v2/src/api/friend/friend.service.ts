@@ -7,6 +7,7 @@ import { User } from '../user/entities/user.entity';
 import { Model } from 'mongoose';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { Message } from '../message/entities/message.entity';
+import { FriendApiResponse } from './interfaces/friendApiResponse.interface';
 
 @Injectable()
 export class FriendService {
@@ -21,7 +22,20 @@ export class FriendService {
     private readonly messageModel: Model<Message>,
   ) {}
 
-  async create(createFriendDto: CreateFriendDto, user: User) {
+  // async createFriend(user: User, friend: User): Promise<FriendDocument> {
+  //   const friendEntity = new this.friendModel({
+  //     userId: user.id,
+  //     friendId: friend.id,
+  //     // Other properties...
+  //   });
+
+  //   return friendEntity.save();
+  // }
+
+  async create(
+    createFriendDto: CreateFriendDto,
+    user: User,
+  ): Promise<FriendApiResponse> {
     const { email } = createFriendDto;
     this.logger.log('Create friend');
     if (email === user.email) throw new BadRequestException('invalid email');
@@ -36,6 +50,7 @@ export class FriendService {
       });
       if (relationExist) throw new BadRequestException('Relation alredy exist');
 
+      //const createFriend = await this.createFriend(user, friend);
       const createFriend = await this.friendModel.create({
         userId: user.id,
         friendId: friend.id,
@@ -49,7 +64,7 @@ export class FriendService {
         populatedFriend.toObject();
 
       return {
-        user: friendId,
+        user: populatedFriend.friendId,
         ...friendWithoutId,
       };
     } catch (error) {
@@ -58,7 +73,10 @@ export class FriendService {
     }
   }
 
-  async getFriendById(friendIdParam: string, userId: string) {
+  async getFriendById(
+    friendIdParam: string,
+    userId: string,
+  ): Promise<FriendApiResponse> {
     this.logger.log('search friend by id');
     try {
       const findFriend = await this.friendModel
@@ -80,7 +98,10 @@ export class FriendService {
     }
   }
 
-  async findAllFriends(user: User, paginationDto: PaginationDto) {
+  async findAllFriends(
+    user: User,
+    paginationDto: PaginationDto,
+  ): Promise<({ lastMessage: Message } | FriendApiResponse)[]> {
     this.logger.log('search friends');
     const { limit = 1, offset = 0 } = paginationDto;
 
@@ -123,8 +144,12 @@ export class FriendService {
       throw error;
     }
   }
-
-  update(id: string, updateFriendDto: UpdateFriendDto, userId: string) {
+  //TODO:ver despues si deberia popular esto
+  update(
+    id: string,
+    updateFriendDto: UpdateFriendDto,
+    userId: string,
+  ): Promise<Friend> {
     this.logger.log('update friend');
     try {
       const friend = this.friendModel.findOneAndUpdate(

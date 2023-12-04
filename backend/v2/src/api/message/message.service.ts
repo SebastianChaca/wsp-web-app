@@ -91,6 +91,19 @@ export class MessageService {
     }
   }
 
+  async getLastMessage(userId: string, friendId: string) {
+    return await this.messageModel
+      .findOne({
+        $or: [
+          { from: userId, to: friendId },
+          { from: friendId, to: userId },
+        ],
+      })
+      .sort({ createdAt: 'desc' })
+      .select('-responseTo')
+      .limit(1);
+  }
+
   // remove(id: number) {
   //   return `This action removes a #${id} message`;
   // }

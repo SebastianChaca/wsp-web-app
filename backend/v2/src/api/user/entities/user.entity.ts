@@ -100,6 +100,16 @@ export class User {
   })
   @Prop()
   passwordResetExpires: Date;
+
+  @ApiProperty({
+    description: 'if current user is an admin',
+  })
+  isAdmin: boolean;
+
+  @ApiProperty({
+    description: 'if current user is a super admin',
+  })
+  isSuperAdmin: boolean;
 }
 export const UserSchema = SchemaFactory.createForClass(User);
 

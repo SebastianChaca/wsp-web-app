@@ -6,10 +6,12 @@ import { User, UserSchema } from '../user/entities/user.entity';
 import { Message, MessageSchema } from '../message/entities/message.entity';
 import { AuthModule } from '../auth/auth.module';
 import { Friend, FriendSchema } from './entities/friend.entity';
+import { MessageService } from '../message/message.service';
+import { EventsGateway } from 'src/events/events.gateway';
 
 @Module({
   controllers: [FriendController],
-  providers: [FriendService],
+  providers: [FriendService, MessageService, EventsGateway],
   imports: [
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },

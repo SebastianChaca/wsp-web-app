@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-
+import { User } from 'src/api/user/entities/user.entity';
+export type FriendDocument = Friend & mongoose.Document;
 @Schema({
   timestamps: true,
   toObject: {
@@ -40,7 +41,7 @@ export class Friend {
     ref: 'User',
     required: true,
   })
-  userId: mongoose.Schema.Types.ObjectId;
+  userId: User;
 
   @ApiProperty({
     description: 'friend',
@@ -51,7 +52,7 @@ export class Friend {
     ref: 'User',
     required: true,
   })
-  friendId: mongoose.Schema.Types.ObjectId;
+  friendId: User;
 
   @ApiProperty({
     example: 1,
@@ -73,6 +74,26 @@ export class Friend {
   })
   @Prop({ default: 0, enum: [0, 1, 2] })
   status: number;
+
+  @ApiProperty({
+    example: false,
+    description: 'if status === 0',
+  })
+  isPending: boolean;
+
+  @ApiProperty({
+    example: false,
+    description: 'if status === 1',
+  })
+  isAccepted: boolean;
+  @ApiProperty({
+    example: false,
+    description: 'if status === 1',
+  })
+  isBlocked: boolean;
+
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export const FriendSchema = SchemaFactory.createForClass(Friend);

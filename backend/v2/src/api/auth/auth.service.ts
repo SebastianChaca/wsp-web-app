@@ -17,6 +17,7 @@ import { EmailDto } from 'src/common/dto/email.dto';
 import { SendEmailService } from '../send-email/send-email.service';
 import { TokenDto } from 'src/common/dto/token.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { UserApiResponse } from '../user/interfaces/userApiResponse.interface';
 
 @Injectable()
 export class AuthService {
@@ -27,18 +28,18 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly sendEmailService: SendEmailService,
   ) {}
-  hashPassword(password: string) {
+  hashPassword(password: string): string {
     return hashSync(password, 10);
   }
-  comparePassword(password: string, passwordModel: string) {
+  comparePassword(password: string, passwordModel: string): boolean {
     return compareSync(password, passwordModel);
   }
-  getJwtToken(payload: JwtPayload) {
+  getJwtToken(payload: JwtPayload): string {
     //generar token
     return this.jwtService.sign(payload);
   }
 
-  async login(loginUserDto: LoginUserDto) {
+  async login(loginUserDto: LoginUserDto): Promise<UserApiResponse> {
     const { password, email } = loginUserDto;
     this.logger.log('Login user');
     const user = await this.userModel.findOne({ email });
@@ -54,11 +55,11 @@ export class AuthService {
     };
   }
 
-  async checkAuthStatus(user: User) {
+  async checkAuthStatus(user: User): Promise<UserApiResponse> {
     return { user: { ...user }, token: this.getJwtToken({ id: user.id }) };
   }
 
-  async forgotPassword(emailDto: EmailDto) {
+  async forgotPassword(emailDto: EmailDto): Promise<{ message: string }> {
     const { email } = emailDto;
     const user = await this.userModel.findOne({ email });
     if (!user) throw new NotFoundException('user not found');
@@ -84,7 +85,10 @@ export class AuthService {
     }
   }
 
-  async resetPassword(tokenDto: TokenDto, resetpasswordDto: ResetPasswordDto) {
+  async resetPassword(
+    tokenDto: TokenDto,
+    resetpasswordDto: ResetPasswordDto,
+  ): Promise<UserApiResponse> {
     const { token } = tokenDto;
     const { password } = resetpasswordDto;
     const hashedToken = this.createHashedToken(token);
@@ -105,15 +109,15 @@ export class AuthService {
     const userObj = user.toObject();
     delete userObj.password;
     return {
-      ...userObj,
+      user: { ...userObj },
       token: this.getJwtToken({ id: user.id }),
     };
   }
 
-  createToken() {
+  createToken(): string {
     return randomBytes(32).toString('hex');
   }
-  createHashedToken(resetToken: string) {
+  createHashedToken(resetToken: string): string {
     //cambiar a bcrypt
     const hashedToken = createHash('sha256').update(resetToken).digest('hex');
     return hashedToken;
