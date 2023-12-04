@@ -37,8 +37,8 @@ const MessageEvents = ({ children }: Props) => {
         dispatch(setMessages(messagePayload));
       } else {
         const search = await getFriendById(messagePayload.from.id);
+
         dispatch(addFierndToList(search));
-        dispatch(setMessages(messagePayload));
       }
     };
     socket?.on('personal-message', handlePersonalMessage);

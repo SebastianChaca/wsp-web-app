@@ -54,6 +54,7 @@ export const chatSlice = createSlice({
       ) {
         state.messages.push(parsedMessage);
       }
+      // TODO cuando me manda mensaje un amigo que no esta en el listado de UI se duplican las notif por esto
       // if (action.payload.from) {
       //   state.friends = updateNotification(state.friends, parsedMessage.from);
       // }
@@ -80,6 +81,7 @@ export const chatSlice = createSlice({
       const checkIfFriendExists = state.friends?.find(
         (f) => f.user.uid === action.payload.user.id
       );
+
       if (!checkIfFriendExists) {
         state.friends?.unshift(friendObjSanitize(action.payload));
       }
