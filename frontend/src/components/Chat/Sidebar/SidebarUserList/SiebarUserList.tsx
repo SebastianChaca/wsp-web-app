@@ -13,9 +13,7 @@ const SidebarUserList = () => {
       {friendsLoading ? (
         <Spinner padding="20px" />
       ) : (
-        friends.map((friend) => (
-          <SidebarItem key={friend.user.uid} friend={friend} />
-        ))
+        friends.map((friend) => <SidebarItem key={friend.id} friend={friend} />)
       )}
     </UserListContainer>
   );

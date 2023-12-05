@@ -9,7 +9,7 @@ interface FriendApiResponse {
 
 export const blockFriend = async (friendId: { friendId: string }) => {
   const response = await makePrivateRequest<FriendApiResponse>(
-    `${FRIEND}/${friendId}`,
+    `${FRIEND}/status/${friendId}`,
     {
       data: {
         status: 2,

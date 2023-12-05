@@ -5,6 +5,7 @@ import { useSocketContext } from '../SocketContext/SocketContext';
 import { messageToServer } from '../../types/message/message';
 
 import { sendMessage } from '../../services/messages';
+import { updateFriendship } from '../../services/friends/updateFrienship';
 
 const useInputSocket = (messageProps: string) => {
   const { messages } = useAppSelector((state) => state.chatSlice);
@@ -27,14 +28,14 @@ const useInputSocket = (messageProps: string) => {
   }, [msg, socket]);
 
   const submitEvent = useCallback(async () => {
-    // TODO: si no se mandaron mensajes tengo que agregar al remitente a la lista del destinatario
-    if (activeChat.status === 0 && !messages.length) {
-      // chequeo si el estado de amistad esta pendiente, si es asi mando al destinatario
-      // los datos del usuario que le esta escribiendo para agregarlo a su listao de amigos
-      // socket?.emit('request-friend', msg);
+    try {
+      if (activeChat.status === 0 && !messages.length) {
+        await updateFriendship({ friendId: msg.to });
+      }
+      dispatch(sendMessage(msg));
+    } catch (error) {
+      console.log(error);
     }
-
-    dispatch(sendMessage(msg));
 
     // socket?.emit('personal-message', msg);
   }, [dispatch, msg, activeChat.status, messages.length]);

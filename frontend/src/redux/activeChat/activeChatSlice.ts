@@ -9,6 +9,7 @@ const initialState: ActiveChat = {
   email: '',
   online: false,
   uid: null,
+  id: null,
   isTyping: false,
   lastActive: '',
   status: null,
@@ -32,12 +33,15 @@ export const activeChatSlice = createSlice({
         status,
         statusIsApproved,
         responseTo,
+        id,
       } = action.payload;
+
       state.isRequesting = isRequesting;
       state.name = name;
       state.email = email;
       state.online = online;
       state.uid = uid;
+      state.id = id;
       state.isTyping = isTyping;
       state.lastActive = lastActive;
       state.status = status;

@@ -3,15 +3,12 @@ import Avatar from '../../../Ui/Avatar/Avatar';
 import { useAppSelector } from '../../../../redux/hooks';
 import { Container } from './Components';
 import { IsOnline, IsTyping, LastActive } from '../../../Ui/index';
-import { useFriendStatusApproved } from '../../../../redux/chat/selectors';
 import Username from '../../../Ui/UserName/Username';
 
 const ChatTopBar = () => {
-  const { name, online, isTyping } = useAppSelector(
+  const { name, online, isTyping, statusIsApproved } = useAppSelector(
     (state) => state.activeChatSlice
   );
-
-  const friendStatusApproved = useFriendStatusApproved();
 
   return (
     <Container>
@@ -20,11 +17,11 @@ const ChatTopBar = () => {
           online={online}
           name={name}
           hasBadge
-          friendStatusApproved={friendStatusApproved}
+          friendStatusApproved={statusIsApproved}
         />
         <Box mt="2px">
           <Username name={name} />
-          {friendStatusApproved && (
+          {statusIsApproved && (
             <>
               <IsOnline />
               <LastActive />

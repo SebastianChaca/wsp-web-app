@@ -6,7 +6,7 @@ import {
   messageUI,
   serverMessageResponse,
 } from '../../types/message/message';
-import { friend, friendFromApi } from '../../types/friend/friend';
+import { friendFromApi } from '../../types/friend/friend';
 import { ChatState } from '../../types/chatState/chatState';
 import {
   friendUpdate,
@@ -103,8 +103,9 @@ export const chatSlice = createSlice({
         }
       });
     },
-    updateFriend: (state, action: PayloadAction<friend>) => {
-      state.friends = friendUpdate(state.friends, action.payload);
+    updateFriend: (state, action: PayloadAction<friendFromApi>) => {
+      const parseFriend = friendObjSanitize(action.payload);
+      state.friends = friendUpdate(state.friends, parseFriend);
     },
     resetChatState: () => initialState,
   },

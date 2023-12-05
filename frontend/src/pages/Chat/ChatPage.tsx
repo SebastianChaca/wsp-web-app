@@ -42,6 +42,7 @@ const ChatPage = () => {
           email: findFriend.user.email,
           online: findFriend.user.online,
           uid: findFriend.user.uid,
+          id: findFriend.user.id,
           lastActive: findFriend.user.lastActive,
           status: findFriend.status,
           isTyping: findFriend.isTyping,

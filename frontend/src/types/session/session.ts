@@ -2,6 +2,7 @@ export interface user {
   email: string | null;
   name: string;
   uid: string | null;
+  id: string | null;
   online: boolean;
   lastActive: string;
   // roles: string;

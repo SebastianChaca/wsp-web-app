@@ -7,9 +7,9 @@ interface FriendApiResponse {
   friend: friend;
 }
 
-export const aceptFriend = async (friendId: { friendId: string }) => {
+export const aceptFriend = async (friendId: string) => {
   const response = await makePrivateRequest<FriendApiResponse>(
-    `${FRIEND}/${friendId}`,
+    `${FRIEND}/status/${friendId}`,
     {
       data: {
         status: 1,

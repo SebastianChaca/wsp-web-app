@@ -14,6 +14,7 @@ const initialState: sessionState = {
   error: null,
   name: '',
   uid: null,
+  id: null,
   status: 'idle',
   isLoading: false,
   online: false,

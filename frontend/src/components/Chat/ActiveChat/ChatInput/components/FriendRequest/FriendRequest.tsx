@@ -3,6 +3,7 @@ import { Flex, Text, Button, Box } from '@chakra-ui/react';
 import { AiOutlineCheckCircle, MdBlock } from 'react-icons/all';
 import { useSocketContext } from '../../../../../../socket/SocketContext/SocketContext';
 import { useAppSelector } from '../../../../../../redux/hooks';
+import { aceptFriend } from '../../../../../../services/friends';
 
 const FriendRequest: FC = () => {
   const { socket } = useSocketContext();
@@ -13,12 +14,20 @@ const FriendRequest: FC = () => {
   if (!isRequesting) {
     return null;
   }
-  const handleAccept = () => {
-    socket?.emit('update-friend-status', {
-      friendId: uid,
-      from: session.uid,
-      status: 1,
-    });
+  const handleAccept = async () => {
+    try {
+      if (uid) {
+        // esta mal, hay que usar create async thunk asi actualiza en la ui del remitente
+        await aceptFriend(uid);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    // socket?.emit('update-friend-status', {
+    //   friendId: uid,
+    //   from: session.uid,
+    //   status: 1,
+    // });
   };
   const handleBlock = () => {
     socket?.emit('update-friend-status', {

@@ -13,6 +13,7 @@ import { serverMessageResponse } from '../../types/message/message';
 import { sanitizeMessages } from '../../utils/sanitizeMessages';
 
 import { getFriendById } from '../../services/friends';
+import { friendFromApi } from '../../types/friend/friend';
 
 interface Props {
   children?: JSX.Element | JSX.Element[];
@@ -58,9 +59,13 @@ const MessageEvents = ({ children }: Props) => {
   }, [socket, dispatch, session.uid]);
 
   useEffect(() => {
-    socket?.on('update-friend-status', (friend) => {
+    const handleUpdate = (friend: friendFromApi) => {
       dispatch(updateFriend(friend));
-    });
+    };
+    socket?.on('update-friend-status', handleUpdate);
+    return () => {
+      socket?.off('update-friend-status', handleUpdate);
+    };
   }, [socket, dispatch]);
   return <>{children}</>;
 };
