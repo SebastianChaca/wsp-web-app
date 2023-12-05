@@ -41,4 +41,16 @@ export class CreateFriendDto {
   @IsIn([0, 1, 2])
   @IsOptional()
   status?: number;
+
+  @ApiProperty({
+    description: 'id from current user',
+  })
+  @IsOptional()
+  userId?: string;
+
+  @ApiProperty({
+    description: 'id from friend',
+  })
+  @IsOptional()
+  friendId?: string;
 }

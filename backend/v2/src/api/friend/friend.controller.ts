@@ -9,8 +9,13 @@ import {
   Query,
 } from '@nestjs/common';
 import { FriendService } from './friend.service';
-import { CreateFriendDto } from './dto/create-friend.dto';
-import { UpdateFriendDto } from './dto/update-friend.dto';
+import {
+  CreateFriendDto,
+  UpdateFriendDto,
+  FriendParamsDto,
+  AddSenderDto,
+} from './dto';
+
 import { Auth } from '../auth/decorators/auth.decorator';
 import { ApiTags } from '@nestjs/swagger';
 import { GetUser } from '../auth/decorators/get-user.decorator';
@@ -21,10 +26,9 @@ import {
   FindFriendsSwaggerDecorator,
   UpdateFriendSwaggerDecorator,
   GetFriendByIdSwaggerDecorator,
+  AddSenderSwaggerDecorator,
 } from './swagger';
-import { PaginationDto } from '../../common/dto/pagination.dto';
 import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe';
-import { FriendParamsDto } from './dto/params.dto';
 import { FriendApiResponse } from './interfaces/friendApiResponse.interface';
 import { Message } from '../message/entities/message.entity';
 
@@ -39,6 +43,17 @@ export class FriendController {
   @Post()
   create(@Body() createFriendDto: CreateFriendDto, @GetUser() user: User) {
     return this.friendService.create(createFriendDto, user);
+  }
+
+  @AddSenderSwaggerDecorator()
+  @UseFilters(UniqueConstraintFilter)
+  @Post('addsender')
+  @Auth()
+  addSenderToFriendsList(
+    @Body() addSenderDto: AddSenderDto,
+    @GetUser() user: User,
+  ) {
+    return this.friendService.addSenderToFriendsList(addSenderDto, user);
   }
 
   @FindFriendsSwaggerDecorator()

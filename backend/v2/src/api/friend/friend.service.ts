@@ -9,6 +9,7 @@ import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { Message } from '../message/entities/message.entity';
 import { FriendApiResponse } from './interfaces/friendApiResponse.interface';
 import { MessageService } from '../message/message.service';
+import { AddSenderDto } from './dto';
 
 @Injectable()
 export class FriendService {
@@ -21,6 +22,24 @@ export class FriendService {
     private readonly messageService: MessageService,
   ) {}
 
+  async createFriendAndSerialize(
+    userId: string,
+    friendId: string,
+    isRequesting?: boolean,
+  ): Promise<FriendApiResponse> {
+    const createFriend = await this.friendModel.create({
+      userId,
+      friendId,
+      isRequesting,
+    });
+
+    const populatedFriend = await this.friendModel.populate(createFriend, [
+      { path: 'friendId', select: '-password' },
+    ]);
+
+    return this.serializeFriendResponse(populatedFriend);
+  }
+  //first step: user add a friend to his friends list only with email
   async create(
     createFriendDto: CreateFriendDto,
     user: User,
@@ -39,18 +58,47 @@ export class FriendService {
       });
       if (relationExist) throw new BadRequestException('Relation alredy exist');
 
-      const createFriend = await this.friendModel.create({
+      return await this.createFriendAndSerialize(user.id, friend.id);
+    } catch (error) {
+      this.logger.error('Create friend error');
+      throw error;
+    }
+  }
+  //second step: add sender to addressee friends list
+  async addSenderToFriendsList(
+    addsenderDto: AddSenderDto,
+    user: User,
+  ): Promise<FriendApiResponse> {
+    const { friendId } = addsenderDto;
+    this.logger.log('add sender to friend list');
+    try {
+      const friend = await this.userModel.findOne({ _id: friendId });
+      if (!friend) throw new BadRequestException('invalid friend id');
+
+      const checkIfFriendWasAdded = await this.friendModel.findOne({
         userId: user.id,
         friendId: friend.id,
       });
 
-      const populatedFriend = await this.friendModel.populate(createFriend, [
-        { path: 'friendId', select: '-password' },
-      ]);
+      if (!checkIfFriendWasAdded)
+        throw new BadRequestException(
+          'frist add this friend to your friends list',
+        );
 
-      return this.serializeFriendResponse(populatedFriend);
+      const checkIfSenderWasAdded = await this.friendModel.findOne({
+        userId: friendId,
+        friendId: user.id,
+      });
+
+      if (checkIfSenderWasAdded) {
+        throw new BadRequestException(
+          'sender was already added to friend list',
+        );
+      }
+
+      return await this.createFriendAndSerialize(friendId, user.id, true);
     } catch (error) {
-      this.logger.error('Create friend error');
+      this.logger.error('add sender error');
       throw error;
     }
   }
