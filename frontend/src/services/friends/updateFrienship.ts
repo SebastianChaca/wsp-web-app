@@ -2,11 +2,12 @@ import { makePrivateRequest } from '../makePrivateRequest';
 import { friendFromApi } from '../../types/friend/friend';
 import { FRIEND } from './const';
 
-export const getFriendById = async (friendId: string) => {
+export const updateFriendship = async (friendId: { friendId: string }) => {
   const response = await makePrivateRequest<friendFromApi>(
-    `${FRIEND}/${friendId}`,
+    `${FRIEND}/addsender`,
     {
-      method: 'get',
+      data: friendId,
+      method: 'post',
     }
   );
   return response;

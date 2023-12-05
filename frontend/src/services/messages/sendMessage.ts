@@ -4,6 +4,7 @@ import {
   messageToServer,
   serverMessageResponse,
 } from '../../types/message/message';
+import { MESSAGE } from './const';
 
 export const sendMessage = createAsyncThunk(
   'chat/getMessage',
@@ -11,7 +12,7 @@ export const sendMessage = createAsyncThunk(
     delete props.isLoading;
     delete props.temporalId;
     const response = await makePrivateRequest<serverMessageResponse>(
-      `/message`,
+      `/${MESSAGE}`,
       { data: props, method: 'post' }
     );
     return response;

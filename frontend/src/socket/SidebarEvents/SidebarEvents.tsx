@@ -27,14 +27,14 @@ const SidebarEvents = ({ children }: Props) => {
     );
   }, [socket, dispatch]);
 
-  useEffect(() => {
-    socket?.on(
-      'request-friend',
-      ({ friendInfo }: { friendInfo: friendFromApi }) => {
-        dispatch(addFierndToList(friendInfo));
-      }
-    );
-  }, [socket, dispatch]);
+  // useEffect(() => {
+  //   socket?.on(
+  //     'request-friend',
+  //     ({ friendInfo }: { friendInfo: friendFromApi }) => {
+  //       dispatch(addFierndToList(friendInfo));
+  //     }
+  //   );
+  // }, [socket, dispatch]);
 
   useEffect(() => {
     socket?.on('typing', (messagePayload: message) => {

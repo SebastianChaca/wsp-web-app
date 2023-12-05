@@ -1,5 +1,6 @@
 import { makePrivateRequest } from '../makePrivateRequest';
 import { friend } from '../../types/friend/friend';
+import { FRIEND } from './const';
 
 interface FriendApiResponse {
   ok: boolean;
@@ -8,7 +9,7 @@ interface FriendApiResponse {
 
 export const blockFriend = async (friendId: { friendId: string }) => {
   const response = await makePrivateRequest<FriendApiResponse>(
-    `friend/${friendId}`,
+    `${FRIEND}/${friendId}`,
     {
       data: {
         status: 2,

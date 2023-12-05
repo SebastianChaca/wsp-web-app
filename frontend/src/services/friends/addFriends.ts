@@ -1,11 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { makePrivateRequest } from '../makePrivateRequest';
 import { friendFromApi } from '../../types/friend/friend';
+import { FRIEND } from './const';
 
 export const addFriend = createAsyncThunk(
   'chat/addFrien',
   async (email: { email: string }) => {
-    const response = await makePrivateRequest<friendFromApi>('friend', {
+    const response = await makePrivateRequest<friendFromApi>(FRIEND, {
       data: email,
       method: 'post',
     });
@@ -13,7 +14,7 @@ export const addFriend = createAsyncThunk(
   }
 );
 export const addFriendRequest = async (email: { email: string }) => {
-  const response = await makePrivateRequest<friendFromApi>('friend', {
+  const response = await makePrivateRequest<friendFromApi>(FRIEND, {
     data: email,
     method: 'post',
   });
