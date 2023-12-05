@@ -8,6 +8,7 @@ import { AuthModule } from '../auth/auth.module';
 import { Friend, FriendSchema } from './entities/friend.entity';
 import { MessageService } from '../message/message.service';
 import { EventsGateway } from 'src/events/events.gateway';
+import { EventsModule } from 'src/events/events.module';
 
 @Module({
   controllers: [FriendController],
@@ -19,6 +20,7 @@ import { EventsGateway } from 'src/events/events.gateway';
       { name: Friend.name, schema: FriendSchema },
     ]),
     AuthModule,
+    EventsModule,
   ],
   exports: [FriendService],
 })

@@ -21,6 +21,7 @@ import {
   isTyping,
 } from './interfaces/message-populated.interface';
 import { Friend } from 'src/api/friend/entities/friend.entity';
+import { FriendApiResponse } from 'src/api/friend/interfaces/friendApiResponse.interface';
 
 @WebSocketGateway({
   namespace: 'events',
@@ -43,32 +44,6 @@ export class EventsGateway
 
   @WebSocketServer()
   server: Server<ClientToServer, ServerToClient>;
-
-  getUserId(client: Socket) {
-    const token = client?.handshake?.query?.token as string;
-    const payload = this.jwtService.verify(token, {
-      secret: this.configService.get('jwt.secret'),
-    });
-    return payload;
-  }
-  async findUserAndUpdateOnlineStatus(
-    id: string,
-    update: { online: boolean; lastActive?: string },
-  ) {
-    const user = await this.userModel.findOneAndUpdate(
-      {
-        _id: id,
-      },
-      { online: update.online, lastActive: update.lastActive },
-      { new: true },
-    );
-    return user;
-  }
-  async findUserFriendsIds(id: string) {
-    const friends = await this.friendModel.find({ userId: id });
-    const friendsIds = friends.map((friend) => friend.friendId.toString());
-    return friendsIds;
-  }
 
   async handleConnection(client: Socket) {
     try {
@@ -108,12 +83,20 @@ export class EventsGateway
     );
   }
 
-  @SubscribeMessage('message')
-  handleMessage(): string {
-    return 'Hello world!';
+  sendMessage(message: PopulatedMessage) {
+    this.server.to(message.to.id.toString()).emit('personal-message', message);
   }
 
-  async updateOnlineStatus(user: User) {
+  sendUpdatedFriendStatus(friend: FriendApiResponse, to: string) {
+    this.server.to(to).emit('update-friend-status', friend);
+  }
+
+  @SubscribeMessage('typing')
+  userIsTyping(client: Socket, payload: isTyping) {
+    this.server.to(payload.to).emit('typing', payload);
+  }
+
+  private async updateOnlineStatus(user: User) {
     const friendsIds = await this.findUserFriendsIds(user.id);
     this.server.to(friendsIds).emit('friend-online-status', {
       uid: user.id,
@@ -121,11 +104,29 @@ export class EventsGateway
       lastActive: user.lastActive,
     });
   }
-  sendMessage(message: PopulatedMessage) {
-    this.server.to(message.to.id.toString()).emit('personal-message', message);
+  private getUserId(client: Socket) {
+    const token = client?.handshake?.query?.token as string;
+    const payload = this.jwtService.verify(token, {
+      secret: this.configService.get('jwt.secret'),
+    });
+    return payload;
   }
-  @SubscribeMessage('typing')
-  userIsTyping(client: Socket, payload: isTyping) {
-    this.server.to(payload.to).emit('typing', payload);
+  private async findUserAndUpdateOnlineStatus(
+    id: string,
+    update: { online: boolean; lastActive?: string },
+  ) {
+    const user = await this.userModel.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      { online: update.online, lastActive: update.lastActive },
+      { new: true },
+    );
+    return user;
+  }
+  private async findUserFriendsIds(id: string) {
+    const friends = await this.friendModel.find({ userId: id });
+    const friendsIds = friends.map((friend) => friend.friendId.toString());
+    return friendsIds;
   }
 }

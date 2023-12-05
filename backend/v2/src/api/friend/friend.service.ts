@@ -9,7 +9,8 @@ import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { Message } from '../message/entities/message.entity';
 import { FriendApiResponse } from './interfaces/friendApiResponse.interface';
 import { MessageService } from '../message/message.service';
-import { AddSenderDto } from './dto';
+import { AddSenderDto, UpdateStatusDto } from './dto';
+import { EventsGateway } from 'src/events/events.gateway';
 
 @Injectable()
 export class FriendService {
@@ -20,6 +21,7 @@ export class FriendService {
     @InjectModel(User.name)
     private readonly userModel: Model<User>,
     private readonly messageService: MessageService,
+    private readonly eventGateway: EventsGateway,
   ) {}
 
   async createFriendAndSerialize(
@@ -166,7 +168,7 @@ export class FriendService {
     paginationDto: PaginationDto,
   ): Promise<FriendDocument[]> {
     this.logger.log('search friends');
-    const { limit = 1, offset = 0 } = paginationDto;
+    const { limit = 15, offset = 0 } = paginationDto;
 
     try {
       const friends = await this.friendModel
@@ -198,6 +200,36 @@ export class FriendService {
       return friend;
     } catch (error) {
       this.logger.error('update friends error');
+      throw error;
+    }
+  }
+
+  async updateStatus(user: User, updateStatusDto: UpdateStatusDto, id: string) {
+    try {
+      const friend = await this.userModel.findOne({ _id: id });
+      if (!friend) throw new BadRequestException('invalid friend id');
+      const updateFriend = await this.friendModel
+        .findOneAndUpdate(
+          { friendId: id, userId: user.id },
+          { ...updateStatusDto, isRequesting: false },
+          { new: true },
+        )
+        .populate({ path: 'friendId', select: '-password' })
+        .select('-userId');
+
+      const updateUserStatus = await this.friendModel
+        .findOneAndUpdate(
+          { friendId: user.id, userId: id },
+          { ...updateStatusDto, isRequesting: false },
+          { new: true },
+        )
+        .populate({ path: 'friendId', select: '-password' })
+        .select('-userId');
+      const friendApiResponse = this.serializeFriendResponse(updateUserStatus);
+      this.eventGateway.sendUpdatedFriendStatus(friendApiResponse, id);
+
+      return this.serializeFriendResponse(updateFriend);
+    } catch (error) {
       throw error;
     }
   }

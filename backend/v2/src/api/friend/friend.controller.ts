@@ -14,6 +14,7 @@ import {
   UpdateFriendDto,
   FriendParamsDto,
   AddSenderDto,
+  UpdateStatusDto,
 } from './dto';
 
 import { Auth } from '../auth/decorators/auth.decorator';
@@ -98,5 +99,15 @@ export class FriendController {
     @Body() updateFriendDto: UpdateFriendDto,
   ) {
     return this.friendService.update(id, updateFriendDto, user.id);
+  }
+
+  @Auth()
+  @Patch('status/:id')
+  updateStatus(
+    @GetUser() user: User,
+    @Param('id', ParseMongoIdPipe) id: string,
+    @Body() updateStatusDto: UpdateStatusDto,
+  ) {
+    return this.friendService.updateStatus(user, updateStatusDto, id);
   }
 }
