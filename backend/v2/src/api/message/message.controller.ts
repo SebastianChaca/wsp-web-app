@@ -54,4 +54,14 @@ export class MessageController {
   ) {
     return this.messageService.update(id, updateMessageSeen);
   }
+
+  @Auth()
+  @Patch(':id/updateseen')
+  updateSeenMessageBatch(
+    @Body() updateMessageSeen: UpdateMessageSeen,
+    @Param('id', ParseMongoIdPipe) id: string,
+    @GetUser() user: User,
+  ) {
+    return this.messageService.updateSeenMessages(updateMessageSeen, id, user);
+  }
 }

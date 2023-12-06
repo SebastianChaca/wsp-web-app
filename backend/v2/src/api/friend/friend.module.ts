@@ -9,10 +9,11 @@ import { Friend, FriendSchema } from './entities/friend.entity';
 import { MessageService } from '../message/message.service';
 import { EventsGateway } from 'src/events/events.gateway';
 import { EventsModule } from 'src/events/events.module';
+import { FriendutilsService } from './friendutils/friendutils.service';
 
 @Module({
   controllers: [FriendController],
-  providers: [FriendService, MessageService, EventsGateway],
+  providers: [FriendService, MessageService, EventsGateway, FriendutilsService],
   imports: [
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
@@ -22,6 +23,6 @@ import { EventsModule } from 'src/events/events.module';
     AuthModule,
     EventsModule,
   ],
-  exports: [FriendService],
+  exports: [FriendService, FriendutilsService],
 })
 export class FriendModule {}

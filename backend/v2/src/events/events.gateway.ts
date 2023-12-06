@@ -83,6 +83,10 @@ export class EventsGateway
     );
   }
 
+  sendSeenMessages(messages: PopulatedMessage[], id: string) {
+    this.server.to(id).emit('seen-messages', messages);
+  }
+
   sendMessage(message: PopulatedMessage) {
     this.server.to(message.to.id.toString()).emit('personal-message', message);
   }

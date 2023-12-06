@@ -1,13 +1,13 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Message } from './entities/message.entity';
+import { Message, MessageDocument } from './entities/message.entity';
 import { Model } from 'mongoose';
 import { User } from '../user/entities/user.entity';
 import { PaginationDto } from '../../common/dto/pagination.dto';
 import { UpdateMessageSeen } from './dto/update-message-seen.dto';
 import { EventsGateway } from 'src/events/events.gateway';
-import { Friend } from '../friend/entities/friend.entity';
+import { FriendutilsService } from '../friend/friendutils/friendutils.service';
 
 @Injectable()
 export class MessageService {
@@ -16,17 +16,12 @@ export class MessageService {
     @InjectModel(Message.name)
     private readonly messageModel: Model<Message>,
     private readonly eventGateway: EventsGateway,
-    @InjectModel(Friend.name)
-    private readonly friendModel: Model<Friend>,
+    private readonly friendUtilsService: FriendutilsService,
   ) {}
-  async create(createMessageDto: CreateMessageDto): Promise<Message> {
+  async create(createMessageDto: CreateMessageDto): Promise<MessageDocument> {
     this.logger.log('create message');
     const { to, from, message, responseTo } = createMessageDto;
-    const relationExist = await this.friendModel.findOne({
-      userId: from,
-      friendId: to,
-    });
-    if (!relationExist) throw new BadRequestException('No friendship found');
+    await this.friendUtilsService.checkRelationAndStatus(from, to);
     try {
       const createMessage = await this.messageModel.create({
         to,
@@ -40,12 +35,10 @@ export class MessageService {
         { path: 'responseTo' },
       ]);
       //update notif
-      await this.friendModel.updateOne(
-        { userId: to, friendId: from },
-        { $inc: { notifications: 1 } },
-      );
+      await this.friendUtilsService.updateNotification(from, to);
       //socket
       this.eventGateway.sendMessage(createMessage.toObject());
+
       return createMessage;
     } catch (error) {
       this.logger.error('create message error');
@@ -57,7 +50,7 @@ export class MessageService {
     user: User,
     id: string,
     paginationDto: PaginationDto,
-  ): Promise<Message[]> {
+  ): Promise<MessageDocument[]> {
     this.logger.log('search messages');
     const { limit = 20, offset = 0 } = paginationDto;
     try {
@@ -83,7 +76,7 @@ export class MessageService {
   async update(
     id: string,
     updateMessageSeen: UpdateMessageSeen,
-  ): Promise<Message> {
+  ): Promise<MessageDocument> {
     this.logger.log('update message');
     try {
       const updatedMessage = await this.messageModel.findOneAndUpdate(
@@ -98,7 +91,10 @@ export class MessageService {
     }
   }
 
-  async getLastMessage(userId: string, friendId: string): Promise<Message> {
+  async getLastMessage(
+    userId: string,
+    friendId: string,
+  ): Promise<MessageDocument> {
     return await this.messageModel
       .findOne({
         $or: [
@@ -109,6 +105,32 @@ export class MessageService {
       .sort({ createdAt: 'desc' })
       .select('-responseTo')
       .limit(1);
+  }
+
+  async updateSeenMessages(
+    updateMessageSeen: UpdateMessageSeen,
+    id: string,
+    user: User,
+  ) {
+    await this.friendUtilsService.checkRelationAndStatus(user.id, id);
+    try {
+      await this.messageModel.updateMany(
+        { _id: { $in: updateMessageSeen.messagesId } },
+        { $set: { seen: true } },
+        { new: true },
+      );
+      const updatedMessages = await this.messageModel
+        .find({
+          _id: { $in: updateMessageSeen.messagesId },
+        })
+        .populate('to', '-roles -isActive -online -lastActive')
+        .populate('from', '-roles -isActive -online -lastActive')
+        .populate('responseTo', '-responseTo -from -to -seen')
+        .sort({ createdAt: 'desc' });
+
+      this.eventGateway.sendSeenMessages(updatedMessages, id);
+      return updatedMessages;
+    } catch (error) {}
   }
 
   // remove(id: number) {

@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-
+import { User } from 'src/api/user/entities/user.entity';
+export type MessageDocument = Message & mongoose.Document;
 @Schema({
   timestamps: true,
   toObject: {
@@ -35,7 +36,7 @@ export class Message {
     ref: 'User',
     required: true,
   })
-  from: mongoose.Schema.Types.ObjectId;
+  from: User;
 
   @ApiProperty({
     description: 'to whom is the message',
@@ -46,7 +47,7 @@ export class Message {
     ref: 'User',
     required: true,
   })
-  to: mongoose.Schema.Types.ObjectId;
+  to: User;
 
   @ApiProperty({
     description: 'chat message',
@@ -72,6 +73,9 @@ export class Message {
     required: false,
     default: null,
   })
-  responseTo: mongoose.Schema.Types.ObjectId;
+  responseTo: MessageDocument;
+
+  createdAt: Date;
+  updatedAt: Date;
 }
 export const MessageSchema = SchemaFactory.createForClass(Message);

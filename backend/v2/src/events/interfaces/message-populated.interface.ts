@@ -1,9 +1,12 @@
+import { MessageDocument } from 'src/api/message/entities/message.entity';
+
 export interface PopulatedMessage {
   from: User;
   to: User;
   message: string;
   seen: boolean;
-  responseTo: null;
+  //TODO cambiar esto
+  responseTo: MessageDocument | null;
   createdAt: Date;
   updatedAt: Date;
   id: string;
@@ -13,7 +16,7 @@ export interface User {
   name: string;
   email: string;
   online: boolean;
-  lastActive: null;
+  lastActive: string;
   isActive: boolean;
   roles: string;
   createdAt: Date;

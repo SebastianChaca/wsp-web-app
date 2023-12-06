@@ -247,5 +247,19 @@ export class FriendService {
       throw error;
     }
   }
+
+  async checkIfRelationExist(from: string, to: string) {
+    const relationExist = await this.friendModel.findOne({
+      userId: from,
+      friendId: to,
+    });
+    if (!relationExist) throw new BadRequestException('No friendship found');
+  }
+
+  checkFriendshipStatus(status: number) {
+    if (status === 2) {
+      throw new BadRequestException('not allowed');
+    }
+  }
   //TODO:agregar delete pero solo para admins
 }
