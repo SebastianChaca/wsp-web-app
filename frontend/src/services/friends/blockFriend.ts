@@ -1,14 +1,9 @@
 import { makePrivateRequest } from '../makePrivateRequest';
-import { friend } from '../../types/friend/friend';
+import { friendFromApi } from '../../types/friend/friend';
 import { FRIEND } from './const';
 
-interface FriendApiResponse {
-  ok: boolean;
-  friend: friend;
-}
-
-export const blockFriend = async (friendId: { friendId: string }) => {
-  const response = await makePrivateRequest<FriendApiResponse>(
+export const blockFriend = async (friendId: string) => {
+  const response = await makePrivateRequest<friendFromApi>(
     `${FRIEND}/status/${friendId}`,
     {
       data: {
@@ -17,5 +12,5 @@ export const blockFriend = async (friendId: { friendId: string }) => {
       method: 'patch',
     }
   );
-  return response.friend;
+  return response;
 };

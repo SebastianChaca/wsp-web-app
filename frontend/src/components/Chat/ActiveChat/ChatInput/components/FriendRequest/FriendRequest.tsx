@@ -1,13 +1,17 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Flex, Text, Button, Box } from '@chakra-ui/react';
 import { AiOutlineCheckCircle, MdBlock } from 'react-icons/all';
-import { useSocketContext } from '../../../../../../socket/SocketContext/SocketContext';
-import { useAppSelector } from '../../../../../../redux/hooks';
-import { aceptFriend } from '../../../../../../services/friends';
+
+import { useAppDispatch, useAppSelector } from '../../../../../../redux/hooks';
+import { aceptFriend, blockFriend } from '../../../../../../services/friends';
+import { updateFriend } from '../../../../../../redux/chat/chatSlice';
+import useToastCustom from '../../../../../../hooks/useToastCustom';
 
 const FriendRequest: FC = () => {
-  const { socket } = useSocketContext();
-  const session = useAppSelector((state) => state.sessionSlice);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useAppDispatch();
+  const { errorToast } = useToastCustom();
+
   const { isRequesting, uid } = useAppSelector(
     (state) => state.activeChatSlice
   );
@@ -15,26 +19,30 @@ const FriendRequest: FC = () => {
     return null;
   }
   const handleAccept = async () => {
+    setLoading(true);
     try {
       if (uid) {
-        // esta mal, hay que usar create async thunk asi actualiza en la ui del remitente
-        await aceptFriend(uid);
+        const response = await aceptFriend(uid);
+        dispatch(updateFriend(response));
       }
     } catch (error) {
-      console.log(error);
+      errorToast();
+    } finally {
+      setLoading(false);
     }
-    // socket?.emit('update-friend-status', {
-    //   friendId: uid,
-    //   from: session.uid,
-    //   status: 1,
-    // });
   };
-  const handleBlock = () => {
-    socket?.emit('update-friend-status', {
-      friendId: uid,
-      from: session.uid,
-      status: 2,
-    });
+  const handleBlock = async () => {
+    setLoading(true);
+    try {
+      if (uid) {
+        const response = await blockFriend(uid);
+        dispatch(updateFriend(response));
+      }
+    } catch (error) {
+      errorToast();
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <Flex
@@ -53,6 +61,7 @@ const FriendRequest: FC = () => {
             leftIcon={<MdBlock />}
             variant="rounded"
             onClick={handleBlock}
+            isLoading={loading}
           >
             Bloquear
           </Button>
@@ -61,6 +70,7 @@ const FriendRequest: FC = () => {
             leftIcon={<AiOutlineCheckCircle />}
             variant="rounded"
             onClick={handleAccept}
+            isLoading={loading}
           >
             OK
           </Button>
