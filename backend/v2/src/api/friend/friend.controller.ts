@@ -66,13 +66,13 @@ export class FriendController {
   ): Promise<
     FriendApiResponse[] | (FriendApiResponse | { lastMessage: Message })[]
   > {
-    const { lastMessage } = friendParamsDto;
+    const { lastmessage } = friendParamsDto;
     const friends = await this.friendService.findAllFriends(
       user,
       friendParamsDto,
     );
 
-    if (lastMessage) {
+    if (lastmessage) {
       return await this.friendService.addLastMessageToFriends(friends, user.id);
     } else {
       return friends.map((f) => {

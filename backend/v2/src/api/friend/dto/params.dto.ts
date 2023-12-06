@@ -6,5 +6,5 @@ export class FriendParamsDto extends PartialType(PaginationDto) {
   // Other properties
 
   @IsOptional()
-  lastMessage?: boolean;
+  lastmessage?: boolean;
 }
