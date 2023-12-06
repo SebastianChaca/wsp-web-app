@@ -25,6 +25,7 @@ export const refreshTokenExtraReducer = (
         state.email = action.payload.user.email;
         state.name = action.payload.user.name;
         state.uid = action.payload.user.id;
+        state.id = action.payload.user.id;
         state.isLoading = false;
         state.online = true;
       }
