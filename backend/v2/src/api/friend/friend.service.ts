@@ -204,18 +204,32 @@ export class FriendService {
     }
   }
 
-  async updateStatus(user: User, updateStatusDto: UpdateStatusDto, id: string) {
+  async updateStatus(
+    user: User,
+    updateStatusDto: UpdateStatusDto,
+    id: string,
+  ): Promise<FriendApiResponse> {
     try {
-      const friend = await this.userModel.findOne({ _id: id });
-      if (!friend) throw new BadRequestException('invalid friend id');
+      const findIfBothAreFriends = await this.friendModel.find({
+        $or: [
+          { friendId: id, userId: user.id },
+          { friendId: user.id, userId: id },
+        ],
+      });
+
+      if (findIfBothAreFriends.length !== 2) {
+        throw new BadRequestException(
+          'users must be friends to perform this update',
+        );
+      }
+
       const updateFriend = await this.friendModel
         .findOneAndUpdate(
           { friendId: id, userId: user.id },
           { ...updateStatusDto, isRequesting: false },
           { new: true },
         )
-        .populate({ path: 'friendId', select: '-password' })
-        .select('-userId');
+        .populate({ path: 'friendId', select: '-password' });
 
       const updateUserStatus = await this.friendModel
         .findOneAndUpdate(
@@ -223,8 +237,8 @@ export class FriendService {
           { ...updateStatusDto, isRequesting: false },
           { new: true },
         )
-        .populate({ path: 'friendId', select: '-password' })
-        .select('-userId');
+        .populate({ path: 'friendId', select: '-password' });
+
       const friendApiResponse = this.serializeFriendResponse(updateUserStatus);
       this.eventGateway.sendUpdatedFriendStatus(friendApiResponse, id);
 
