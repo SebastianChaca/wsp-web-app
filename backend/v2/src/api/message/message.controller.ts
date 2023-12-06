@@ -45,16 +45,15 @@ export class MessageController {
     return this.messageService.findAll(user, id, paginationDto);
   }
 
+  // @Auth()
+  // @Patch(':id')
+  // update(
+  //   @Param('id') id: string,
+  //   @Body() updateMessageSeen: UpdateMessageSeen,
+  // ) {
+  //   return this.messageService.update(id, updateMessageSeen);
+  // }
   @UpdatMessageSeenSwagger()
-  @Auth()
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateMessageSeen: UpdateMessageSeen,
-  ) {
-    return this.messageService.update(id, updateMessageSeen);
-  }
-
   @Auth()
   @Patch(':id/updateseen')
   updateSeenMessageBatch(
