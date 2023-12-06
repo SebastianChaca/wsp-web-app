@@ -60,12 +60,14 @@ const ChatInput = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (message.length === 0) return;
-    // mando mensaje por socket event
+
     submitEvent();
     setMessage('');
     dispatch(setResponseTo(null));
   };
-
+  if (activeChat.statusIsBlocked) {
+    return null;
+  }
   return (
     <>
       <FriendRequest />

@@ -47,6 +47,8 @@ const ChatPage = () => {
           status: findFriend.status,
           isTyping: findFriend.isTyping,
           statusIsApproved: findFriend.statusIsApproved,
+          statusIsBlocked: findFriend.statusIsBlocked,
+          statusIsPending: findFriend.statusIsPending,
           responseTo: undefined,
         })
       );

@@ -70,13 +70,5 @@ export interface serverMessageResponseNotPopulated {
   to: string;
   from: string;
   message: string | null;
-  responseTo?: {
-    updatedAt: string;
-    createdAt: string;
-    _id: string;
-    seen: boolean;
-    to: userFromServer;
-    from: userFromServer;
-    message: string | null;
-  };
+  responseTo?: string;
 }

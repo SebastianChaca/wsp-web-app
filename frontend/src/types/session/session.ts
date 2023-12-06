@@ -5,6 +5,7 @@ export interface user {
   id: string | null;
   online: boolean;
   lastActive: string;
+  // TODO agregar
   // roles: string;
   // createdAt: Date;
   // updatedAt: Date;

@@ -14,6 +14,8 @@ const initialState: ActiveChat = {
   lastActive: '',
   status: null,
   statusIsApproved: false,
+  statusIsBlocked: false,
+  statusIsPending: false,
   responseTo: undefined,
 };
 
@@ -32,6 +34,8 @@ export const activeChatSlice = createSlice({
         lastActive,
         status,
         statusIsApproved,
+        statusIsBlocked,
+        statusIsPending,
         responseTo,
         id,
       } = action.payload;
@@ -46,6 +50,8 @@ export const activeChatSlice = createSlice({
       state.lastActive = lastActive;
       state.status = status;
       state.statusIsApproved = statusIsApproved;
+      state.statusIsBlocked = statusIsBlocked;
+      state.statusIsPending = statusIsPending;
       state.responseTo = responseTo;
     },
     setResponseTo: (state, action: PayloadAction<messageUI | null>) => {

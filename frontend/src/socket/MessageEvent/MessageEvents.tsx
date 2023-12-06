@@ -50,12 +50,16 @@ const MessageEvents = ({ children }: Props) => {
   }, [socket, dispatch, friends]);
 
   useEffect(() => {
-    socket?.on('seen-messages', (messagesPayload: serverMessageResponse[]) => {
-      const sanitize = sanitizeMessages(messagesPayload).reverse();
+    const handleSeenMessage = (messagesPayload: serverMessageResponse[]) => {
+      const sanitize = sanitizeMessages(messagesPayload);
 
       dispatch(updateSeenMessages(sanitize));
       dispatch(updateLastMessageSeenStatus(sanitize[0]));
-    });
+    };
+    socket?.on('seen-messages', handleSeenMessage);
+    return () => {
+      socket?.off('personal-message', handleSeenMessage);
+    };
   }, [socket, dispatch, session.uid]);
 
   useEffect(() => {

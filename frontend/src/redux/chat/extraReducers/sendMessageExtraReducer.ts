@@ -7,6 +7,8 @@ import {
 } from '../../../types/message/message';
 import { sanitizeMessage } from '../../../utils/sanitizeMessages';
 import { updateLastMessage, updateNotification } from '../accions';
+import { capitalizeFirstLetter } from '../../../utils/capitalizeFirstLetter';
+import { formatDateMessage } from '../../../utils/date';
 
 export const sendMessagesExtraReducer = (
   builder: ActionReducerMapBuilder<ChatState>,
@@ -33,6 +35,9 @@ export const sendMessagesExtraReducer = (
         responseTo: undefined,
         seen: false,
         date: new Date().toLocaleString(),
+        parseDate: capitalizeFirstLetter(
+          formatDateMessage(new Date().toLocaleString())
+        ),
         isLoading: true,
       };
       if (state.friendId === payload.to || state.friendId === payload.from) {
