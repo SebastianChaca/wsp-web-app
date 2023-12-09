@@ -168,13 +168,13 @@ export class FriendService {
     paginationDto: PaginationDto,
   ): Promise<FriendDocument[]> {
     this.logger.log('search friends');
-    const { limit = 15, offset = 0 } = paginationDto;
+    const { limit = 15, page = 0 } = paginationDto;
 
     try {
       const friends = await this.friendModel
         .find({ userId: user.id })
         .limit(limit)
-        .skip(offset)
+        .skip((page - 1) * limit)
         .populate('friendId', '-roles -password')
         .select('-userId')
         .sort({ updatedAt: -1 });

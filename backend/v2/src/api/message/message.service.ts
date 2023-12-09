@@ -8,6 +8,7 @@ import { PaginationDto } from '../../common/dto/pagination.dto';
 import { UpdateMessageSeen } from './dto/update-message-seen.dto';
 import { EventsGateway } from 'src/events/events.gateway';
 import { FriendutilsService } from '../friend/friendutils/friendutils.service';
+import { Pagination } from 'src/common/interfaces/totalPagination.interface';
 
 @Injectable()
 export class MessageService {
@@ -50,24 +51,32 @@ export class MessageService {
     user: User,
     id: string,
     paginationDto: PaginationDto,
-  ): Promise<MessageDocument[]> {
+  ): Promise<Pagination & { messages: MessageDocument[] }> {
     this.logger.log('search messages');
-    const { limit = 20, offset = 0 } = paginationDto;
+    const { limit = 2, page = 0 } = paginationDto;
     try {
+      const query = {
+        $or: [
+          { from: user.id, to: id },
+          { from: id, to: user.id },
+        ],
+      };
+      const currentPage = page - 1;
+      const totalMessages = await this.messageModel.countDocuments(query);
+
       const findMessages = await this.messageModel
-        .find({
-          $or: [
-            { from: user.id, to: id },
-            { from: id, to: user.id },
-          ],
-        })
+        .find(query)
         .sort({ createdAt: 'desc' })
         .populate('to', '-roles -isActive -online -lastActive')
         .populate('from', '-roles -isActive -online -lastActive')
         .populate('responseTo', '-responseTo -from -to -seen')
         .limit(limit)
-        .skip(offset);
-      return findMessages;
+        .skip(currentPage * limit);
+      return {
+        totalPages: Math.ceil(totalMessages / limit),
+        currentPage,
+        messages: findMessages,
+      };
     } catch (error) {
       throw error;
     }
