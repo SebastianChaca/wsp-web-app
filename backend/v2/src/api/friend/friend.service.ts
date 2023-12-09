@@ -144,16 +144,16 @@ export class FriendService {
   }
 
   async allFriendsWithLastMessage(friends: FriendDocument[], user: User) {
-    const addLastMessage = friends.map(async (f) => {
-      if (typeof f !== 'string') {
-        const friendIDD = f.friendId.id;
+    const addLastMessage = friends.map(async (friend) => {
+      if (typeof friend !== 'string') {
+        const friendIDD = friend.friendId.id;
         const findMessage = await this.messageService.getLastMessage(
           user.id,
           friendIDD,
         );
 
         return {
-          ...this.serializeFriendResponse(f),
+          friend,
           lastMessage: findMessage,
         };
       }
@@ -166,7 +166,7 @@ export class FriendService {
     paginationDto: PaginationDto,
   ): Promise<GetAllFriends> {
     this.logger.log('search friends');
-    const { limit = 5, page = 1 } = paginationDto;
+    const { limit = 15, page = 1 } = paginationDto;
 
     try {
       const query = { userId: user.id };
@@ -186,7 +186,13 @@ export class FriendService {
       return {
         totalPages: Math.ceil(totalFriends / limit),
         currentPage: page,
-        friends: friendsWithLastMessage,
+        friends: friendsWithLastMessage.map((obj) => {
+          const { lastMessage, friend } = obj;
+          return {
+            ...this.serializeFriendResponse(friend),
+            lastMessage,
+          };
+        }),
       };
     } catch (error) {
       this.logger.error('search friends error');
