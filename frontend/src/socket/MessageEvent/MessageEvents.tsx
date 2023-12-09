@@ -54,6 +54,7 @@ const MessageEvents = ({ children }: Props) => {
       const sanitize = sanitizeMessages(messagesPayload);
 
       dispatch(updateSeenMessages(sanitize));
+      // TODO revisar esto
       dispatch(updateLastMessageSeenStatus(sanitize[0]));
     };
     socket?.on('seen-messages', handleSeenMessage);

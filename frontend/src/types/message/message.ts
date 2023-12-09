@@ -1,3 +1,4 @@
+import { Pagination } from '../common/pagination';
 import { userFromServer } from '../session/session';
 
 export interface message {
@@ -71,4 +72,8 @@ export interface serverMessageResponseNotPopulated {
   from: string;
   message: string | null;
   responseTo?: string;
+}
+
+export interface PaginatedMessages extends Pagination {
+  messages: serverMessageResponse[];
 }

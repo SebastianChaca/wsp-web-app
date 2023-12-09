@@ -1,24 +1,18 @@
-import {
-  AsyncThunk,
-  PayloadAction,
-  ActionReducerMapBuilder,
-} from '@reduxjs/toolkit';
+import { AsyncThunk, ActionReducerMapBuilder } from '@reduxjs/toolkit';
 import { ChatState } from '../../../types/chatState/chatState';
-import { messageUI } from '../../../types/message/message';
+import { PaginatedMessages } from '../../../types/message/message';
+import { sanitizeMessages } from '../../../utils/sanitizeMessages';
 
 export const getMessagesExtraReducer = (
   builder: ActionReducerMapBuilder<ChatState>,
-  getMessages: AsyncThunk<messageUI[], string, {}>
+  getMessages: AsyncThunk<PaginatedMessages, string, {}>
 ) => {
   builder
     // get messages
-    .addCase(
-      getMessages.fulfilled,
-      (state, action: PayloadAction<messageUI[]>) => {
-        state.messages = action.payload;
-        state.messagesLoading = false;
-      }
-    )
+    .addCase(getMessages.fulfilled, (state, action) => {
+      state.messages = sanitizeMessages(action.payload.messages);
+      state.messagesLoading = false;
+    })
     .addCase(getMessages.pending, (state) => {
       state.messagesLoading = true;
     })

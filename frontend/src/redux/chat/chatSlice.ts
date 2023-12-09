@@ -113,7 +113,6 @@ export const chatSlice = createSlice({
     getFriendsExtraReducer(builder, getFriends);
     getMessagesExtraReducer(builder, getMessages);
     sendMessagesExtraReducer(builder, sendMessage);
-    // addFriendsExtraReducer(builder, addFriend);
   },
 });
 export const {

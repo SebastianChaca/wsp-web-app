@@ -1,3 +1,4 @@
+import { Pagination } from '../common/pagination';
 import {
   lastMessage,
   serverMessageResponseNotPopulated,
@@ -29,8 +30,6 @@ export interface friendFromApi {
   isAccepted: boolean;
   isBlocked: boolean;
 }
-
-export interface friendsAPIResponse {
-  ok: boolean;
+export interface PaginatedFriends extends Pagination {
   friends: friendFromApi[];
 }
