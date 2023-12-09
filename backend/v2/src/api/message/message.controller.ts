@@ -21,6 +21,8 @@ import { User } from '../user/entities/user.entity';
 import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe';
 import { UpdateMessageSeen } from './dto/update-message-seen.dto';
 import { UpdatMessageSeenSwagger } from './swagger/controller/updateMessageSeenSwagger.decorator';
+import { Pagination } from 'src/common/interfaces/totalPagination.interface';
+import { MessageDocument } from './entities/message.entity';
 
 @ApiTags('message')
 @Controller('message')
@@ -41,7 +43,7 @@ export class MessageController {
     @Param('id', ParseMongoIdPipe) id: string,
     @Query() paginationDto: PaginationDto,
     @GetUser() user: User,
-  ) {
+  ): Promise<Pagination & { messages: MessageDocument[] }> {
     return this.messageService.findAll(user, id, paginationDto);
   }
 

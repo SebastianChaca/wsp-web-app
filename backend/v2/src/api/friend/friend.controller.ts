@@ -12,7 +12,6 @@ import { FriendService } from './friend.service';
 import {
   CreateFriendDto,
   UpdateFriendDto,
-  FriendParamsDto,
   AddSenderDto,
   UpdateStatusDto,
 } from './dto';
@@ -30,8 +29,8 @@ import {
   AddSenderSwaggerDecorator,
 } from './swagger';
 import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe';
-import { FriendApiResponse } from './interfaces/friendApiResponse.interface';
-import { Message } from '../message/entities/message.entity';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { GetAllFriends } from './interfaces/getAllFriendsApiResponse.interface';
 
 @ApiTags('friend')
 @Controller('friend')
@@ -62,23 +61,9 @@ export class FriendController {
   @Get()
   async findAllFriendsById(
     @GetUser() user: User,
-    @Query() friendParamsDto: FriendParamsDto,
-  ): Promise<
-    FriendApiResponse[] | (FriendApiResponse | { lastMessage: Message })[]
-  > {
-    const { lastmessage } = friendParamsDto;
-    const friends = await this.friendService.findAllFriends(
-      user,
-      friendParamsDto,
-    );
-
-    if (lastmessage) {
-      return await this.friendService.addLastMessageToFriends(friends, user.id);
-    } else {
-      return friends.map((f) => {
-        return this.friendService.serializeFriendResponse(f);
-      });
-    }
+    @Query() paginationDto: PaginationDto,
+  ): Promise<GetAllFriends> {
+    return await this.friendService.findAllFriends(user, paginationDto);
   }
   @GetFriendByIdSwaggerDecorator()
   @Auth()

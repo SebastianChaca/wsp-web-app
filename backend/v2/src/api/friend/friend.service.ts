@@ -11,6 +11,7 @@ import { FriendApiResponse } from './interfaces/friendApiResponse.interface';
 import { MessageService } from '../message/message.service';
 import { AddSenderDto, UpdateStatusDto } from './dto';
 import { EventsGateway } from 'src/events/events.gateway';
+import { GetAllFriends } from './interfaces/getAllFriendsApiResponse.interface';
 
 @Injectable()
 export class FriendService {
@@ -142,15 +143,12 @@ export class FriendService {
     }
   }
 
-  async addLastMessageToFriends(
-    friends: FriendDocument[],
-    idUser: string,
-  ): Promise<({ lastMessage: Message } | FriendApiResponse)[]> {
+  async allFriendsWithLastMessage(friends: FriendDocument[], user: User) {
     const addLastMessage = friends.map(async (f) => {
       if (typeof f !== 'string') {
         const friendIDD = f.friendId.id;
         const findMessage = await this.messageService.getLastMessage(
-          idUser,
+          user.id,
           friendIDD,
         );
 
@@ -166,19 +164,30 @@ export class FriendService {
   async findAllFriends(
     user: User,
     paginationDto: PaginationDto,
-  ): Promise<FriendDocument[]> {
+  ): Promise<GetAllFriends> {
     this.logger.log('search friends');
-    const { limit = 15, page = 0 } = paginationDto;
+    const { limit = 5, page = 1 } = paginationDto;
 
     try {
+      const query = { userId: user.id };
+      const currentPage = page - 1;
+      const totalFriends = await this.friendModel.countDocuments(query);
       const friends = await this.friendModel
-        .find({ userId: user.id })
+        .find(query)
         .limit(limit)
-        .skip((page - 1) * limit)
+        .skip(currentPage * limit)
         .populate('friendId', '-roles -password')
         .select('-userId')
         .sort({ updatedAt: -1 });
-      return friends;
+      const friendsWithLastMessage = await this.allFriendsWithLastMessage(
+        friends,
+        user,
+      );
+      return {
+        totalPages: Math.ceil(totalFriends / limit),
+        currentPage: page,
+        friends: friendsWithLastMessage,
+      };
     } catch (error) {
       this.logger.error('search friends error');
       throw error;

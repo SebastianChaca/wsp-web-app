@@ -53,7 +53,7 @@ export class MessageService {
     paginationDto: PaginationDto,
   ): Promise<Pagination & { messages: MessageDocument[] }> {
     this.logger.log('search messages');
-    const { limit = 2, page = 0 } = paginationDto;
+    const { limit = 2, page = 1 } = paginationDto;
     try {
       const query = {
         $or: [
@@ -74,7 +74,7 @@ export class MessageService {
         .skip(currentPage * limit);
       return {
         totalPages: Math.ceil(totalMessages / limit),
-        currentPage,
+        currentPage: page,
         messages: findMessages,
       };
     } catch (error) {
