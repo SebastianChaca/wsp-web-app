@@ -1,12 +1,10 @@
 import { useEffect } from 'react';
 import { useSocketContext } from '../SocketContext/SocketContext';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useAppDispatch } from '../../redux/hooks';
 import {
-  addFierndToList,
   setFriendIsTyping,
   updateFriendStatus,
-} from '../../redux/chat/chatSlice';
-import { friendFromApi } from '../../types/friend/friend';
+} from '../../redux/friends/friendsSlice';
 import { message } from '../../types/message/message';
 
 interface Props {
@@ -14,7 +12,6 @@ interface Props {
 }
 const SidebarEvents = ({ children }: Props) => {
   const { socket } = useSocketContext();
-  const { friends } = useAppSelector((state) => state.chatSlice);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -26,15 +23,6 @@ const SidebarEvents = ({ children }: Props) => {
       }
     );
   }, [socket, dispatch]);
-
-  // useEffect(() => {
-  //   socket?.on(
-  //     'request-friend',
-  //     ({ friendInfo }: { friendInfo: friendFromApi }) => {
-  //       dispatch(addFierndToList(friendInfo));
-  //     }
-  //   );
-  // }, [socket, dispatch]);
 
   useEffect(() => {
     socket?.on('typing', (messagePayload: message) => {

@@ -9,8 +9,6 @@ const ChatTopBarContainer = ({ children }: Props) => {
       borderBottom="1px solid #c4c4c4"
       margin="0px"
       padding="18px 16px 10px"
-      alignItems="start"
-      justifyContent="space-between"
       minH="80px"
       bg="#E2E8F0"
     >

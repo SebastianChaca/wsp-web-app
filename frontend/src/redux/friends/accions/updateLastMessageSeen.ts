@@ -6,7 +6,7 @@ export const updateLastMessageSeen = (
   message: messageUI
 ) => {
   return friends.map((f) => {
-    if (f.user.uid === message.from || f.user.uid === message.to) {
+    if (f.user.id === message.from || f.user.id === message.to) {
       f.lastMessage.seen = message.seen;
     }
     return f;

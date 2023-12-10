@@ -15,7 +15,8 @@ import { setResponseTo } from '../../../../redux/activeChat/activeChatSlice';
 
 const ChatInput = () => {
   const [message, setMessage] = useState<string>('');
-  const { messages, friendId } = useAppSelector((state) => state.chatSlice);
+  const { friendId } = useAppSelector((state) => state.friendsSlice);
+  const { messages } = useAppSelector((state) => state.messagesSlice);
   const activeChat = useAppSelector((state) => state.activeChatSlice);
   const dispatch = useDispatch();
   const { setTypingEvent, submitEvent, seenEvent } = useInputSocket(message);

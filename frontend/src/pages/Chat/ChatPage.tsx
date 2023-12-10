@@ -8,14 +8,14 @@ import { SideBar, ActiveChat } from '../../components/Chat';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { getMessages } from '../../services/messages/getMessages';
 
-import { useFriend } from '../../redux/chat/selectors';
+import { useFriend } from '../../redux/friends/selectors';
 import { setActiveChat } from '../../redux/activeChat/activeChatSlice';
 import { getFriends } from '../../services/friends';
 import { useSocketContext } from '../../socket/SocketContext/SocketContext';
 
 const ChatPage = () => {
   const { socketErrorConnection } = useSocketContext();
-  const { friendId } = useAppSelector((state) => state.chatSlice);
+  const { friendId } = useAppSelector((state) => state.friendsSlice);
   const findFriend = useFriend(friendId);
 
   const activeChatSelected = friendId;
@@ -29,7 +29,12 @@ const ChatPage = () => {
 
   useEffect(() => {
     if (activeChatSelected) {
-      dispatch(getMessages(activeChatSelected));
+      dispatch(
+        getMessages({
+          id: activeChatSelected,
+          page: 1,
+        })
+      );
     }
   }, [activeChatSelected, dispatch]);
 

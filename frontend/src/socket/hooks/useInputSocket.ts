@@ -9,7 +9,7 @@ import { updateFriendship } from '../../services/friends/updateFrienship';
 import useToastCustom from '../../hooks/useToastCustom';
 
 const useInputSocket = (messageProps: string) => {
-  const { messages } = useAppSelector((state) => state.chatSlice);
+  const { messages } = useAppSelector((state) => state.messagesSlice);
   const activeChat = useAppSelector((state) => state.activeChatSlice);
   const session = useAppSelector((state) => state.sessionSlice);
   const dispatch = useAppDispatch();

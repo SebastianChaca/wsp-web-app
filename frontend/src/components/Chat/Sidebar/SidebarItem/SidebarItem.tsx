@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import {
   resetNotifications,
   setFriendId,
-} from '../../../../redux/chat/chatSlice';
+} from '../../../../redux/friends/friendsSlice';
 import { friend as FriendInterface } from '../../../../types/friend/friend';
 import { resetNotificationsAPI } from '../../../../services/notifications/resetNotifications';
 import { Item } from './components';

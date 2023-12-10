@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getMessages, sendMessage } from '../../services/messages/index';
+import { sendMessage } from '../../services/messages/index';
 
 import {
   message,
@@ -22,21 +22,18 @@ import { getFriends } from '../../services/friends/getFriends';
 import { sanitizeMessage } from '../../utils/sanitizeMessages';
 import {
   getFriendsExtraReducer,
-  getMessagesExtraReducer,
-  sendMessagesExtraReducer,
+  updateLastMessageAndNotifications,
 } from './extraReducers';
 
 const initialState: ChatState = {
-  messages: [],
   friends: [],
   isLoading: false,
   error: null,
   friendId: '',
   friendsLoading: true,
-  messagesLoading: true,
 };
 export const chatSlice = createSlice({
-  name: 'chat',
+  name: 'friends',
   initialState,
   reducers: {
     setFriendId: (state, action: PayloadAction<string>) => {
@@ -45,15 +42,11 @@ export const chatSlice = createSlice({
     setFriendIsTyping: (state, action: PayloadAction<message>) => {
       state.friends = updateFriendIsTyping(state.friends, action.payload);
     },
-    setMessages: (state, action: PayloadAction<serverMessageResponse>) => {
+    setLastMessageAndNotification: (
+      state,
+      action: PayloadAction<serverMessageResponse>
+    ) => {
       const parsedMessage = sanitizeMessage(action.payload);
-
-      if (
-        state.friendId === parsedMessage.to ||
-        state.friendId === parsedMessage.from
-      ) {
-        state.messages.push(parsedMessage);
-      }
 
       if (action.payload.from) {
         state.friends = updateNotification(state.friends, parsedMessage.from);
@@ -62,15 +55,6 @@ export const chatSlice = createSlice({
       state.friends = unshiftFriend(state.friends, parsedMessage.from);
     },
 
-    updateSeenMessages: (state, action: PayloadAction<messageUI[]>) => {
-      const elementsToDelete = action.payload.length;
-
-      const arrayLength = state.messages.length;
-
-      state.messages.splice(arrayLength - elementsToDelete, elementsToDelete);
-      const newArr = state.messages.concat(action.payload);
-      state.messages = newArr;
-    },
     updateLastMessageSeenStatus: (state, action: PayloadAction<messageUI>) => {
       state.friends = updateLastMessageSeen(state.friends, action.payload);
     },
@@ -111,13 +95,11 @@ export const chatSlice = createSlice({
   },
   extraReducers: (builder) => {
     getFriendsExtraReducer(builder, getFriends);
-    getMessagesExtraReducer(builder, getMessages);
-    sendMessagesExtraReducer(builder, sendMessage);
+    updateLastMessageAndNotifications(builder, sendMessage);
   },
 });
 export const {
-  setMessages,
-  updateSeenMessages,
+  setLastMessageAndNotification,
   addFierndToList,
   resetNotifications,
   updateFriendStatus,

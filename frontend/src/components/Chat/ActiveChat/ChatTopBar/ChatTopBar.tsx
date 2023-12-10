@@ -4,6 +4,7 @@ import { useAppSelector } from '../../../../redux/hooks';
 import { Container } from './Components';
 import { IsOnline, IsTyping, LastActive } from '../../../Ui/index';
 import Username from '../../../Ui/UserName/Username';
+import PaginationSpinner from './Components/PaginationSpinner/PaginationSpinner';
 
 const ChatTopBar = () => {
   const { name, online, isTyping, statusIsApproved } = useAppSelector(
@@ -12,7 +13,7 @@ const ChatTopBar = () => {
 
   return (
     <Container>
-      <Flex alignItems="start" justifyContent="left">
+      <Flex alignItems="start" justifyContent="left" w="100%">
         <Avatar
           online={online}
           name={name}
@@ -29,6 +30,9 @@ const ChatTopBar = () => {
             </>
           )}
         </Box>
+      </Flex>
+      <Flex alignItems="start" justifyContent="right">
+        <PaginationSpinner />
       </Flex>
     </Container>
   );

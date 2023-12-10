@@ -5,7 +5,7 @@ import { FRIEND } from './const';
 
 export const getFriends = createAsyncThunk('chat/friends', async () => {
   const response = await makePrivateRequest<PaginatedFriends>(
-    `${FRIEND}?lastmessage=true`
+    `${FRIEND}?page=1`
   );
   return response;
 });

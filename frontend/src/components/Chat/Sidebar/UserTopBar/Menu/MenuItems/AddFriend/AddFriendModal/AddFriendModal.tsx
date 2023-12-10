@@ -14,7 +14,7 @@ import { addFriendRequest } from '../../../../../../../../services/friends/addFr
 import {
   addFierndToList,
   setFriendId,
-} from '../../../../../../../../redux/chat/chatSlice';
+} from '../../../../../../../../redux/friends/friendsSlice';
 import ModalForm from './components/ModalForm';
 
 interface Props {

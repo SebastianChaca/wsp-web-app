@@ -5,13 +5,13 @@ import { Spinner } from '../../../Ui';
 
 const SidebarUserList = () => {
   const { friends, friendsLoading } = useAppSelector(
-    (state) => state.chatSlice
+    (state) => state.friendsSlice
   );
 
   return (
     <UserListContainer>
       {friendsLoading ? (
-        <Spinner padding="20px" />
+        <Spinner padding="20px" size="lg" />
       ) : (
         friends.map((friend) => <SidebarItem key={friend.id} friend={friend} />)
       )}

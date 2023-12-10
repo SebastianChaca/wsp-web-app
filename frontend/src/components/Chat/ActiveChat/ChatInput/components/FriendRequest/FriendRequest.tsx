@@ -4,7 +4,7 @@ import { AiOutlineCheckCircle, MdBlock } from 'react-icons/all';
 
 import { useAppDispatch, useAppSelector } from '../../../../../../redux/hooks';
 import { aceptFriend, blockFriend } from '../../../../../../services/friends';
-import { updateFriend } from '../../../../../../redux/chat/chatSlice';
+import { updateFriend } from '../../../../../../redux/friends/friendsSlice';
 import useToastCustom from '../../../../../../hooks/useToastCustom';
 
 const FriendRequest: FC = () => {

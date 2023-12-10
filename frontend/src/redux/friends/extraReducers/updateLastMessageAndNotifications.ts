@@ -10,7 +10,7 @@ import { updateLastMessage, updateNotification } from '../accions';
 import { capitalizeFirstLetter } from '../../../utils/capitalizeFirstLetter';
 import { formatDateMessage } from '../../../utils/date';
 
-export const sendMessagesExtraReducer = (
+export const updateLastMessageAndNotifications = (
   builder: ActionReducerMapBuilder<ChatState>,
   sendMessages: AsyncThunk<serverMessageResponse, messageToServer, {}>
 ) => {
@@ -18,15 +18,10 @@ export const sendMessagesExtraReducer = (
     // get messages
     .addCase(sendMessages.fulfilled, (state, action) => {
       const parsedMessage = sanitizeMessage(action.payload);
-      const findIndex = state.messages.findIndex(
-        (msg) => msg.id === action.meta.requestId
-      );
-      state.messages.splice(findIndex, 1, parsedMessage);
       state.friends = updateLastMessage(state.friends, parsedMessage);
       if (action.payload.from) {
         state.friends = updateNotification(state.friends, parsedMessage.from);
       }
-      // TODO:falta agregar last message y notif
     })
     .addCase(sendMessages.pending, (state, action) => {
       const payload: messageUI = {
@@ -40,18 +35,15 @@ export const sendMessagesExtraReducer = (
         ),
         isLoading: true,
       };
-      if (state.friendId === payload.to || state.friendId === payload.from) {
-        state.messages.push(payload);
-      }
 
       state.friends = updateLastMessage(state.friends, payload);
     })
 
     .addCase(sendMessages.rejected, (state, action) => {
-      const findIndex = state.messages.findIndex(
-        (msg) => msg.id === action.meta.requestId
-      );
-      state.messages[findIndex].hasFailed = true;
-      state.messages[findIndex].isLoading = false;
+      // const findIndex = state.messages.findIndex(
+      //   (msg) => msg.id === action.meta.requestId
+      // );
+      // state.messages[findIndex].hasFailed = true;
+      // state.messages[findIndex].isLoading = false;
     });
 };

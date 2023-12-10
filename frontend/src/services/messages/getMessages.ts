@@ -4,15 +4,16 @@ import { PaginatedMessages } from '../../types/message/message';
 
 import { MESSAGE } from './const';
 
+interface Payload {
+  id: string;
+  page: number;
+}
 export const getMessages = createAsyncThunk(
-  'chat/messages',
-  async (uid: string) => {
+  'messages/getMessagesAsync',
+  async (payload: Payload) => {
     const response = await makePrivateRequest<PaginatedMessages>(
-      `/${MESSAGE}/${uid}`
+      `/${MESSAGE}/${payload.id}?page=${payload.page}`
     );
-
-    // // TODO: mover a redux
-    // const sanitMessages = sanitizeMessages(response);
 
     return response;
   }

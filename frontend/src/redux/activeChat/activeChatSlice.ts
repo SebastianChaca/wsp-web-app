@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ActiveChat } from '../../types/activeChat/activeChat';
 import { messageUI } from '../../types/message/message';
-import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
+import { responseTo } from './actions';
 
 const initialState: ActiveChat = {
   isRequesting: false,
@@ -24,51 +24,10 @@ export const activeChatSlice = createSlice({
   initialState,
   reducers: {
     setActiveChat: (state, action: PayloadAction<ActiveChat>) => {
-      const {
-        isRequesting,
-        name,
-        email,
-        online,
-        uid,
-        isTyping,
-        lastActive,
-        status,
-        statusIsApproved,
-        statusIsBlocked,
-        statusIsPending,
-        responseTo,
-        id,
-      } = action.payload;
-
-      state.isRequesting = isRequesting;
-      state.name = name;
-      state.email = email;
-      state.online = online;
-      state.uid = uid;
-      state.id = id;
-      state.isTyping = isTyping;
-      state.lastActive = lastActive;
-      state.status = status;
-      state.statusIsApproved = statusIsApproved;
-      state.statusIsBlocked = statusIsBlocked;
-      state.statusIsPending = statusIsPending;
-      state.responseTo = responseTo;
+      return { ...action.payload };
     },
     setResponseTo: (state, action: PayloadAction<messageUI | null>) => {
-      if (action.payload) {
-        const { to, from, emailTo, nameTo, date, message, id } = action.payload;
-        state.responseTo = {
-          to,
-          from,
-          date,
-          emailTo,
-          nameTo: nameTo && capitalizeFirstLetter(nameTo),
-          message,
-          id,
-        };
-      } else {
-        state.responseTo = undefined;
-      }
+      state.responseTo = responseTo(action.payload);
     },
     resetActiveChatState: () => initialState,
   },
