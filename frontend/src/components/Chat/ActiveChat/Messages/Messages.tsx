@@ -6,8 +6,9 @@ import { Spinner } from '../../../Ui';
 import { getMessages } from '../../../../services/messages';
 
 const Messages = () => {
-  const { messages, messagesLoading, pagination, loadingPagination } =
-    useAppSelector((state) => state.messagesSlice);
+  const { messages, messagesLoading, pagination } = useAppSelector(
+    (state) => state.messagesSlice
+  );
   const { uid } = useAppSelector((state) => state.sessionSlice);
   const activeChat = useAppSelector((state) => state.activeChatSlice);
 
@@ -26,31 +27,7 @@ const Messages = () => {
 
   useEffect(() => {
     const chatListElement = chatListRef.current!;
-    // const observer = new IntersectionObserver((entries) => {
-    //   console.log(entries);
-    //   if (
-    //     entries[0].isIntersecting &&
-    //     activeChat.id &&
-    //     page <= pagination.totalPages &&
-    //     !loadingPagination
-    //   ) {
-    //     setPage((prev) => prev + 1);
-    //     dispatch(
-    //       getMessages({
-    //         id: activeChat.id,
-    //         page: page + 1,
-    //       })
-    //     );
-    //   }
-    // });
-    // if (chatListRef.current) {
-    //   observer.observe(chatListRef.current);
-    // }
-    // return () => {
-    //   if (chatListElement) {
-    //     observer.unobserve(chatListElement);
-    //   }
-    // };
+
     const handleScroll = () => {
       const isNearTop = chatListElement.scrollTop === 0;
 
@@ -58,7 +35,7 @@ const Messages = () => {
         isNearTop &&
         activeChat.id &&
         page <= pagination.totalPages &&
-        !loadingPagination
+        !pagination.loadingPagination
       ) {
         setPage((prev) => prev + 1);
         dispatch(
@@ -75,7 +52,13 @@ const Messages = () => {
     return () => {
       chatListElement.removeEventListener('wheel', handleScroll);
     };
-  }, [activeChat, dispatch, page, pagination.totalPages, loadingPagination]);
+  }, [
+    activeChat,
+    dispatch,
+    page,
+    pagination.totalPages,
+    pagination.loadingPagination,
+  ]);
 
   return (
     <>

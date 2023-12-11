@@ -2,8 +2,8 @@ import { Spinner } from '../../../../../Ui';
 import { useAppSelector } from '../../../../../../redux/hooks';
 
 const PaginationSpinner = () => {
-  const { loadingPagination } = useAppSelector((state) => state.messagesSlice);
-  if (loadingPagination) {
+  const { pagination } = useAppSelector((state) => state.messagesSlice);
+  if (pagination.loadingPagination) {
     return <Spinner size="lg" />;
   }
   return null;

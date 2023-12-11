@@ -19,11 +19,11 @@ export const getMessagesExtraReducer = (
       state.pagination.currentPage = action.payload.currentPage;
       state.pagination.totalPages = action.payload.totalPages;
       state.messagesLoading = false;
-      state.loadingPagination = false;
+      state.pagination.loadingPagination = false;
     })
     .addCase(getMessages.pending, (state) => {
       if (state.messages.length > 0) {
-        state.loadingPagination = true;
+        state.pagination.loadingPagination = true;
       } else {
         state.messagesLoading = true;
       }
@@ -31,6 +31,6 @@ export const getMessagesExtraReducer = (
     .addCase(getMessages.rejected, (state) => {
       state.error = 'error';
       state.messagesLoading = false;
-      state.loadingPagination = false;
+      state.pagination.loadingPagination = false;
     });
 };

@@ -14,8 +14,7 @@ const initialState: MessagesState = {
   messages: [],
   messagesLoading: false,
   error: null,
-  pagination: { currentPage: 0, totalPages: 0 },
-  loadingPagination: false,
+  pagination: { currentPage: 0, totalPages: 0, loadingPagination: false },
 };
 export const messagesSlice = createSlice({
   name: 'messages',

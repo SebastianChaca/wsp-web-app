@@ -24,7 +24,7 @@ const ChatPage = () => {
 
   // TODO:cambiar el get de listado de amigos de socket a api rest aca
   useEffect(() => {
-    dispatch(getFriends());
+    dispatch(getFriends({ page: 1 }));
   }, [dispatch]);
 
   useEffect(() => {

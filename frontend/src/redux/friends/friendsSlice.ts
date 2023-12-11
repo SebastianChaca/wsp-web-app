@@ -31,6 +31,7 @@ const initialState: ChatState = {
   error: null,
   friendId: '',
   friendsLoading: true,
+  pagination: { currentPage: 0, totalPages: 0, loadingPagination: false },
 };
 export const chatSlice = createSlice({
   name: 'friends',

@@ -1,3 +1,4 @@
+import { Pagination } from '../common/pagination';
 import { friend } from '../friend/friend';
 
 export interface ChatState {
@@ -6,4 +7,5 @@ export interface ChatState {
   error: string | null;
   friendId: string;
   friendsLoading: boolean;
+  pagination: Pagination;
 }

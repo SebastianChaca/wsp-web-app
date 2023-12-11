@@ -6,5 +6,4 @@ export interface MessagesState {
   messagesLoading: boolean;
   error: string | null;
   pagination: Pagination;
-  loadingPagination: boolean;
 }
