@@ -13,7 +13,7 @@ import {
 } from './components';
 import { setResponseTo } from '../../../../redux/activeChat/activeChatSlice';
 
-const ChatInput = ({ scrollIntoView }: { scrollIntoView: () => void }) => {
+const ChatInput = () => {
   const [message, setMessage] = useState<string>('');
   const { friendId } = useAppSelector((state) => state.friendsSlice);
   const { messages } = useAppSelector((state) => state.messagesSlice);
@@ -58,14 +58,14 @@ const ChatInput = ({ scrollIntoView }: { scrollIntoView: () => void }) => {
     setMessage(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (message.length === 0) return;
-    scrollIntoView();
-    submitEvent();
+    await submitEvent();
     setMessage('');
     dispatch(setResponseTo(null));
   };
+
   if (activeChat.statusIsBlocked) {
     return null;
   }

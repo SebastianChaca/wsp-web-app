@@ -1,17 +1,18 @@
-import { FC, ReactNode, forwardRef, Ref } from 'react';
+import { ReactNode, forwardRef } from 'react';
 import { Box } from '@chakra-ui/react';
 
 interface MessagesContainerProps {
   children?: ReactNode;
+  id?: string;
 }
 
 const MessagesContainer = forwardRef<HTMLDivElement, MessagesContainerProps>(
-  ({ children }, ref) => {
+  ({ children, id }, ref) => {
     return (
       <Box
+        id={id}
         ref={ref}
         h="100%"
-        id="container"
         overflow="auto"
         px="15px"
         sx={{

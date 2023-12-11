@@ -1,5 +1,5 @@
 import { Grid, Text } from '@chakra-ui/react';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import {
   LeftContainer,
   RightContainer,
@@ -17,15 +17,6 @@ const ChatPage = () => {
   const { socketErrorConnection } = useSocketContext();
   const { friendId } = useAppSelector((state) => state.friendsSlice);
   const findFriend = useFriend(friendId);
-  const bottomMessageList = useRef<HTMLDivElement>(null);
-
-  const scrollIntoView = () => {
-    if (bottomMessageList.current) {
-      console.log('asd');
-      bottomMessageList.current.scrollTop =
-        bottomMessageList.current.scrollHeight;
-    }
-  };
 
   const activeChatSelected = friendId;
 
@@ -89,11 +80,8 @@ const ChatPage = () => {
         {activeChatSelected ? (
           <>
             <ActiveChat.TopBar />
-            <ActiveChat.Messages
-              ref={bottomMessageList}
-              scrollIntoView={scrollIntoView}
-            />
-            <ActiveChat.Input scrollIntoView={scrollIntoView} />
+            <ActiveChat.Messages />
+            <ActiveChat.Input />
           </>
         ) : (
           <ActiveChat.EmptyState />

@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { Box } from '@chakra-ui/react';
+
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import {
   resetNotifications,

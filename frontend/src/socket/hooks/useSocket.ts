@@ -21,7 +21,7 @@ export const useSocket = () => {
   const conectarSocket = useCallback((token: string) => {
     const socketTemp = io(`${process.env.REACT_APP_API_URL}/events`, {
       transports: ['websocket'],
-      // autoConnect: true,
+      autoConnect: true,
       // TODO:revisar esto
       // forceNew: true,
 

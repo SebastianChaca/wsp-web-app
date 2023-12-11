@@ -11,7 +11,11 @@ export const getMessagesExtraReducer = (
     // get messages
     .addCase(getMessages.fulfilled, (state, action) => {
       const messages = sanitizeMessages(action.payload.messages);
-      state.messages = [...messages, ...state.messages];
+      if (action.meta.arg.page > 1) {
+        state.messages = [...messages, ...state.messages];
+      } else {
+        state.messages = messages;
+      }
       state.pagination.currentPage = action.payload.currentPage;
       state.pagination.totalPages = action.payload.totalPages;
       state.messagesLoading = false;
