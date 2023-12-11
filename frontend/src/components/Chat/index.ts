@@ -8,7 +8,6 @@ import EmptyChat from './ActiveChat/EmptyChat/EmptyChat';
 export const SideBar = {
   TopBar: UserTopBar,
   FriendsList: SidebarUserList,
-  Messages,
 };
 
 export const ActiveChat = {
