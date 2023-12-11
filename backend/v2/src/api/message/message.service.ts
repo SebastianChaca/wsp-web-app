@@ -53,7 +53,7 @@ export class MessageService {
     paginationDto: PaginationDto,
   ): Promise<Pagination & { messages: MessageDocument[] }> {
     this.logger.log('search messages');
-    const { limit = 2, page = 1 } = paginationDto;
+    const { limit = 15, page = 1 } = paginationDto;
     try {
       const query = {
         $or: [
