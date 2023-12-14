@@ -9,6 +9,7 @@ import { sanitizeMessage } from '../../../utils/sanitizeMessages';
 import { updateLastMessage, updateNotification } from '../accions';
 import { capitalizeFirstLetter } from '../../../utils/capitalizeFirstLetter';
 import { formatDateMessage } from '../../../utils/date';
+import { friend } from '../../../types/friend/friend';
 
 export const updateLastMessageAndNotifications = (
   builder: ActionReducerMapBuilder<ChatState>,
@@ -40,10 +41,11 @@ export const updateLastMessageAndNotifications = (
     })
 
     .addCase(sendMessages.rejected, (state, action) => {
-      // const findIndex = state.messages.findIndex(
-      //   (msg) => msg.id === action.meta.requestId
-      // );
-      // state.messages[findIndex].hasFailed = true;
-      // state.messages[findIndex].isLoading = false;
+      // TODO REVISAR: hay que agregar prop has failed and loading
+      const findIndex = state.friends.findIndex(
+        (fr) => fr.id === action.meta.requestId
+      );
+      // state.friends[findIndex].lastMessage.hasFailed = true;
+      // state.friends[findIndex].isLoading = false;
     });
 };

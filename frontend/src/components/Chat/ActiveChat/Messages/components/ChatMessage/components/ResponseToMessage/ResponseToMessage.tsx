@@ -3,13 +3,13 @@ import { useMessageContext } from '../Provider/MessageProvider';
 
 const ResponseToMessage = () => {
   const { msg } = useMessageContext();
-  if (msg.responseTo) {
+  if (msg.responseTo?.nameTo && msg.responseTo?.message) {
     return (
       <ResponseTo.Container>
         <ResponseTo.Decoration />
         <ResponseTo.Message
-          nameTo={msg.responseTo.nameTo!}
-          message={msg.responseTo.message!}
+          nameTo={msg.responseTo.nameTo}
+          message={msg.responseTo.message}
         />
       </ResponseTo.Container>
     );

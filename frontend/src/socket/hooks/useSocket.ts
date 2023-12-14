@@ -21,7 +21,7 @@ export const useSocket = () => {
   const conectarSocket = useCallback((token: string) => {
     const socketTemp = io(`${process.env.REACT_APP_API_URL}/events`, {
       transports: ['websocket'],
-      autoConnect: true,
+      // autoConnect: true,
       // TODO:revisar esto
       // forceNew: true,
 
@@ -42,6 +42,7 @@ export const useSocket = () => {
 
   useEffect(() => {
     socket?.on('connect_error', (err) => {
+      // eslint-disable-next-line no-console
       console.warn(`connect_error due to ${err.message}`);
       setSocketError(err.message);
     });

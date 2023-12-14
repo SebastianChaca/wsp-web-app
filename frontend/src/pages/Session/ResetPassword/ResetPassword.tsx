@@ -1,6 +1,6 @@
-import { Button, HStack } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import {
   ContainerBox,
   Header,
@@ -10,29 +10,14 @@ import { FormikInput, ErrorMessage } from '../../../components/FormComponents';
 
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 
-import { FORGORTPASSWORD, SESSION } from '../../../services/session/const';
-import { forgotPassword, resetPassword } from '../../../services/session';
+import { resetPassword } from '../../../services/session';
 import { validationSchema } from './validationSchema';
 
 const ResetPassword = () => {
   const dispatch = useAppDispatch();
   const { error, isLoading } = useAppSelector((state) => state.sessionSlice);
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
 
-  const handleNavigate = () => {
-    navigate(`/${SESSION}/${FORGORTPASSWORD}`);
-  };
-  //   if (forgotPasswordMessage) {
-  //     return (
-  //       <ContainerBox maxW="100%">
-  //         <Header
-  //           headingText="We've sent a password recovery email to your inbox"
-  //           text="Please check your email and follow the instructions to reset your password."
-  //         />
-  //       </ContainerBox>
-  //     );
-  //   }
   return (
     <ContainerBox>
       <Header

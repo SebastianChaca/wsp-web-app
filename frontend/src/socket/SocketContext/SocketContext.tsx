@@ -1,10 +1,6 @@
 import { useEffect, createContext, useContext } from 'react';
 import { Socket } from 'socket.io-client';
-import {
-  ClientToServerEvents,
-  ServerToClientEvents,
-  useSocket,
-} from '../hooks/useSocket';
+import { useSocket } from '../hooks/useSocket';
 
 import { useAppSelector } from '../../redux/hooks';
 

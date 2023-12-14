@@ -14,6 +14,7 @@ const SidebarUserList = () => {
     (state) => state.friendsSlice
   );
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const element = ref.current!;
     const { totalPages, loadingPagination } = pagination;
 

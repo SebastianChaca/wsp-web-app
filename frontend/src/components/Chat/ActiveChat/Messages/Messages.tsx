@@ -26,10 +26,10 @@ const Messages = () => {
   }, [lastMessage]);
 
   useEffect(() => {
-    const chatListElement = chatListRef.current!;
+    const chatListElement = chatListRef.current;
 
     const handleScroll = () => {
-      const isNearTop = chatListElement.scrollTop === 0;
+      const isNearTop = chatListElement?.scrollTop === 0;
 
       if (
         isNearTop &&
@@ -44,13 +44,13 @@ const Messages = () => {
             page: page + 1,
           })
         );
-        chatListElement.scrollTo({ top: 50 });
+        chatListElement?.scrollTo({ top: 50 });
       }
     };
-    chatListElement.addEventListener('wheel', handleScroll);
+    chatListElement?.addEventListener('wheel', handleScroll);
 
     return () => {
-      chatListElement.removeEventListener('wheel', handleScroll);
+      chatListElement?.removeEventListener('wheel', handleScroll);
     };
   }, [
     activeChat,

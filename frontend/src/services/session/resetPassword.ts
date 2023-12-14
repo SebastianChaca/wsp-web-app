@@ -3,6 +3,7 @@ import { makeRequest } from '../makeRequest';
 
 import { AUTH, RESETPASSWORD, SESSION } from './const';
 import { SessionAPIResponse } from '../../types/session/session';
+import { setUser } from './utils/setUser';
 
 export interface Props {
   password: string;
@@ -19,7 +20,7 @@ export const resetPassword = createAsyncThunk(
         method: 'post',
       }
     );
-
+    setUser(response.token, response.user.id);
     return response;
   }
 );

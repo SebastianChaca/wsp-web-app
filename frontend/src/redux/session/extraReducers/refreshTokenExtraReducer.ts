@@ -30,7 +30,7 @@ export const refreshTokenExtraReducer = (
         state.online = true;
       }
     )
-    .addCase(refreshToken.rejected, (state, action) => {
+    .addCase(refreshToken.rejected, (state) => {
       state.status = 'failed';
       // state.error = action.error.message;
       state.isLoading = false;

@@ -26,7 +26,7 @@ export const getFriendsExtraReducer = (
     })
     .addCase(getFriends.rejected, (state, action) => {
       state.friendsLoading = false;
-      state.error = action.error.message!;
+      state.error = action.error.message ?? null;
       state.pagination.loadingPagination = false;
     });
 };

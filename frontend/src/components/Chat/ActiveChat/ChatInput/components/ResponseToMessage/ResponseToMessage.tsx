@@ -5,7 +5,7 @@ import { ResponseTo } from '../../../../../Ui';
 
 const ResponseToMessage: FC = () => {
   const activeChat = useAppSelector((state) => state.activeChatSlice);
-  if (activeChat?.responseTo) {
+  if (activeChat?.responseTo?.nameTo && activeChat?.responseTo?.message) {
     return (
       <>
         <GridItem marginBottom="20px">
@@ -13,8 +13,8 @@ const ResponseToMessage: FC = () => {
             <Box>
               <ResponseTo.Decoration />
               <ResponseTo.Message
-                nameTo={activeChat.responseTo.nameTo!}
-                message={activeChat.responseTo.message!}
+                nameTo={activeChat.responseTo.nameTo}
+                message={activeChat.responseTo.message}
               />
             </Box>
           </ResponseTo.Container>

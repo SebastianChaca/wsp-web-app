@@ -1,8 +1,4 @@
-import {
-  AsyncThunk,
-  PayloadAction,
-  ActionReducerMapBuilder,
-} from '@reduxjs/toolkit';
+import { AsyncThunk, ActionReducerMapBuilder } from '@reduxjs/toolkit';
 import { ChatState } from '../../../types/chatState/chatState';
 import { friendFromApi } from '../../../types/friend/friend';
 
@@ -29,6 +25,6 @@ export const addFriendsExtraReducer = (
     })
     .addCase(addFriend.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.error.message!;
+      state.error = action.error.message ?? null;
     });
 };
