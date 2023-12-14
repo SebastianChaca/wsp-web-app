@@ -94,7 +94,7 @@ export class User {
     description: 'date of the password change',
   })
   @Prop()
-  passwordChangedAt: Date;
+  passwordChangedAt: number;
   @ApiProperty({
     description: 'date when the token expires',
   })

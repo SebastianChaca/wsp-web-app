@@ -23,7 +23,8 @@ export const SocketAuthMiddleware = (
         secret: configService.get('jwt.secret'),
       });
       const userDb = await userModel.findOne({ _id: id });
-      const changedTimestamp = userDb.passwordChangedAt.getTime() / 1000;
+      const changedTimestamp = userDb.passwordChangedAt / 1000;
+
       if (iat < changedTimestamp)
         throw new UnauthorizedException('Password has changed');
       if (!userDb) throw new UnauthorizedException('Token invalid');

@@ -100,7 +100,7 @@ export class AuthService {
 
     if (!user) throw new BadRequestException('Invalid token or expired');
     user.password = this.hashPassword(password);
-    user.passwordChangedAt = new Date(Date.now() - 1000);
+    user.passwordChangedAt = Date.now() - 1000;
     user.passwordResetToken = null;
     user.passwordResetExpires = null;
 

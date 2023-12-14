@@ -25,11 +25,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     const user = await this.userModel.findOne({ _id: id });
 
-    // const changedTimestamp = parseInt(
-    //   user.passwordChangedAt / 1000,
-    //   10,
-    // );
-    const changedTimestamp = user.passwordChangedAt.getTime() / 1000;
+    const changedTimestamp = user.passwordChangedAt / 1000;
 
     if (iat < changedTimestamp)
       throw new UnauthorizedException('Password has changed');
