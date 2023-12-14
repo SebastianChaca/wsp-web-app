@@ -44,7 +44,9 @@ export class SendEmailService {
     return this.sendEmail({
       to: email,
       text: resetPassword(
-        `${this.configService.get('WEBAPP_URL')}/session/forgot?token=${token}`,
+        `${this.configService.get(
+          'WEBAPP_URL',
+        )}/session/resetpassword?token=${token}`,
         userName,
       ),
       subject: 'Reestablecer contraseña',

@@ -17,6 +17,7 @@ import { AuthModule } from '../auth/auth.module';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
         if (configService.get(NODE_ENV) === DEVELOPMENT) {
+          //https://www.wpoven.com/tools/free-smtp-server-for-testing
           return {
             transport: {
               host: 'smtp.freesmtpservers.com',
