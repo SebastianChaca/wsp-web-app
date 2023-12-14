@@ -8,17 +8,21 @@ import {
   sessionState,
 } from '../../../types/session/session';
 
-export const refreshTokenExtraReducer = (
+export const resetPasswordReducer = (
   builder: ActionReducerMapBuilder<sessionState>,
-  refreshToken: AsyncThunk<SessionAPIResponse, void, {}>
+  resetPassword: AsyncThunk<
+    SessionAPIResponse,
+    { token: string; password: string },
+    {}
+  >
 ) => {
   builder
-    .addCase(refreshToken.pending, (state) => {
+    .addCase(resetPassword.pending, (state) => {
       state.status = 'loading';
       state.isLoading = true;
     })
     .addCase(
-      refreshToken.fulfilled,
+      resetPassword.fulfilled,
       (state, action: PayloadAction<SessionAPIResponse>) => {
         state.status = 'idle';
         state.token = action.payload.token;
@@ -28,11 +32,12 @@ export const refreshTokenExtraReducer = (
         state.id = action.payload.user.id;
         state.isLoading = false;
         state.online = true;
+        state.forgotPasswordMessage = '';
       }
     )
-    .addCase(refreshToken.rejected, (state, action) => {
+    .addCase(resetPassword.rejected, (state, action) => {
       state.status = 'failed';
-      // state.error = action.error.message;
+      state.error = action.error.message;
       state.isLoading = false;
     });
 };

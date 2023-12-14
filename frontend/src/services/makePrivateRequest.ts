@@ -19,5 +19,5 @@ export function makePrivateRequest<T>(
   return api
     .request<T>({ url, ...options })
     .then((res) => res.data)
-    .catch((error) => Promise.reject(error?.response?.data?.msg));
+    .catch((error) => Promise.reject(error?.response?.data));
 }

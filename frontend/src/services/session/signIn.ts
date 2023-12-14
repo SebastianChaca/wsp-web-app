@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { makeRequest } from '../makeRequest';
 import { setUser } from './utils/setUser';
 import { SessionAPIResponse } from '../../types/session/session';
-import { AUTH } from './const';
+import { AUTH, LOGIN } from './const';
 
 export interface SignInProps {
   email: string;
@@ -17,10 +17,13 @@ export const signIn = (props: SignInProps): Promise<SessionAPIResponse> =>
 export const fetchSignIn = createAsyncThunk(
   'session/login',
   async (props: SignInProps) => {
-    const response = await makeRequest<SessionAPIResponse>(`/${AUTH}/login`, {
-      data: props,
-      method: 'post',
-    });
+    const response = await makeRequest<SessionAPIResponse>(
+      `/${AUTH}/${LOGIN}`,
+      {
+        data: props,
+        method: 'post',
+      }
+    );
 
     setUser(response.token, response.user.id);
     return response;

@@ -1,9 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { refreshToken } from '../../services/session/refreshToken';
-import { fetchSignIn, fetchSignUp } from '../../services/session/index';
+import {
+  fetchSignIn,
+  fetchSignUp,
+  forgotPassword,
+  resetPassword,
+} from '../../services/session/index';
 import { sessionState } from '../../types/session/session';
 import {
+  forgotPasswordReducer,
   refreshTokenExtraReducer,
+  resetPasswordReducer,
   signInExtraReducer,
   signUpExtraReducer,
 } from './extraReducers';
@@ -19,6 +26,7 @@ const initialState: sessionState = {
   isLoading: false,
   online: false,
   lastActive: '',
+  forgotPasswordMessage: '',
 };
 
 export const sessionSlice = createSlice({
@@ -38,6 +46,8 @@ export const sessionSlice = createSlice({
     signInExtraReducer(builder, fetchSignIn);
     signUpExtraReducer(builder, fetchSignUp);
     refreshTokenExtraReducer(builder, refreshToken);
+    forgotPasswordReducer(builder, forgotPassword);
+    resetPasswordReducer(builder, resetPassword);
   },
 });
 export const { signOut } = sessionSlice.actions;

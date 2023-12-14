@@ -45,4 +45,5 @@ export interface sessionState extends user {
   error: string | null | undefined;
   status: 'idle' | 'loading' | 'failed';
   isLoading: boolean;
+  forgotPasswordMessage: string;
 }

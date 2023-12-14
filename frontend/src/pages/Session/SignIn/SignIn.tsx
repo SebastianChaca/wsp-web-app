@@ -1,11 +1,11 @@
-import { Button, Checkbox, HStack } from '@chakra-ui/react';
+import { Button, HStack } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import {
   ContainerBox,
   Header,
   FormContainer,
 } from '../../../components/Session';
-
 import { FormikInput, ErrorMessage } from '../../../components/FormComponents';
 
 import { validationSchema } from './ValidationSchema';
@@ -16,9 +16,19 @@ const SignIn = () => {
   const dispatch = useAppDispatch();
   const { error, isLoading } = useAppSelector((state) => state.sessionSlice);
 
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate('/session/forgotpassword');
+  };
   return (
     <ContainerBox>
-      <Header signIn />
+      <Header
+        headingText="Log in to your account"
+        signIn
+        text="Don't have an account?"
+        buttonText="Sign up"
+      />
 
       <FormContainer>
         <Formik
@@ -37,9 +47,13 @@ const SignIn = () => {
               <FormikInput label="Email" name="email" type="text" />
               <FormikInput label="Password" name="password" type="text" />
 
-              <HStack justify="space-between" mt="20px">
-                <Checkbox defaultChecked>Remember me</Checkbox>
-                <Button variant="link" colorScheme="blue" size="sm">
+              <HStack justify="right" mt="20px">
+                <Button
+                  variant="link"
+                  colorScheme="blue"
+                  size="sm"
+                  onClick={handleNavigate}
+                >
                   Forgot password?
                 </Button>
               </HStack>
@@ -50,7 +64,7 @@ const SignIn = () => {
                 type="submit"
                 w="100%"
                 mt="20px"
-                disabled={!isValid || isLoading}
+                isDisabled={!isValid || isLoading}
                 isLoading={isLoading}
               >
                 Sign in

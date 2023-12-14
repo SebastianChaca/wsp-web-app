@@ -19,7 +19,6 @@ const SidebarUserList = () => {
 
     const handleScroll = () => {
       const scrollableHeight = element.scrollHeight - element.clientHeight;
-      console.log(scrollableHeight);
 
       if (
         element.scrollTop >= scrollableHeight &&
