@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-
+import * as mongoose from 'mongoose';
 @Schema({
   timestamps: true,
   toObject: {
@@ -27,6 +27,7 @@ export class User {
     example: '6541ad729d7d41d1d9dfb6e0',
     description: 'user id',
     uniqueItems: true,
+    type: mongoose.Schema.Types.ObjectId,
   })
   id: string;
 

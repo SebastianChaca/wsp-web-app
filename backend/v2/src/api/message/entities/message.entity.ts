@@ -77,5 +77,19 @@ export class Message {
 
   createdAt: Date;
   updatedAt: Date;
+
+  @Prop({
+    type: [
+      {
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User',
+        },
+        icon: { type: String },
+        craetedAt: { type: Date, default: Date.now },
+      },
+    ],
+  })
+  iconReactions: { user: User; icon: string; createdAt: Date }[];
 }
 export const MessageSchema = SchemaFactory.createForClass(Message);

@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
+
+import { IsBoolean, IsOptional, IsString, Validate } from 'class-validator';
+import { ContainsValidEmoji } from '../customValidators/validUnicodeEmojis';
+
+class IconReactionDto {
+  @ApiProperty()
+  @IsString()
+  icon: string;
+}
 
 export class CreateMessageDto {
   @ApiProperty({
@@ -38,4 +46,13 @@ export class CreateMessageDto {
   @IsString()
   @IsOptional()
   responseTo?: string;
+
+  @ApiProperty({
+    type: [IconReactionDto],
+    description: 'Array of icon reactions',
+  })
+  @IsString()
+  @IsOptional()
+  @Validate(ContainsValidEmoji)
+  iconReactions?: string;
 }

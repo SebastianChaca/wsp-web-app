@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Message, MessageDocument } from './entities/message.entity';
@@ -9,6 +9,7 @@ import { UpdateMessageSeen } from './dto/update-message-seen.dto';
 import { EventsGateway } from 'src/events/events.gateway';
 import { FriendutilsService } from '../friend/friendutils/friendutils.service';
 import { Pagination } from 'src/common/interfaces/totalPagination.interface';
+import { UpdateMessageDto } from './dto/update-message.dto';
 
 @Injectable()
 export class MessageService {
@@ -70,6 +71,7 @@ export class MessageService {
         .populate('to', '-roles -isActive -online -lastActive')
         .populate('from', '-roles -isActive -online -lastActive')
         .populate('responseTo', '-responseTo -from -to -seen')
+        .populate('iconReactions.user', 'id name email')
         .limit(limit)
         .skip(currentPage * limit);
       return {
@@ -82,17 +84,45 @@ export class MessageService {
     }
   }
 
-  async update(
+  async updateIconReaction(
     id: string,
-    updateMessageSeen: UpdateMessageSeen,
-  ): Promise<MessageDocument> {
-    this.logger.log('update message');
+    updateMessageDto: UpdateMessageDto,
+    user: User,
+  ) {
+    this.logger.log('update message icon');
+
     try {
-      const updatedMessage = await this.messageModel.findOneAndUpdate(
-        { _id: id },
-        updateMessageSeen,
-        { new: true },
+      const message = await this.messageModel.findById(id);
+      if (!message) {
+        throw new NotFoundException('Message not found');
+      }
+      const populatedMessage = await this.messageModel.populate(message, {
+        path: 'from to iconReactions.user',
+        select: 'name email id',
+      });
+
+      await this.friendUtilsService.checkRelationAndStatus(
+        message.from.id,
+        message.to.id,
       );
+
+      const userIndex = populatedMessage.iconReactions.findIndex(
+        (reaction) => reaction.user.id === user.id.toString(),
+      );
+
+      if (userIndex !== -1) {
+        message.iconReactions[userIndex].icon = updateMessageDto.iconReactions;
+      } else {
+        message.iconReactions.push({
+          user: user,
+          icon: updateMessageDto.iconReactions,
+          createdAt: new Date(),
+        });
+      }
+
+      const updatedMessage = await populatedMessage.save();
+
+      //TODO agregar gateway
       return updatedMessage;
     } catch (error) {
       this.logger.error('update message seen status error');

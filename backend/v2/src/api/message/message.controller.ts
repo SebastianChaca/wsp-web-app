@@ -23,6 +23,7 @@ import { UpdateMessageSeen } from './dto/update-message-seen.dto';
 import { UpdatMessageSeenSwagger } from './swagger/controller/updateMessageSeenSwagger.decorator';
 import { Pagination } from 'src/common/interfaces/totalPagination.interface';
 import { MessageDocument } from './entities/message.entity';
+import { UpdateMessageDto } from './dto/update-message.dto';
 
 @ApiTags('message')
 @Controller('message')
@@ -47,19 +48,23 @@ export class MessageController {
     return this.messageService.findAll(user, id, paginationDto);
   }
 
-  // @Auth()
-  // @Patch(':id')
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() updateMessageSeen: UpdateMessageSeen,
-  // ) {
-  //   return this.messageService.update(id, updateMessageSeen);
-  // }
+  @Auth()
+  @Patch(':id/updatereaction')
+  updateReaction(
+    @Param('id') id: string,
+    @Body() updateMessageDto: UpdateMessageDto,
+    @GetUser() user: User,
+  ) {
+    return this.messageService.updateIconReaction(id, updateMessageDto, user);
+  }
+
   @UpdatMessageSeenSwagger()
   @Auth()
   @Patch(':id/updateseen')
   updateSeenMessageBatch(
     @Body() updateMessageSeen: UpdateMessageSeen,
+    //TODO: esto no es 100% correcto porque este id es de un usuario, lo logico es que sea de un mensaje, ya que estamos en el controlador de mensajes
+    // quizas habria que pasar ese id en el body
     @Param('id', ParseMongoIdPipe) id: string,
     @GetUser() user: User,
   ) {
