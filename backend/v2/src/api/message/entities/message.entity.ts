@@ -9,6 +9,7 @@ export type MessageDocument = Message & mongoose.Document;
     virtuals: true,
     transform: function (doc, ret) {
       ret.id = ret._id;
+      ret.iconReactions.id = ret.iconReactions._id;
       delete ret._id;
 
       delete ret.__v;
@@ -18,6 +19,7 @@ export type MessageDocument = Message & mongoose.Document;
     virtuals: true,
     transform: function (doc, ret) {
       ret.id = ret._id;
+      ret.iconReactions.id = ret.iconReactions._id;
       delete ret._id;
 
       delete ret.__v;

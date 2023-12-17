@@ -10,8 +10,14 @@ export interface PopulatedMessage {
   createdAt: Date;
   updatedAt: Date;
   id: string;
+  iconReactions?: IconReaction[];
 }
 
+interface IconReaction {
+  user: User;
+  icon: string;
+  createdAt: Date;
+}
 export interface User {
   name: string;
   email: string;

@@ -121,11 +121,15 @@ export class MessageService {
       }
 
       const updatedMessage = await populatedMessage.save();
+      const friendId =
+        updatedMessage.from.id === user.id
+          ? updatedMessage.to.id
+          : updatedMessage.from.id;
 
-      //TODO agregar gateway
+      this.eventGateway.sendMessageIconReaction(updatedMessage, friendId);
       return updatedMessage;
     } catch (error) {
-      this.logger.error('update message seen status error');
+      this.logger.error('update message icon reaction error');
       throw error;
     }
   }
@@ -165,6 +169,7 @@ export class MessageService {
         .populate('to', '-roles -isActive -online -lastActive')
         .populate('from', '-roles -isActive -online -lastActive')
         .populate('responseTo', '-responseTo -from -to -seen')
+        .populate('iconReactions.user', 'id name email _id')
         .sort({ createdAt: 'desc' });
 
       this.eventGateway.sendSeenMessages(updatedMessages, id);

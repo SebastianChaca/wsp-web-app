@@ -8,6 +8,7 @@ export interface ServerToClient {
   typing: (payload: isTyping) => void;
   'update-friend-status': (payload: FriendApiResponse) => void;
   'seen-messages': (payload: PopulatedMessage[]) => void;
+  'update-message-reaction': (payload: PopulatedMessage) => void;
 }
 export interface ClientToServer {
   typing: (payload: isTyping) => void;

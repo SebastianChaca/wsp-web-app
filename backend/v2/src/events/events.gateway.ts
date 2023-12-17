@@ -83,6 +83,10 @@ export class EventsGateway
     );
   }
 
+  sendMessageIconReaction(message: PopulatedMessage, id: string) {
+    this.server.to(id).emit('update-message-reaction', message);
+  }
+
   sendSeenMessages(messages: PopulatedMessage[], id: string) {
     this.server.to(id).emit('seen-messages', messages);
   }
