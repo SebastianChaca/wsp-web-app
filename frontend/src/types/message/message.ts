@@ -35,14 +35,13 @@ export interface messageUI extends message {
   responseTo?: responseTo;
   isLoading?: boolean;
   hasFailed?: boolean;
-  temporalId?: string;
+  iconReactions?: IconReactions[];
 }
 
 export interface messageToServer extends message {
   isTyping?: boolean;
   responseTo?: string;
   isLoading?: boolean;
-  temporalId?: string;
 }
 export interface serverMessageResponse {
   updatedAt: string;
@@ -61,6 +60,7 @@ export interface serverMessageResponse {
     from: userFromServer;
     message: string | null;
   };
+  iconReactions?: IconReactions[];
 }
 
 export interface serverMessageResponseNotPopulated {
@@ -77,3 +77,9 @@ export interface serverMessageResponseNotPopulated {
 export interface PaginatedMessages extends Pagination {
   messages: serverMessageResponse[];
 }
+export type IconReactions = {
+  id: string;
+  icon: string;
+  createdAt: Date;
+  user: { id: string; name: string; email: string };
+};

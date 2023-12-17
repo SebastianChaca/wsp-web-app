@@ -10,7 +10,7 @@ export const sendMessage = createAsyncThunk(
   'chat/getMessage',
   async (props: messageToServer) => {
     delete props.isLoading;
-    delete props.temporalId;
+
     const response = await makePrivateRequest<serverMessageResponse>(
       `/${MESSAGE}`,
       { data: props, method: 'post' }
