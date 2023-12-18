@@ -98,7 +98,7 @@ export class MessageService {
       }
       const populatedMessage = await this.messageModel.populate(message, {
         path: 'from to iconReactions.user',
-        select: 'name email id',
+        // select: 'name email id',
       });
 
       await this.friendUtilsService.checkRelationAndStatus(
@@ -121,10 +121,17 @@ export class MessageService {
       }
 
       const updatedMessage = await populatedMessage.save();
-      const friendId =
-        updatedMessage.from.id === user.id
-          ? updatedMessage.to.id
-          : updatedMessage.from.id;
+
+      function findOtherUserId(message: any, userId: string): string | null {
+        if (message.from.id !== userId) {
+          return message.from.id;
+        } else if (message.to.id !== userId) {
+          return message.to.id;
+        } else {
+          return null;
+        }
+      }
+      const friendId = findOtherUserId(updatedMessage, user.id.toString());
 
       this.eventGateway.sendMessageIconReaction(updatedMessage, friendId);
       return updatedMessage;
