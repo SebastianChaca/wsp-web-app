@@ -87,6 +87,7 @@ const MessageEvents = ({ children }: Props) => {
   useEffect(() => {
     const handleIconReaction = (payload: serverMessageResponse) => {
       const sanitize = sanitizeMessage(payload);
+
       dispatch(updateMessage(sanitize));
     };
     socket?.on('update-message-reaction', handleIconReaction);

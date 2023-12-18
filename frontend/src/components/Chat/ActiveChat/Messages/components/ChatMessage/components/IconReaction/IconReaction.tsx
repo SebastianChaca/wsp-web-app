@@ -1,6 +1,6 @@
+import { useEffect, useRef } from 'react';
 import { Flex } from '@chakra-ui/react';
 import { messageUI } from '../../../../../../../../types/message/message';
-import { useMessageContext } from '../Provider/MessageProvider';
 import IconAnimation from './IconAnimation';
 
 interface IconReactionProps {
@@ -8,19 +8,24 @@ interface IconReactionProps {
 }
 
 const IconReaction = ({ msg }: IconReactionProps) => {
-  const { hasIconReaction } = useMessageContext();
+  const hasIcon = msg.iconReactions && msg.iconReactions[0]?.icon;
+  const hasPrev = useRef(hasIcon);
 
-  if (hasIconReaction) {
-    return (
-      <Flex position="absolute" left={1} top={8}>
-        {msg.iconReactions?.map((reaction) => (
-          <IconAnimation icon={reaction.icon} key={reaction.id} />
-        ))}
-      </Flex>
-    );
-  }
+  useEffect(() => {
+    hasPrev.current = hasIcon;
+  }, [hasIcon]);
 
-  return null;
+  return (
+    <Flex position="absolute" left={1} top={8}>
+      {msg.iconReactions?.map((reaction) => (
+        <IconAnimation
+          icon={reaction.icon}
+          key={reaction.id}
+          hasPreviuosValue={hasPrev.current}
+        />
+      ))}
+    </Flex>
+  );
 };
 
 export default IconReaction;

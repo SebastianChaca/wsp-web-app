@@ -2,14 +2,26 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Box } from '@chakra-ui/react';
 
-const IconAnimation = ({ icon }: { icon: string }) => {
+const IconAnimation = ({
+  icon,
+  hasPreviuosValue,
+}: {
+  icon: string;
+  hasPreviuosValue: string | undefined;
+}) => {
   const isFirstRender = useRef(true);
-  const [activeAnimation, setActiveAnimation] = useState({ scale: 1 });
+  const prevCountRef = useRef('');
+  const [activeAnimation, setActiveAnimation] = useState({
+    scale: hasPreviuosValue ? 1 : 0,
+  });
 
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
+
       setActiveAnimation({ scale: 0 });
+
+      prevCountRef.current = icon;
     }
   }, [icon]);
   return (
