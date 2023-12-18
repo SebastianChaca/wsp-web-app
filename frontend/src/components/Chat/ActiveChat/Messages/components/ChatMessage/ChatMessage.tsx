@@ -1,28 +1,46 @@
-import { Flex } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { messageUI } from '../../../../../../types/message/message';
-import { Message } from '..';
+import {
+  Provider,
+  MessageDate,
+  ResponseToMessage,
+  DropDownOptions,
+  Container,
+  ErrorIcon,
+  Status,
+  MessageText,
+  IconReaction,
+} from './components';
 
 interface Props {
   msg: messageUI;
   isOutgoing: boolean;
   showDate: boolean;
+  isLastElement: boolean;
 }
-const ChatMessage = ({ msg, isOutgoing, showDate }: Props) => {
+const ChatMessage = ({ msg, isOutgoing, showDate, isLastElement }: Props) => {
+  const hasIcon = msg.iconReactions && msg.iconReactions.length > 0;
   return (
-    <Message.Provider msg={msg} isOutgoing={isOutgoing} showDate={showDate}>
-      <Message.Date />
-      <Flex alignItems="center">
-        <Message.Container>
-          <Message.ResponseToMessage />
-          <Message.DropDownOptions />
+    <Provider msg={msg} isOutgoing={isOutgoing} showDate={showDate}>
+      <Box
+        overflow="hidden"
+        h={hasIcon ? '85px' : '100%'}
+        mb={isLastElement ? '5px' : '0px'}
+      >
+        <MessageDate />
+
+        <Container>
+          <ResponseToMessage />
+          <DropDownOptions />
           <Flex alignItems="end">
-            <Message.MessageText />
-            <Message.Status />
+            <MessageText />
+            <Status />
           </Flex>
-        </Message.Container>
-        <Message.ErrorIcon />
-      </Flex>
-    </Message.Provider>
+          <IconReaction msg={msg} />
+        </Container>
+        <ErrorIcon />
+      </Box>
+    </Provider>
   );
 };
 

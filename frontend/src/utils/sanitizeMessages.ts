@@ -3,36 +3,6 @@ import { capitalizeFirstLetter } from './capitalizeFirstLetter';
 import { formatDateMessage } from './date';
 // TODO: mover a slice de chat
 
-export const sanitizeMessages = (messages: serverMessageResponse[]) => {
-  return messages
-    .map((msg) => {
-      const messageObj: messageUI = {
-        to: msg.to.id,
-        from: msg.from.id,
-        message: msg.message,
-        date: msg.createdAt,
-        seen: msg.seen,
-        id: msg.id,
-        parseDate: capitalizeFirstLetter(formatDateMessage(msg.createdAt)),
-        nameTo: capitalizeFirstLetter(msg.to.name),
-        emailTo: msg.to.email ?? '',
-        isLoading: false,
-        responseTo: msg.responseTo
-          ? {
-              id: msg.responseTo.id ?? '',
-              from: msg.from.id,
-              to: msg.to.id,
-              nameTo: msg.to.name,
-              emailTo: msg.to.email,
-              message: msg.responseTo.message,
-              date: msg.responseTo.createdAt,
-            }
-          : undefined,
-      };
-      return messageObj;
-    })
-    .reverse();
-};
 export const sanitizeMessage = (message: serverMessageResponse) => {
   const messageObj: messageUI = {
     message: message.message,
@@ -54,6 +24,19 @@ export const sanitizeMessage = (message: serverMessageResponse) => {
           date: message.responseTo.createdAt,
         }
       : undefined,
+    iconReactions: message.iconReactions?.map((reaction) => ({
+      icon: reaction.icon,
+      user: reaction.user,
+      id: reaction.id,
+      createdAt: reaction.createdAt,
+    })),
   };
   return messageObj;
+};
+export const sanitizeMessages = (messages: serverMessageResponse[]) => {
+  return messages
+    .map((msg) => {
+      return sanitizeMessage(msg);
+    })
+    .reverse();
 };

@@ -33,11 +33,20 @@ export const messagesSlice = createSlice({
       const newArr = state.messages.concat(action.payload);
       state.messages = newArr;
     },
+    updateMessage: (state, action: PayloadAction<messageUI>) => {
+      const findMessage = state.messages.findIndex(
+        (msg) => msg.id === action.payload.id
+      );
+      if (findMessage !== -1) {
+        state.messages[findMessage] = action.payload;
+      }
+    },
   },
   extraReducers: (builder) => {
     getMessagesExtraReducer(builder, getMessages);
     sendMessagesExtraReducer(builder, sendMessage);
   },
 });
-export const { setMessage, updateSeenMessages } = messagesSlice.actions;
+export const { setMessage, updateSeenMessages, updateMessage } =
+  messagesSlice.actions;
 export default messagesSlice.reducer;

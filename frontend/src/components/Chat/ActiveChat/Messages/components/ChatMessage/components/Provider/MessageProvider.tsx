@@ -18,6 +18,7 @@ interface MessageContext {
   showDropDown: boolean;
   setShowDropDown: React.Dispatch<React.SetStateAction<boolean>>;
   activeChat: ActiveChat;
+  hasIconReaction: boolean;
 }
 interface MessageProviderProps {
   children?: ReactNode;
@@ -36,6 +37,7 @@ const MessageProvider: FC<MessageProviderProps> = ({
 }) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const activeChat = useAppSelector((state) => state.activeChatSlice);
+  const hasIconReaction = !!msg.iconReactions && msg.iconReactions?.length > 0;
 
   const values = useMemo(() => {
     return {
@@ -45,8 +47,9 @@ const MessageProvider: FC<MessageProviderProps> = ({
       showDropDown,
       setShowDropDown,
       activeChat,
+      hasIconReaction,
     };
-  }, [msg, isOutgoing, showDate, showDropDown, activeChat]);
+  }, [msg, isOutgoing, showDate, showDropDown, activeChat, hasIconReaction]);
   return (
     <ChatContext.Provider value={values}>
       <Box overflowX="hidden">{children}</Box>

@@ -73,6 +73,7 @@ const Messages = () => {
                 msg={msg}
                 isOutgoing={msg.from === uid}
                 showDate={msg.parseDate !== arr[index - 1]?.parseDate}
+                isLastElement={index === arr.length - 1}
               />
             );
           })

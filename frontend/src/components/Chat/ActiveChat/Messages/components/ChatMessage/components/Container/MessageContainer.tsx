@@ -6,7 +6,8 @@ interface Props {
   children?: ReactNode;
 }
 const MessageContainer = ({ children }: Props) => {
-  const { isOutgoing, setShowDropDown, msg } = useMessageContext();
+  const { isOutgoing, setShowDropDown, msg, hasIconReaction } =
+    useMessageContext();
   const getBackgroundColor = () => {
     if (msg.isLoading || msg.hasFailed) {
       return 'blackAlpha.100';
@@ -34,12 +35,12 @@ const MessageContainer = ({ children }: Props) => {
         bg={getBackgroundColor()}
         borderRadius="3px"
         w="auto"
-        my="10px"
+        my={hasIconReaction ? '20px' : '10px'}
         wordBreak="break-all"
-        position="relative"
-        overflow="hidden"
         onMouseEnter={() => setShowDropDown(true)}
         onMouseLeave={() => setShowDropDown(false)}
+        h="100%"
+        position="relative"
       >
         {children}
       </Box>

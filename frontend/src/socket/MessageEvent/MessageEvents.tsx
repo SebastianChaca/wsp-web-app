@@ -8,11 +8,15 @@ import {
 } from '../../redux/friends/friendsSlice';
 import { useSocketContext } from '../SocketContext/SocketContext';
 import { serverMessageResponse } from '../../types/message/message';
-import { sanitizeMessages } from '../../utils/sanitizeMessages';
+import {
+  sanitizeMessage,
+  sanitizeMessages,
+} from '../../utils/sanitizeMessages';
 import { getFriendById } from '../../services/friends';
 import { friendFromApi } from '../../types/friend/friend';
 import {
   setMessage,
+  updateMessage,
   updateSeenMessages,
 } from '../../redux/messages/messagesSlice';
 
@@ -77,6 +81,18 @@ const MessageEvents = ({ children }: Props) => {
     socket?.on('update-friend-status', handleUpdate);
     return () => {
       socket?.off('update-friend-status', handleUpdate);
+    };
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    const handleIconReaction = (payload: serverMessageResponse) => {
+      const sanitize = sanitizeMessage(payload);
+      dispatch(updateMessage(sanitize));
+    };
+    socket?.on('update-message-reaction', handleIconReaction);
+
+    return () => {
+      socket?.off('update-message-reaction', handleIconReaction);
     };
   }, [socket, dispatch]);
   return <>{children}</>;
