@@ -13,6 +13,7 @@ import {
   MainContainer,
   IconReactionDropDown,
 } from './components';
+import { IconReactionList } from './components/IconReactionDropdown/components';
 
 interface Props {
   msg: messageUI;
@@ -28,19 +29,19 @@ const ChatMessage = ({ msg, isOutgoing, showDate, isLastElement }: Props) => {
       showDate={showDate}
       isLastElement={isLastElement}
     >
+      <MessageDate />
       <MainContainer>
-        <MessageDate />
-
-        <MessageContainer>
-          <ResponseToMessage />
-          <DropDownOptions />
-          <Flex alignItems="end">
-            <MessageText />
-            <Status />
-          </Flex>
-          <IconReaction />
-        </MessageContainer>
-        <IconReactionDropDown />
+        <IconReactionDropDown>
+          <MessageContainer>
+            <ResponseToMessage />
+            <DropDownOptions />
+            <Flex alignItems="end">
+              <MessageText />
+              <Status />
+            </Flex>
+            <IconReaction />
+          </MessageContainer>
+        </IconReactionDropDown>
 
         <ErrorIcon />
       </MainContainer>

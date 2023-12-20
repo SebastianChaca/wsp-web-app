@@ -1,4 +1,4 @@
-import { BsCheckAll } from 'react-icons/bs';
+import { BsCheck2All } from 'react-icons/bs';
 
 interface Props {
   isOutgoing: boolean;
@@ -16,7 +16,7 @@ const MessageCheck = ({ isOutgoing, seen, onSideBar = false }: Props) => {
     return '#718096';
   };
 
-  return <>{isOutgoing && <BsCheckAll color={getCheckColor()} />}</>;
+  return <>{isOutgoing && <BsCheck2All color={getCheckColor()} />}</>;
 };
 
 export default MessageCheck;
