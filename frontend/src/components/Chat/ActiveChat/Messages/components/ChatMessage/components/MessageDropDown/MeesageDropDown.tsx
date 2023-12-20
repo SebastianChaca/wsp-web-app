@@ -6,7 +6,7 @@ import {
   MenuItem,
   IconButton,
 } from '@chakra-ui/react';
-import { BiChevronDown } from 'react-icons/all';
+import { BiChevronDown } from 'react-icons/bi';
 import { createPortal } from 'react-dom';
 import { useDispatch } from 'react-redux';
 import { useMessageContext } from '../Provider/MessageProvider';
@@ -29,16 +29,19 @@ const MeesageDropDown: FC = () => {
           {(showDropDown || isOpen) && (
             <MenuButton
               position="absolute"
-              top={-2}
+              top={0}
               right={0}
+              borderRadius="3px"
+              h="15px"
               bg="message.in.bg"
-              _hover={{ bg: 'message.in.bg', w: '10px' }}
+              _hover={{ bg: 'message.in.bg' }}
+              border="1px solid gray"
               // _active={{
               //   bg: 'message.in.bg',
               //   h: '10px',
               // }}
               as={IconButton}
-              icon={<BiChevronDown size={20} />}
+              icon={<BiChevronDown size={15} />}
               variant="ghost"
             />
           )}

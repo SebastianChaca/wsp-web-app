@@ -5,7 +5,7 @@ import {
   IconButton,
   useDisclosure,
 } from '@chakra-ui/react';
-import { FiChevronDown } from 'react-icons/all';
+import { FiChevronDown } from 'react-icons/fi';
 import { AddFriend, AddFriendModal, Signout } from './MenuItems';
 
 const UserTopBarMenu = () => {

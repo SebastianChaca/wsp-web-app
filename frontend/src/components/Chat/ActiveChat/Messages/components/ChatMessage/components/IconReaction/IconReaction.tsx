@@ -1,13 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { Flex } from '@chakra-ui/react';
-import { messageUI } from '../../../../../../../../types/message/message';
+
 import IconAnimation from './IconAnimation';
+import { useMessageContext } from '../Provider/MessageProvider';
 
-interface IconReactionProps {
-  msg: messageUI;
-}
-
-const IconReaction = ({ msg }: IconReactionProps) => {
+const IconReaction = () => {
+  const { msg } = useMessageContext();
   const hasIcon = msg.iconReactions && msg.iconReactions[0]?.icon;
   const hasPrev = useRef(hasIcon);
 

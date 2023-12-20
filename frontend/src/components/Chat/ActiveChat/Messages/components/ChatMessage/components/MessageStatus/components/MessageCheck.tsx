@@ -1,4 +1,4 @@
-import { BsCheckAll } from 'react-icons/all';
+import { BsCheckAll } from 'react-icons/bs';
 
 interface Props {
   isOutgoing: boolean;

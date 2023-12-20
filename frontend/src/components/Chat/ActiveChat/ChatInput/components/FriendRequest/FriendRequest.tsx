@@ -1,7 +1,8 @@
 import { FC, useState } from 'react';
 import { Flex, Text, Button, Box } from '@chakra-ui/react';
-import { AiOutlineCheckCircle, MdBlock } from 'react-icons/all';
 
+import { AiOutlineCheckCircle } from 'react-icons/ai';
+import { MdBlock } from 'react-icons/md';
 import { useAppDispatch, useAppSelector } from '../../../../../../redux/hooks';
 import { aceptFriend, blockFriend } from '../../../../../../services/friends';
 import { updateFriend } from '../../../../../../redux/friends/friendsSlice';

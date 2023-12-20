@@ -17,14 +17,18 @@ interface MessageContext {
   showDate: boolean;
   showDropDown: boolean;
   setShowDropDown: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowIconReactionDropDown: React.Dispatch<React.SetStateAction<boolean>>;
+  showIconReactionDropDown: boolean;
   activeChat: ActiveChat;
   hasIconReaction: boolean;
+  isLastElement: boolean;
 }
 interface MessageProviderProps {
   children?: ReactNode;
   msg: messageUI;
   isOutgoing: boolean;
   showDate: boolean;
+  isLastElement: boolean;
 }
 
 const ChatContext = createContext<MessageContext>({} as MessageContext);
@@ -34,8 +38,11 @@ const MessageProvider: FC<MessageProviderProps> = ({
   msg,
   isOutgoing,
   showDate,
+  isLastElement,
 }) => {
   const [showDropDown, setShowDropDown] = useState(false);
+  const [showIconReactionDropDown, setShowIconReactionDropDown] =
+    useState(false);
   const activeChat = useAppSelector((state) => state.activeChatSlice);
   const hasIconReaction = !!msg.iconReactions && msg.iconReactions?.length > 0;
 
@@ -48,8 +55,21 @@ const MessageProvider: FC<MessageProviderProps> = ({
       setShowDropDown,
       activeChat,
       hasIconReaction,
+      isLastElement,
+      setShowIconReactionDropDown,
+      showIconReactionDropDown,
     };
-  }, [msg, isOutgoing, showDate, showDropDown, activeChat, hasIconReaction]);
+  }, [
+    msg,
+    isOutgoing,
+    showDate,
+    showDropDown,
+    activeChat,
+    hasIconReaction,
+    isLastElement,
+    setShowIconReactionDropDown,
+    showIconReactionDropDown,
+  ]);
   return (
     <ChatContext.Provider value={values}>
       <Box overflowX="hidden">{children}</Box>

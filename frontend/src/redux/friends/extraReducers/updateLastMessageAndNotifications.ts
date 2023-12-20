@@ -9,7 +9,6 @@ import { sanitizeMessage } from '../../../utils/sanitizeMessages';
 import { updateLastMessage, updateNotification } from '../accions';
 import { capitalizeFirstLetter } from '../../../utils/capitalizeFirstLetter';
 import { formatDateMessage } from '../../../utils/date';
-import { friend } from '../../../types/friend/friend';
 
 export const updateLastMessageAndNotifications = (
   builder: ActionReducerMapBuilder<ChatState>,
