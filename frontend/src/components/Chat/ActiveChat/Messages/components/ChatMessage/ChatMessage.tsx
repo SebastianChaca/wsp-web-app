@@ -13,7 +13,6 @@ import {
   MainContainer,
   IconReactionDropDown,
 } from './components';
-import { IconReactionList } from './components/IconReactionDropdown/components';
 
 interface Props {
   msg: messageUI;
@@ -35,7 +34,7 @@ const ChatMessage = ({ msg, isOutgoing, showDate, isLastElement }: Props) => {
           <MessageContainer>
             <ResponseToMessage />
             <DropDownOptions />
-            <Flex alignItems="end">
+            <Flex alignItems="end" zIndex={10} position="relative">
               <MessageText />
               <Status />
             </Flex>

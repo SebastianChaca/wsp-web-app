@@ -15,7 +15,7 @@ const Messages = () => {
   const chatListRef = useRef<HTMLDivElement>(null);
   const ref = useRef<HTMLDivElement>(null);
 
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
   const dispatch = useAppDispatch();
 
   const lastMessage = messages[messages.length - 1]?.id;
@@ -37,13 +37,13 @@ const Messages = () => {
         page <= pagination.totalPages &&
         !pagination.loadingPagination
       ) {
-        setPage((prev) => prev + 1);
         dispatch(
           getMessages({
             id: activeChat.id,
             page: page + 1,
           })
         );
+        setPage((prev) => prev + 1);
         chatListElement?.scrollTo({ top: 50 });
       }
     };

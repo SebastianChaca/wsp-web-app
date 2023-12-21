@@ -13,6 +13,7 @@ const inputGrid: FC<inputGridProps> = ({ children }) => {
       borderTop=" 1px solid #c4c4c4"
       bg="message.in.bg"
       p="20px"
+      zIndex={100}
     >
       {children}
     </Grid>

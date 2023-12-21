@@ -11,7 +11,6 @@ const MainContainer = ({ children }: Props) => {
     hasIconReaction,
     setShowIconReactionDropDown,
     isOutgoing,
-    showIconReactionDropDown,
   } = useMessageContext();
   return (
     <Flex

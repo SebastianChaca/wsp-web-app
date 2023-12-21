@@ -19,6 +19,8 @@ interface MessageContext {
   setShowDropDown: React.Dispatch<React.SetStateAction<boolean>>;
   setShowIconReactionDropDown: React.Dispatch<React.SetStateAction<boolean>>;
   showIconReactionDropDown: boolean;
+  setIconReactionDropDown: React.Dispatch<React.SetStateAction<boolean>>;
+  openIconReactionDropDown: boolean;
   activeChat: ActiveChat;
   hasIconReaction: boolean;
   isLastElement: boolean;
@@ -40,9 +42,13 @@ const MessageProvider: FC<MessageProviderProps> = ({
   showDate,
   isLastElement,
 }) => {
+  // message options
   const [showDropDown, setShowDropDown] = useState(false);
+  // side icon to open icon reaction list
   const [showIconReactionDropDown, setShowIconReactionDropDown] =
     useState(false);
+  // open/close icon reaction menu
+  const [openIconReactionDropDown, setIconReactionDropDown] = useState(false);
   const activeChat = useAppSelector((state) => state.activeChatSlice);
   const hasIconReaction = !!msg.iconReactions && msg.iconReactions?.length > 0;
 
@@ -58,6 +64,8 @@ const MessageProvider: FC<MessageProviderProps> = ({
       isLastElement,
       setShowIconReactionDropDown,
       showIconReactionDropDown,
+      openIconReactionDropDown,
+      setIconReactionDropDown,
     };
   }, [
     msg,
@@ -69,10 +77,12 @@ const MessageProvider: FC<MessageProviderProps> = ({
     isLastElement,
     setShowIconReactionDropDown,
     showIconReactionDropDown,
+    openIconReactionDropDown,
+    setIconReactionDropDown,
   ]);
   return (
     <ChatContext.Provider value={values}>
-      <Box overflowX="hidden">{children}</Box>
+      <Box overflow="hidden">{children}</Box>
     </ChatContext.Provider>
   );
 };

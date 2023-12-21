@@ -1,7 +1,6 @@
 import { Box, Fade } from '@chakra-ui/react';
 import { LiaLaugh } from 'react-icons/lia';
 import { useMessageContext } from '../../Provider/MessageProvider';
-import IconReactionList from './IconReactionList';
 
 const IconReactionButton = () => {
   const { isOutgoing, msg, showIconReactionDropDown } = useMessageContext();
@@ -17,7 +16,6 @@ const IconReactionButton = () => {
         p="6px"
         borderRadius="100%"
         cursor="pointer"
-        position="relative"
       >
         <LiaLaugh />
       </Box>
