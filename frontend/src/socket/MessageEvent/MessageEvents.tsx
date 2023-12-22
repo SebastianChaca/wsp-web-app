@@ -64,6 +64,7 @@ const MessageEvents = ({ children }: Props) => {
   useEffect(() => {
     const handleSeenMessage = (messagesPayload: serverMessageResponse[]) => {
       const sanitize = sanitizeMessages(messagesPayload);
+
       dispatch(updateSeenMessages(sanitize));
       dispatch(updateLastMessageSeenStatus(sanitize[0]));
     };

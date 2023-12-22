@@ -34,7 +34,7 @@ const ChatMessage = ({ msg, isOutgoing, showDate, isLastElement }: Props) => {
           <MessageContainer>
             <ResponseToMessage />
             <DropDownOptions />
-            <Flex alignItems="end" zIndex={10} position="relative">
+            <Flex alignItems="end" zIndex={1} position="relative">
               <MessageText />
               <Status />
             </Flex>

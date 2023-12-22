@@ -10,10 +10,10 @@ const IconReactionManu = () => {
     <Menu
       placement="top"
       offset={[0, 0]}
-      isLazy
       isOpen={openIconReactionDropDown}
       onOpen={() => setIconReactionDropDown(true)}
       onClose={() => setIconReactionDropDown(false)}
+      isLazy
     >
       <MenuButton
         as={IconButton}
@@ -21,14 +21,7 @@ const IconReactionManu = () => {
         bg="none"
         _active={{ bg: 'none' }}
       />
-      <MenuList
-        bg="none"
-        shadow="0px"
-        border="none"
-        minWidth="100%"
-        p="0px"
-        zIndex={0}
-      >
+      <MenuList bg="none" shadow="0px" border="none" minWidth="100%" p="0px">
         <IconReactionList />
       </MenuList>
     </Menu>

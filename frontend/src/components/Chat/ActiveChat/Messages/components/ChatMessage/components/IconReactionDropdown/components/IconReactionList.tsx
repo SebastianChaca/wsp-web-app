@@ -13,11 +13,12 @@ const IconReactionList = () => {
     <Flex
       bg="rgba(255, 255, 255, 0.05)"
       boxShadow="0 4px 30px rgba(0, 0, 0, 0.1)"
-      backdropFilter="blur(7.9px)"
+      backdropFilter="blur(10px)"
       borderRadius="20px 20px"
-      border="1px solid rgba(255, 255, 255, 0.30)"
+      border="1px solid rgba(255, 255, 255, 0.20)"
       p="2px"
-      zIndex={0}
+      position="relative"
+      zIndex={1000}
     >
       {emoticons.map((e) => (
         <Box

@@ -22,16 +22,24 @@ export const messagesSlice = createSlice({
   reducers: {
     setMessage: (state, action: PayloadAction<serverMessageResponse>) => {
       const parsedMessage = sanitizeMessage(action.payload);
+
       state.messages.push(parsedMessage);
     },
     updateSeenMessages: (state, action: PayloadAction<messageUI[]>) => {
-      const elementsToDelete = action.payload.length;
+      const updatedMessages = action.payload;
 
-      const arrayLength = state.messages.length;
+      // Iterate through the updated messages
+      updatedMessages.forEach((updatedMessage) => {
+        // Find the index of the message to be updated
+        const index = state.messages.findIndex(
+          (msg) => msg.id === updatedMessage.id
+        );
 
-      state.messages.splice(arrayLength - elementsToDelete, elementsToDelete);
-      const newArr = state.messages.concat(action.payload);
-      state.messages = newArr;
+        // If the message exists, update it
+        if (index !== -1) {
+          state.messages[index] = updatedMessage;
+        }
+      });
     },
     updateMessage: (state, action: PayloadAction<messageUI>) => {
       const findMessage = state.messages.findIndex(
