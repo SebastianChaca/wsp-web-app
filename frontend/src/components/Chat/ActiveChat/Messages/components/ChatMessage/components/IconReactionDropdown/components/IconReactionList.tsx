@@ -31,8 +31,9 @@ const IconReactionList = () => {
           fontSize="20px"
           textAlign="center"
           _hover={{
-            bg: 'brand.gray2',
+            bg: 'rgba(196, 196, 196, 0.30)',
             borderRadius: '50%',
+            backdropFilter: 'blur(7.5px)',
           }}
         >
           {e}
