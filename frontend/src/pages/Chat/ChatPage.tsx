@@ -7,7 +7,6 @@ import {
 import { SideBar, ActiveChat } from '../../components/Chat';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { getMessages } from '../../services/messages/getMessages';
-
 import { useFriend } from '../../redux/friends/selectors';
 import { setActiveChat } from '../../redux/activeChat/activeChatSlice';
 import { getFriends } from '../../services/friends';
@@ -15,7 +14,9 @@ import { useSocketContext } from '../../socket/SocketContext/SocketContext';
 
 const ChatPage = () => {
   const { socketErrorConnection } = useSocketContext();
+  const { isMobile } = useAppSelector((state) => state.uiSlice);
   const { friendId } = useAppSelector((state) => state.friendsSlice);
+  const activeChat = useAppSelector((state) => state.activeChatSlice);
   const findFriend = useFriend(friendId);
 
   const activeChatSelected = friendId;
@@ -59,10 +60,29 @@ const ChatPage = () => {
       );
     }
   }, [dispatch, findFriend]);
+
   if (socketErrorConnection) {
     return (
       <>
         <Text>Error</Text>
+      </>
+    );
+  }
+  if (isMobile) {
+    return (
+      <>
+        {activeChat.id ? (
+          <>
+            <ActiveChat.TopBar />
+            <ActiveChat.Messages />
+            <ActiveChat.Input />
+          </>
+        ) : (
+          <>
+            <SideBar.TopBar />
+            <SideBar.FriendsList />
+          </>
+        )}
       </>
     );
   }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 import { useDispatch } from 'react-redux';
+import { Box } from '@chakra-ui/react';
 import { useAppSelector } from '../../../../redux/hooks';
 import useInputSocket from '../../../../socket/hooks/useInputSocket';
 
@@ -70,9 +71,10 @@ const ChatInput = () => {
     return null;
   }
   return (
-    <>
+    <Box position="sticky" w="100%" bottom={0} zIndex={1000}>
       <FriendRequest />
       <InputGrid>
+        {/* agregar animation a responde to message */}
         <ResponseToMessage />
         <InputComponent
           message={message}
@@ -81,7 +83,7 @@ const ChatInput = () => {
           ref={inputRef}
         />
       </InputGrid>
-    </>
+    </Box>
   );
 };
 

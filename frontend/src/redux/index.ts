@@ -1,3 +1,5 @@
+export { default as uiSlice } from './ui/uiSlice';
+
 export { default as friendsSlice } from './friends/friendsSlice';
 export { default as sessionSlice } from './session/sessionSlice';
 export { default as activeChatSlice } from './activeChat/activeChatSlice';

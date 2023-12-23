@@ -5,6 +5,7 @@ import {
   friendsSlice,
   activeChatSlice,
   messagesSlice,
+  uiSlice,
 } from './index';
 
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
     friendsSlice,
     activeChatSlice,
     messagesSlice,
+    uiSlice,
   },
 });
 
