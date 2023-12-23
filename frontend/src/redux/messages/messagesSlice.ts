@@ -1,9 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { getMessages, sendMessage } from '../../services/messages';
+import {
+  getMessages,
+  sendIconReaction,
+  sendMessage,
+} from '../../services/messages';
 import { MessagesState } from '../../types/MessagesState/messageSlicestate';
 import {
   getMessagesExtraReducer,
+  sendIconReactionExtraReducer,
   sendMessagesExtraReducer,
 } from './extraReducers';
 
@@ -53,6 +58,7 @@ export const messagesSlice = createSlice({
   extraReducers: (builder) => {
     getMessagesExtraReducer(builder, getMessages);
     sendMessagesExtraReducer(builder, sendMessage);
+    sendIconReactionExtraReducer(builder, sendIconReaction);
   },
 });
 export const { setMessage, updateSeenMessages, updateMessage } =

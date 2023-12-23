@@ -1,5 +1,8 @@
 import React from 'react';
 import { Box, Flex } from '@chakra-ui/react';
+import { useMessageContext } from '../../Provider/MessageProvider';
+import { useAppDispatch } from '../../../../../../../../../redux/hooks';
+import { sendIconReaction } from '../../../../../../../../../services/messages';
 
 const IconReactionList = () => {
   const emoticons = [
@@ -9,6 +12,12 @@ const IconReactionList = () => {
     '👍',
     '😡', // Add more emoticons as needed
   ];
+  const { setIconReactionDropDown, msg } = useMessageContext();
+  const dispatch = useAppDispatch();
+  const handleClick = (icon: string) => {
+    setIconReactionDropDown((prev) => !prev);
+    dispatch(sendIconReaction({ id: msg.id, iconReactions: icon }));
+  };
   return (
     <Flex
       bg="rgba(255, 255, 255, 0.05)"
@@ -22,6 +31,7 @@ const IconReactionList = () => {
     >
       {emoticons.map((e) => (
         <Box
+          onClick={() => handleClick(e)}
           key={Math.random()}
           p="4px"
           cursor="pointer"
