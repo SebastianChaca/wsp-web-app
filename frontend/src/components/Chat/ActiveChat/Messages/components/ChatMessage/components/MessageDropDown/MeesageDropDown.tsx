@@ -28,6 +28,7 @@ const MeesageDropDown: FC = () => {
         <>
           {(showDropDown || isOpen) && (
             <MenuButton
+              zIndex={100}
               position="absolute"
               top={0}
               right={0}

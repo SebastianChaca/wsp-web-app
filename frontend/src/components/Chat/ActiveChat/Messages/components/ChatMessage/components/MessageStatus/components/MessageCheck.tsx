@@ -16,18 +16,7 @@ const MessageCheck = ({ isOutgoing, seen, onSideBar = false }: Props) => {
     return '#718096';
   };
 
-  return (
-    <>
-      {isOutgoing && (
-        <BsCheck2All
-          color={getCheckColor()}
-          style={{
-            transition: 'color 1s',
-          }}
-        />
-      )}
-    </>
-  );
+  return <>{isOutgoing && <BsCheck2All color={getCheckColor()} />}</>;
 };
 
 export default MessageCheck;

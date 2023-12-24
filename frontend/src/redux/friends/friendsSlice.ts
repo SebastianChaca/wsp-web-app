@@ -93,6 +93,9 @@ export const chatSlice = createSlice({
       state.friends = friendUpdate(state.friends, parseFriend);
     },
     resetChatState: () => initialState,
+    resetSelectedFriendId: (state) => {
+      state.friendId = '';
+    },
   },
   extraReducers: (builder) => {
     getFriendsExtraReducer(builder, getFriends);
@@ -109,5 +112,6 @@ export const {
   setFriendIsTyping,
   updateLastMessageSeenStatus,
   resetChatState,
+  resetSelectedFriendId,
 } = chatSlice.actions;
 export default chatSlice.reducer;

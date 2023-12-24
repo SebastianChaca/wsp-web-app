@@ -54,6 +54,7 @@ export const messagesSlice = createSlice({
         state.messages[findMessage] = action.payload;
       }
     },
+    resetMessageState: () => initialState,
   },
   extraReducers: (builder) => {
     getMessagesExtraReducer(builder, getMessages);
@@ -61,6 +62,10 @@ export const messagesSlice = createSlice({
     sendIconReactionExtraReducer(builder, sendIconReaction);
   },
 });
-export const { setMessage, updateSeenMessages, updateMessage } =
-  messagesSlice.actions;
+export const {
+  setMessage,
+  updateSeenMessages,
+  updateMessage,
+  resetMessageState,
+} = messagesSlice.actions;
 export default messagesSlice.reducer;

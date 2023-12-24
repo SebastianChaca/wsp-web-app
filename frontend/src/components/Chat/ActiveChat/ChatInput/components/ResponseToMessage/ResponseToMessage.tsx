@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Box, GridItem } from '@chakra-ui/react';
+import { Box, GridItem, SlideFade } from '@chakra-ui/react';
 import { useAppSelector } from '../../../../../../redux/hooks';
 import { ResponseTo } from '../../../../../Ui';
 
@@ -9,15 +9,21 @@ const ResponseToMessage: FC = () => {
     return (
       <>
         <GridItem marginBottom="20px">
-          <ResponseTo.Container>
-            <Box>
-              <ResponseTo.Decoration />
-              <ResponseTo.Message
-                nameTo={activeChat.responseTo.nameTo}
-                message={activeChat.responseTo.message}
-              />
-            </Box>
-          </ResponseTo.Container>
+          <SlideFade
+            in={!!activeChat?.responseTo?.message}
+            offsetY="40px"
+            unmountOnExit
+          >
+            <ResponseTo.Container>
+              <Box>
+                <ResponseTo.Decoration />
+                <ResponseTo.Message
+                  nameTo={activeChat.responseTo.nameTo}
+                  message={activeChat.responseTo.message}
+                />
+              </Box>
+            </ResponseTo.Container>
+          </SlideFade>
         </GridItem>
 
         <GridItem
@@ -26,7 +32,9 @@ const ResponseToMessage: FC = () => {
           display="flex"
           marginBottom="20px"
         >
-          <ResponseTo.CloseButton />
+          <SlideFade in={!!activeChat?.responseTo?.message} offsetY="40px">
+            <ResponseTo.CloseButton />
+          </SlideFade>
         </GridItem>
       </>
     );

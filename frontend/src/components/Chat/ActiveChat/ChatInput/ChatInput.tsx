@@ -71,7 +71,7 @@ const ChatInput = () => {
     return null;
   }
   return (
-    <Box position="sticky" w="100%" bottom={0} zIndex={1000}>
+    <>
       <FriendRequest />
       <InputGrid>
         {/* agregar animation a responde to message */}
@@ -83,7 +83,7 @@ const ChatInput = () => {
           ref={inputRef}
         />
       </InputGrid>
-    </Box>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import { Grid, Text } from '@chakra-ui/react';
+import { Grid, Text, Fade } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import {
   LeftContainer,
@@ -72,11 +72,15 @@ const ChatPage = () => {
     return (
       <>
         {activeChat.id ? (
-          <>
-            <ActiveChat.TopBar />
-            <ActiveChat.Messages />
-            <ActiveChat.Input />
-          </>
+          <Fade in={!!activeChat.id}>
+            <Grid templateColumns="100%" height="100vh" overflow="hidden">
+              <RightContainer>
+                <ActiveChat.TopBar />
+                <ActiveChat.Messages />
+                <ActiveChat.Input />
+              </RightContainer>
+            </Grid>
+          </Fade>
         ) : (
           <>
             <SideBar.TopBar />
