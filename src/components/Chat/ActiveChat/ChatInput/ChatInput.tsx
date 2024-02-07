@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { Box } from '@chakra-ui/react';
 import { useAppSelector } from '../../../../redux/hooks';
 import useInputSocket from '../../../../socket/hooks/useInputSocket';
 

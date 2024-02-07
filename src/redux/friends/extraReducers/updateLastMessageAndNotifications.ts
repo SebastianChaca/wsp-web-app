@@ -39,11 +39,11 @@ export const updateLastMessageAndNotifications = (
       state.friends = updateLastMessage(state.friends, payload);
     })
 
-    .addCase(sendMessages.rejected, (state, action) => {
+    .addCase(sendMessages.rejected, () => {
       // TODO REVISAR: hay que agregar prop has failed and loading
-      const findIndex = state.friends.findIndex(
-        (fr) => fr.id === action.meta.requestId
-      );
+      // const findIndex = state.friends.findIndex(
+      //   (fr) => fr.id === action.meta.requestId
+      // );
       // state.friends[findIndex].lastMessage.hasFailed = true;
       // state.friends[findIndex].isLoading = false;
     });
