@@ -40,6 +40,7 @@ export const sessionSlice = createSlice({
       state.uid = null;
       state.status = 'idle';
       state.online = false;
+      state.error = null;
     },
   },
   extraReducers: (builder) => {

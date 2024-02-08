@@ -23,7 +23,6 @@ const InputComponent = forwardRef(
           <FormControl>
             <Input
               id="inputChat"
-              placeholder="Escribe un mensaje aquí"
               ref={ref}
               variant="unstyled"
               bg="#E2E8F0"

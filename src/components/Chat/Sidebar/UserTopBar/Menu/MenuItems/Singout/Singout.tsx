@@ -14,7 +14,7 @@ const Singout = () => {
     dispatch(resetChatState());
     removeUser();
   };
-  return <MenuItem onClick={handleSignOut}>Singout</MenuItem>;
+  return <MenuItem onClick={handleSignOut}>Sign out</MenuItem>;
 };
 
 export default Singout;

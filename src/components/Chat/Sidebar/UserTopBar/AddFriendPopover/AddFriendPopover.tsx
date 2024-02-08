@@ -14,14 +14,26 @@ interface PopOverTypes {
   menuIsOpen: boolean;
 }
 const AddFriendPopover = ({ children, menuIsOpen }: PopOverTypes) => {
-  const { friends } = useAppSelector((state) => state.friendsSlice);
-  const [showPopover, setShowPopover] = useState(friends.length === 0);
+  const { friends, friendsLoading } = useAppSelector(
+    (state) => state.friendsSlice
+  );
+  const [showPopover, setShowPopover] = useState(false);
+
+  useEffect(() => {
+    if (!friendsLoading) {
+      setShowPopover(friends.length === 0);
+    }
+  }, [friends, friendsLoading]);
 
   useEffect(() => {
     if (showPopover && menuIsOpen) {
       setShowPopover(false);
     }
   }, [menuIsOpen, showPopover]);
+
+  if (friendsLoading) {
+    return null;
+  }
   return (
     <Popover isOpen={showPopover}>
       <PopoverTrigger>{children}</PopoverTrigger>
@@ -32,8 +44,7 @@ const AddFriendPopover = ({ children, menuIsOpen }: PopOverTypes) => {
             setShowPopover(false);
           }}
         />
-        {/* <PopoverHeader>Confirmation!</PopoverHeader> */}
-        <PopoverBody>Add your frist friend !</PopoverBody>
+        <PopoverBody>Add your first friend !</PopoverBody>
       </PopoverContent>
     </Popover>
   );
