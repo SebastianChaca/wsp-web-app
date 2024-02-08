@@ -6,13 +6,14 @@ import {
   FormContainer,
 } from '../../../components/Session';
 import { FormikInput, ErrorMessage } from '../../../components/FormComponents';
-import { validationSchema } from '../SignIn/ValidationSchema';
+import { validationSchema } from './ValidationSchema';
 import { fetchSignUp } from '../../../services/session/signUp';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 
 const SignUp = () => {
   const dispatch = useAppDispatch();
   const { error, isLoading } = useAppSelector((state) => state.sessionSlice);
+
   return (
     <ContainerBox>
       <Header
@@ -31,11 +32,12 @@ const SignUp = () => {
             dispatch(fetchSignUp(values));
           }}
           validationSchema={validationSchema}
+          validateOnMount
         >
           {({ isValid }) => (
             <Form>
               {error && <ErrorMessage>{error}</ErrorMessage>}
-              <FormikInput label="name" name="name" type="text" />
+              <FormikInput label="Name" name="name" type="text" />
               <FormikInput label="Email" name="email" type="text" />
               <FormikInput label="Password" name="password" type="text" />
 
@@ -48,7 +50,7 @@ const SignUp = () => {
                 isDisabled={!isValid || isLoading}
                 isLoading={isLoading}
               >
-                Sign in
+                Sign up
               </Button>
             </Form>
           )}

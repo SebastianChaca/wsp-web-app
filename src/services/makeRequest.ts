@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
+
 // Next we make an 'instance' of it
 export const api = axios.create({
   // .. where we make our configurations
@@ -12,5 +13,5 @@ export function makeRequest<T>(
   return api
     .request<T>({ url, ...options })
     .then((res) => res.data)
-    .catch((error) => Promise.reject(error?.response?.data?.msg));
+    .catch((error) => Promise.reject(error?.response?.data?.message));
 }
