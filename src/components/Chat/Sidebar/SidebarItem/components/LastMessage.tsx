@@ -15,7 +15,7 @@ const LastMessage = () => {
           seen={lastMessage?.seen}
           onSideBar
         />
-        <Text fontSize="12px" ml="5px" noOfLines={1} w="100px">
+        <Text fontSize="12px" ml="5px" noOfLines={1} w="80%">
           {lastMessage?.message}
         </Text>
       </Flex>
