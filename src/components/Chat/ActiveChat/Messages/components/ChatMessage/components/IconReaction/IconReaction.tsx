@@ -14,7 +14,7 @@ const IconReaction = () => {
   }, [hasIcon]);
 
   return (
-    <Flex position="absolute" left={1} top={8} zIndex={5}>
+    <Flex position="absolute" left={1} bottom={-3} zIndex={5}>
       {msg.iconReactions?.map((reaction) => (
         <IconAnimation
           icon={reaction.icon}

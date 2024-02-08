@@ -1,4 +1,4 @@
-import { Flex } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { messageUI } from '../../../../../../types/message/message';
 import {
   Provider,
@@ -34,10 +34,10 @@ const ChatMessage = ({ msg, isOutgoing, showDate, isLastElement }: Props) => {
           <MessageContainer>
             <ResponseToMessage />
             <DropDownOptions />
-            <Flex alignItems="end" zIndex={1} position="relative">
+            <Box zIndex={1} position="relative">
               <MessageText />
               <Status />
-            </Flex>
+            </Box>
             <IconReaction />
           </MessageContainer>
         </IconReactionDropDown>

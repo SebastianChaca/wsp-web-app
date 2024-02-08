@@ -6,17 +6,13 @@ interface Props {
   children?: ReactNode;
 }
 const MainContainer = ({ children }: Props) => {
-  const {
-    isLastElement,
-    hasIconReaction,
-    setShowIconReactionDropDown,
-    isOutgoing,
-  } = useMessageContext();
+  const { isLastElement, setShowIconReactionDropDown, isOutgoing } =
+    useMessageContext();
   return (
     <Flex
       overflow="hidden"
-      h={hasIconReaction ? '85px' : '100%'}
-      mb={isLastElement ? '5px' : '0px'}
+      h="100%"
+      mb={isLastElement ? '10px' : '0px'}
       onMouseEnter={() => setShowIconReactionDropDown(true)}
       onMouseLeave={() => setShowIconReactionDropDown(false)}
       w="100%"
