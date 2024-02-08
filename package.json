@@ -29,8 +29,8 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "CI=false react-scripts build",
+    "dev": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --fix --ext .js,.jsx,.tsx ."
@@ -61,6 +61,5 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "prettier": "2.7.1",
     "typescript": "4.8.4"
-  },
-  "homepage": "."
+  }
 }
