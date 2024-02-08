@@ -36,12 +36,13 @@ const MessageContainer = ({ children }: Props) => {
 
   return (
     <Box
-      p="4px"
+      p="6px"
       verticalAlign="top"
       bg={getBackgroundColor()}
       borderRadius="3px"
       w="auto"
       my={hasIconReaction ? '20px' : '10px'}
+      pb={hasIconReaction ? '12px' : '5px'}
       wordBreak="break-all"
       onMouseEnter={() => setShowDropDown(true)}
       onMouseLeave={() => setShowDropDown(false)}
