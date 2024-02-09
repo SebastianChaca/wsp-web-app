@@ -1,10 +1,11 @@
 import { Route } from 'react-router-dom';
+import { lazy } from 'react';
 import PublicRoute from '../../../routers/Routes/PublicRoute';
-import SignIn from '../SignIn/SignIn';
-import SignUp from '../SignUp/SignUp.';
-import ForgotPassword from '../ForgotPassword/ForgotPassword';
-import ResetPassword from '../ResetPassword/ResetPassword';
 
+const SignIn = lazy(() => import('../SignIn/SignIn'));
+const SignUp = lazy(() => import('../SignUp/SignUp.'));
+const ForgotPassword = lazy(() => import('../ForgotPassword/ForgotPassword'));
+const ResetPassword = lazy(() => import('../ResetPassword/ResetPassword'));
 const SessionRouter = (
   <Route path="/session" element={<PublicRoute />}>
     <Route path="signin" element={<SignIn />} />

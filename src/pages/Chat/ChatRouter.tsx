@@ -1,7 +1,8 @@
 import { Route } from 'react-router-dom';
+import { lazy } from 'react';
 import PrivateRoute from '../../routers/Routes/PrivateRoute';
-import ChatPage from './ChatPage';
 
+const ChatPage = lazy(() => import('./ChatPage'));
 const ChatRouter = (
   <>
     <Route element={<PrivateRoute />}>

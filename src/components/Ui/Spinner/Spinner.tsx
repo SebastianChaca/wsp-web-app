@@ -4,11 +4,12 @@ import { Spinner as SpinnerChakra, Flex } from '@chakra-ui/react';
 interface SpinnerProps {
   padding?: string;
   size: string;
+  height?: string;
 }
 
-const Spinner: FC<SpinnerProps> = ({ padding, size }) => {
+const Spinner: FC<SpinnerProps> = ({ padding, size, height = '100%' }) => {
   return (
-    <Flex justifyContent="center" alignItems="center" p={padding} h="100%">
+    <Flex justifyContent="center" alignItems="center" p={padding} h={height}>
       <SpinnerChakra
         thickness="3px"
         speed="0.65s"

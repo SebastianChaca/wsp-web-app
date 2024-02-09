@@ -1,5 +1,7 @@
 import { Outlet, Navigate } from 'react-router-dom';
+import { Suspense } from 'react';
 import { useAppSelector } from '../../redux/hooks';
+import { Spinner } from '../../components/Ui';
 
 const PrivateRoute = () => {
   const { token } = useAppSelector((state) => state.sessionSlice);
@@ -7,7 +9,11 @@ const PrivateRoute = () => {
   if (!token) {
     return <Navigate to="/session/signin" replace />;
   }
-  return <Outlet />;
+  return (
+    <Suspense fallback={<Spinner size="lg" height="100vh" />}>
+      <Outlet />;
+    </Suspense>
+  );
 };
 
 export default PrivateRoute;
