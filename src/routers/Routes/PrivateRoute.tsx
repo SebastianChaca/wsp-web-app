@@ -11,7 +11,7 @@ const PrivateRoute = () => {
   }
   return (
     <Suspense fallback={<Spinner size="lg" height="100vh" />}>
-      <Outlet />;
+      <Outlet />
     </Suspense>
   );
 };
