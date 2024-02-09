@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Button } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import {
@@ -9,11 +10,16 @@ import { FormikInput, ErrorMessage } from '../../../components/FormComponents';
 import { validationSchema } from './ValidationSchema';
 import { fetchSignUp } from '../../../services/session/signUp';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { cleanErrors } from '../../../redux/session/sessionSlice';
 
 const SignUp = () => {
   const dispatch = useAppDispatch();
   const { error, isLoading } = useAppSelector((state) => state.sessionSlice);
-
+  useEffect(() => {
+    return () => {
+      dispatch(cleanErrors());
+    };
+  }, [dispatch]);
   return (
     <ContainerBox>
       <Header

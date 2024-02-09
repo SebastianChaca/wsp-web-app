@@ -16,16 +16,20 @@ export const signIn = (props: SignInProps): Promise<SessionAPIResponse> =>
   });
 export const fetchSignIn = createAsyncThunk(
   'session/login',
-  async (props: SignInProps) => {
-    const response = await makeRequest<SessionAPIResponse>(
-      `/${AUTH}/${LOGIN}`,
-      {
-        data: props,
-        method: 'post',
-      }
-    );
+  async (props: SignInProps, { rejectWithValue }) => {
+    try {
+      const response = await makeRequest<SessionAPIResponse>(
+        `/${AUTH}/${LOGIN}`,
+        {
+          data: props,
+          method: 'post',
+        }
+      );
 
-    setUser(response.token, response.user.id);
-    return response;
+      setUser(response.token, response.user.id);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   }
 );

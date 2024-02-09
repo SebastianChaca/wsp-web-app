@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Button, HStack } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +12,7 @@ import { FormikInput, ErrorMessage } from '../../../components/FormComponents';
 import { validationSchema } from './ValidationSchema';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { fetchSignIn } from '../../../services/session/signIn';
+import { cleanErrors } from '../../../redux/session/sessionSlice';
 
 const SignIn = () => {
   const dispatch = useAppDispatch();
@@ -21,6 +23,12 @@ const SignIn = () => {
   const handleNavigate = () => {
     navigate('/session/forgotpassword');
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(cleanErrors());
+    };
+  }, [dispatch]);
   return (
     <ContainerBox>
       <Header

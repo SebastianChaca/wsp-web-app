@@ -33,7 +33,7 @@ export const signUpExtraReducer = (
     )
     .addCase(fetchSignUp.rejected, (state, action) => {
       state.status = 'failed';
-      state.error = action.error.message;
+      state.error = action.payload as string | string[];
       state.isLoading = false;
     });
 };

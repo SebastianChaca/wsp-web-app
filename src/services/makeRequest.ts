@@ -13,5 +13,7 @@ export function makeRequest<T>(
   return api
     .request<T>({ url, ...options })
     .then((res) => res.data)
-    .catch((error) => Promise.reject(error?.response?.data?.message));
+    .catch((error) => {
+      return Promise.reject(error.response.data.message);
+    });
 }

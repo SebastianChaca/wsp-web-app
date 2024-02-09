@@ -1,7 +1,7 @@
 import { Text } from '@chakra-ui/react';
 
 interface Props {
-  children?: string;
+  children?: string | string[];
 }
 const ErrorMessage = ({ children }: Props) => {
   return (

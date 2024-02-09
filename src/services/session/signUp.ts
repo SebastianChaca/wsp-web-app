@@ -17,12 +17,16 @@ export const signUp = (props: SignUpProps): Promise<SessionAPIResponse> =>
   });
 export const fetchSignUp = createAsyncThunk(
   'session/signUp',
-  async (props: SignUpProps) => {
-    const response = await makeRequest<SessionAPIResponse>(`/${USER}`, {
-      data: props,
-      method: 'post',
-    });
-    setUser(response.token, response.user.id);
-    return response;
+  async (props: SignUpProps, { rejectWithValue }) => {
+    try {
+      const response = await makeRequest<SessionAPIResponse>(`/${USER}`, {
+        data: props,
+        method: 'post',
+      });
+      setUser(response.token, response.user.id);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   }
 );

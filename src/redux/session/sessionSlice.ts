@@ -42,6 +42,9 @@ export const sessionSlice = createSlice({
       state.online = false;
       state.error = null;
     },
+    cleanErrors: (state) => {
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     signInExtraReducer(builder, fetchSignIn);
@@ -51,6 +54,6 @@ export const sessionSlice = createSlice({
     resetPasswordReducer(builder, resetPassword);
   },
 });
-export const { signOut } = sessionSlice.actions;
+export const { signOut, cleanErrors } = sessionSlice.actions;
 
 export default sessionSlice.reducer;
