@@ -1,4 +1,4 @@
-import { Grid, Text, Fade } from '@chakra-ui/react';
+import { Grid, Text, Fade, Flex, Box } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import {
   LeftContainer,
@@ -63,9 +63,12 @@ const ChatPage = () => {
 
   if (socketErrorConnection) {
     return (
-      <>
-        <Text>Error</Text>
-      </>
+      <Flex justifyContent="center" alignItems="center" h="100vh">
+        <Box textAlign="center">
+          <Text fontSize="40px">Whoops ! Tech turbulence detected!</Text>
+          <Text fontSize="20px">Refresh your app to restore tranquility.</Text>
+        </Box>
+      </Flex>
     );
   }
   if (isMobile) {
