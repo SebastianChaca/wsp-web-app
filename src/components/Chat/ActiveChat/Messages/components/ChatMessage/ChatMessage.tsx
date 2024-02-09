@@ -34,7 +34,7 @@ const ChatMessage = ({ msg, isOutgoing, showDate, isLastElement }: Props) => {
           <MessageContainer>
             <ResponseToMessage />
             <DropDownOptions />
-            <Box zIndex={1} position="relative">
+            <Box zIndex={0} position="relative">
               <MessageText />
               <Status />
             </Box>

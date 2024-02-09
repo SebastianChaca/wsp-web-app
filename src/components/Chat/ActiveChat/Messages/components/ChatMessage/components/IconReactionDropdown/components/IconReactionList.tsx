@@ -22,12 +22,12 @@ const IconReactionList = () => {
     <Flex
       bg="rgba(255, 255, 255, 0.05)"
       boxShadow="0 4px 30px rgba(0, 0, 0, 0.1)"
-      backdropFilter="blur(10px)"
+      backdropFilter="blur(30px)"
       borderRadius="20px 20px"
       border="1px solid rgba(255, 255, 255, 0.20)"
       p="2px"
       position="relative"
-      zIndex={1000}
+      zIndex={100}
     >
       {emoticons.map((e) => (
         <Box
@@ -41,7 +41,7 @@ const IconReactionList = () => {
           fontSize="20px"
           textAlign="center"
           _hover={{
-            bg: 'rgba(196, 196, 196, 0.30)',
+            bg: 'rgba(196, 196, 196, 0.40)',
             borderRadius: '50%',
             backdropFilter: 'blur(7.5px)',
           }}

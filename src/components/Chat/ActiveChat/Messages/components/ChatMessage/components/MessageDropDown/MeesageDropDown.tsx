@@ -23,7 +23,7 @@ const MeesageDropDown: FC = () => {
     return null;
   }
   return (
-    <Menu isLazy>
+    <Menu isLazy direction="ltr">
       {({ isOpen }) => (
         <>
           {(showDropDown || isOpen) && (
@@ -48,12 +48,7 @@ const MeesageDropDown: FC = () => {
           )}
           {createPortal(
             <>
-              <MenuList
-                onMouseEnter={() => setShowDropDown(true)}
-                position="absolute"
-                top={-5}
-                left={5}
-              >
+              <MenuList onMouseEnter={() => setShowDropDown(true)}>
                 <MenuItem onClick={handleSetMessageResponse}>
                   Responder
                 </MenuItem>
