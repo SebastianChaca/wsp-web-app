@@ -1,8 +1,5 @@
 import React from 'react';
 import {
-  Box,
-  Text,
-  Flex,
   Modal,
   ModalOverlay,
   ModalContent,
