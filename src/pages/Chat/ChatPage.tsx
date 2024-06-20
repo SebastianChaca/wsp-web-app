@@ -11,6 +11,7 @@ import { useFriend } from '../../redux/friends/selectors';
 import { setActiveChat } from '../../redux/activeChat/activeChatSlice';
 import { getFriends } from '../../services/friends';
 import { useSocketContext } from '../../socket/SocketContext/SocketContext';
+import DropImage from '../../components/Chat/ActiveChat/Messages/components/DropImage/DropImage';
 
 const ChatPage = () => {
   const { socketErrorConnection } = useSocketContext();
@@ -79,8 +80,10 @@ const ChatPage = () => {
             <Grid templateColumns="100%" height="100vh" overflow="hidden">
               <RightContainer>
                 <ActiveChat.TopBar />
-                <ActiveChat.Messages />
-                <ActiveChat.Input />
+                <DropImage>
+                  <ActiveChat.Messages />
+                  <ActiveChat.Input />
+                </DropImage>
               </RightContainer>
             </Grid>
           </Fade>
@@ -107,8 +110,10 @@ const ChatPage = () => {
         {activeChatSelected ? (
           <>
             <ActiveChat.TopBar />
-            <ActiveChat.Messages />
-            <ActiveChat.Input />
+            <DropImage>
+              <ActiveChat.Messages />
+              <ActiveChat.Input />
+            </DropImage>
           </>
         ) : (
           <ActiveChat.EmptyState />

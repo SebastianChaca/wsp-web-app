@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import MessagesContainer from './components/MessagesContainer/MessagesContainer';
 import { Spinner } from '../../../Ui';
 import { getMessages } from '../../../../services/messages';
+import DropImage from './components/DropImage/DropImage';
 
 const Messages = () => {
   const { messages, messagesLoading, pagination } = useAppSelector(
