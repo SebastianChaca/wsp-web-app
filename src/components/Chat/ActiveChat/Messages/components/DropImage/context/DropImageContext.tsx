@@ -11,6 +11,8 @@ import {
   DropzoneRootProps,
   DropzoneInputProps,
 } from 'react-dropzone';
+import { uploadImage } from '../../../../../../../services/images/uploadImage';
+import { imageServerResponse } from '../../../../../../../types/Images/image';
 
 interface DropImageContextProps {
   isDragAccept: boolean;
@@ -22,6 +24,8 @@ interface DropImageContextProps {
   setPreview: React.Dispatch<React.SetStateAction<string | ArrayBuffer | null>>;
   getRootProps: <T extends DropzoneRootProps>(props?: T) => T;
   getInputProps: <T extends DropzoneInputProps>(props?: T) => T;
+  uploadedImage: imageServerResponse | null;
+  uploadingImageIsLoading: boolean;
 }
 interface DropImageProviderProps {
   children: ReactNode | ((values: DropImageContextProps) => ReactNode);
@@ -32,8 +36,11 @@ const DropImageContext = createContext<DropImageContextProps>(
 const DropImageProvider = ({ children }: DropImageProviderProps) => {
   const [showModal, setShowModal] = useState(false);
   const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
+  const [uploadedImage, setUploadedImage] =
+    useState<imageServerResponse | null>(null);
+  const [uploadingImageIsLoading, setUploadingImageisLoading] = useState(false);
 
-  const onDrop = useCallback((acceptedFiles: Array<File>) => {
+  const onDrop = useCallback(async (acceptedFiles: Array<File>) => {
     const file = new FileReader();
 
     file.onload = () => {
@@ -43,6 +50,21 @@ const DropImageProvider = ({ children }: DropImageProviderProps) => {
     file.readAsDataURL(acceptedFiles[0]);
     if (acceptedFiles.length > 0) {
       setShowModal(true);
+    }
+
+    try {
+      setUploadingImageisLoading(true);
+      setUploadedImage(
+        await uploadImage({
+          image: acceptedFiles[0],
+          folder: 'messages',
+        })
+      );
+    } catch (error) {
+      // TODO: handle image error
+      console.log(error);
+    } finally {
+      setUploadingImageisLoading(false);
     }
   }, []);
   const {
@@ -64,6 +86,8 @@ const DropImageProvider = ({ children }: DropImageProviderProps) => {
       setPreview,
       getRootProps,
       getInputProps,
+      uploadedImage,
+      uploadingImageIsLoading,
     }),
     [
       isDragAccept,
@@ -75,6 +99,8 @@ const DropImageProvider = ({ children }: DropImageProviderProps) => {
       setPreview,
       getRootProps,
       getInputProps,
+      uploadedImage,
+      uploadingImageIsLoading,
     ]
   );
 

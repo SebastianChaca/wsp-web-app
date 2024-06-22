@@ -17,7 +17,11 @@ export function makePrivateRequest<T>(
   options?: AxiosRequestConfig
 ): Promise<T> {
   return api
-    .request<T>({ url, ...options })
+    .request<T>({
+      url,
+      ...options,
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
     .then((res) => res.data)
     .catch((error) => Promise.reject(error?.response?.data));
 }
