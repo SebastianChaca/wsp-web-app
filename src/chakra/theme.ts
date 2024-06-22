@@ -19,6 +19,7 @@ export const theme = extendTheme({
       offline: '#E53E3E',
       primary,
       secondary,
+      error: '#a33129',
     },
     message: {
       out: {

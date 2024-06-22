@@ -12,6 +12,8 @@ import {
   ResponseToMessage,
 } from './components';
 import { setResponseTo } from '../../../../redux/activeChat/activeChatSlice';
+import { useDropImageContext } from '../Messages/components/DropImage/context/DropImageContext';
+import ShowImageModal from './components/ShowImageModal/ShowImageModal';
 
 const ChatInput = () => {
   const [message, setMessage] = useState<string>('');
@@ -20,6 +22,7 @@ const ChatInput = () => {
   const activeChat = useAppSelector((state) => state.activeChatSlice);
   const dispatch = useDispatch();
   const { setTypingEvent, submitEvent, seenEvent } = useInputSocket(message);
+  const { showModal, setShowModal } = useDropImageContext();
   const inputRef = useRef<HTMLInputElement>(null);
   const isTabActive = useActiveTab();
 
@@ -61,6 +64,9 @@ const ChatInput = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (message.length === 0) return;
+    if (showModal) {
+      setShowModal(false);
+    }
     await submitEvent();
     setMessage('');
     dispatch(setResponseTo(null));
@@ -68,6 +74,15 @@ const ChatInput = () => {
 
   if (activeChat.statusIsBlocked) {
     return null;
+  }
+  if (showModal) {
+    return (
+      <ShowImageModal
+        message={message}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+      />
+    );
   }
   return (
     <>
