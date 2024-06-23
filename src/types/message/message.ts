@@ -15,6 +15,7 @@ export interface responseTo {
   message: string | null;
   nameTo?: string;
   emailTo?: string;
+  image?: string;
 }
 export interface lastMessage {
   date: string;
@@ -25,6 +26,7 @@ export interface lastMessage {
   nameTo?: string;
   emailTo?: string;
   seen: boolean;
+  image?: string;
 }
 export interface messageUI extends message {
   seen: boolean;
@@ -62,6 +64,7 @@ export interface serverMessageResponse {
     to: userFromServer;
     from: userFromServer;
     message: string | null;
+    image?: string;
   };
   iconReactions?: IconReactions[];
   image: imageServerResponse | null;
@@ -77,6 +80,7 @@ export interface serverMessageResponseNotPopulated {
   from: string;
   message: string | null;
   responseTo?: string;
+  image?: string;
 }
 
 export interface PaginatedMessages extends Pagination {

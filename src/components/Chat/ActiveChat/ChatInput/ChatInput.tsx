@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 import { useDispatch } from 'react-redux';
+import { FiPlus } from 'react-icons/fi';
+import { IconButton } from '@chakra-ui/react';
 import { useAppSelector } from '../../../../redux/hooks';
 import useInputSocket from '../../../../socket/hooks/useInputSocket';
 
@@ -109,6 +111,7 @@ const ChatInput = () => {
           handleSubmit={handleSubmit}
           ref={inputRef}
         />
+        <IconButton icon={<FiPlus />} aria-label="open-file" bg="trasnparent" />
       </InputGrid>
     </>
   );

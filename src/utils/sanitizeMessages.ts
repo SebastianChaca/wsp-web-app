@@ -22,6 +22,7 @@ export const sanitizeMessage = (message: serverMessageResponse) => {
           emailTo: message.to.email,
           message: message.responseTo.message,
           date: message.responseTo.createdAt,
+          image: message.responseTo.image,
         }
       : undefined,
     iconReactions: message.iconReactions?.map((reaction) => ({
