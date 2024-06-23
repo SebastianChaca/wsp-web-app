@@ -19,7 +19,7 @@ import { useDropImageContext } from '../Messages/components/DropImage/context/Dr
 import ShowImageModal from './components/ShowImageModal/ShowImageModal';
 
 const ChatInput = () => {
-  const [message, setMessage] = useState<string | null>('');
+  const [message, setMessage] = useState<string | null>(null);
   const { friendId } = useAppSelector((state) => state.friendsSlice);
   const { messages } = useAppSelector((state) => state.messagesSlice);
   const {

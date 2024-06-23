@@ -24,7 +24,7 @@ const useInputSocket = (
     () => ({
       from: session.uid ?? '',
       to: activeChat.uid ?? '',
-      message: messageProps,
+      message: messageProps?.length === 0 ? null : messageProps,
       responseTo: activeChat.responseTo?.id,
       image,
     }),
@@ -45,6 +45,7 @@ const useInputSocket = (
       if (activeChat.status === 0 && !messages.length) {
         await updateFriendship({ friendId: msg.to });
       }
+
       dispatch(sendMessage({ message: msg, imagePreview: preview }));
     } catch (error) {
       errorToast();
