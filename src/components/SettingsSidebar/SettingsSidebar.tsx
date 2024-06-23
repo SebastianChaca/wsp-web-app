@@ -18,6 +18,7 @@ const SettingsSidebar = () => {
   const dispatch = useAppDispatch();
 
   const handleSignOut = () => {
+    // TODO:revisar, cuando salgo y entro veo un blinkeo de los mensajes anteriores
     dispatch(signOut());
     dispatch(resetActiveChatState());
     dispatch(resetChatState());

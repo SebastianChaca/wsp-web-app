@@ -44,6 +44,7 @@ const ShowImageModal = ({
     };
     setFocus();
   }, []);
+
   return (
     <>
       <Modal
@@ -72,15 +73,13 @@ const ShowImageModal = ({
             </Box>
           ) : (
             <>
-              <Box h="100%">
-                <Image
-                  src={preview as string}
-                  objectFit="contain"
-                  height="100%"
-                  borderRadius="3px"
-                  marginBottom="10px"
-                />
-              </Box>
+              <Image
+                src={preview as string}
+                objectFit="contain"
+                borderRadius="5px"
+                marginBottom="10px"
+                maxH="350px"
+              />
 
               <ShowImageModalInput
                 isLoading={uploadingImageIsLoading}
