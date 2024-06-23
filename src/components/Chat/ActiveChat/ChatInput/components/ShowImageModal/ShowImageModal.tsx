@@ -59,6 +59,7 @@ const ShowImageModal = ({
           justifyContent="center"
           alignItems="center"
           padding="40px 40px 20px 40px"
+          minH="300px"
         >
           <ModalCloseButton />
 
