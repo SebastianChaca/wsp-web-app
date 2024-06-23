@@ -29,6 +29,7 @@ const ChatInput = () => {
     setPreview,
     preview,
     uploadingImageIsLoading,
+    setUploadedImage,
   } = useDropImageContext();
   const activeChat = useAppSelector((state) => state.activeChatSlice);
   const dispatch = useDispatch();
@@ -86,6 +87,7 @@ const ChatInput = () => {
     await submitEvent();
     setPreview(null);
     setMessage(null);
+    setUploadedImage(null);
     dispatch(setResponseTo(null));
   };
 

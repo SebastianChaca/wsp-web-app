@@ -27,6 +27,9 @@ interface DropImageContextProps {
   getRootProps: <T extends DropzoneRootProps>(props?: T) => T;
   getInputProps: <T extends DropzoneInputProps>(props?: T) => T;
   uploadedImage: imageServerResponse | null;
+  setUploadedImage: React.Dispatch<
+    React.SetStateAction<imageServerResponse | null>
+  >;
   uploadingImageIsLoading: boolean;
   fileRejections: FileRejection[];
   open: () => void;
@@ -116,6 +119,7 @@ const DropImageProvider = ({ children }: DropImageProviderProps) => {
       getRootProps,
       getInputProps,
       uploadedImage,
+      setUploadedImage,
       uploadingImageIsLoading,
       fileRejections,
       open,
@@ -131,6 +135,7 @@ const DropImageProvider = ({ children }: DropImageProviderProps) => {
       getRootProps,
       getInputProps,
       uploadedImage,
+      setUploadedImage,
       uploadingImageIsLoading,
       fileRejections,
       open,

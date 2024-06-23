@@ -39,7 +39,7 @@ const useInputSocket = (
   const setTypingEvent = useCallback(() => {
     socket?.emit('typing', msg);
   }, [msg, socket]);
-
+  console.log(image);
   const submitEvent = useCallback(async () => {
     try {
       if (activeChat.status === 0 && !messages.length) {

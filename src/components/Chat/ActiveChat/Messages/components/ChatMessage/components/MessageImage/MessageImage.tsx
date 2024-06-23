@@ -33,7 +33,6 @@ const MessageImage = ({ url }: { url?: string }) => {
           <Image
             src={url}
             objectFit="contain"
-            boxSize="100%"
             borderRadius="3px"
             marginTop="10px"
           />
