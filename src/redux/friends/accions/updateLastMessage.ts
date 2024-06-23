@@ -11,6 +11,7 @@ export const updateLastMessage = (friends: friend[], payload: messageUI) => {
         seen: payload.seen,
         date: payload.date,
         id: payload.id,
+        image: payload.image,
       };
     }
     return f;
