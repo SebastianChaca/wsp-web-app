@@ -11,7 +11,7 @@ type InputProps = {
 const ShowImageModalInput = forwardRef<HTMLInputElement, InputProps>(
   ({ message, handleChange, handleSubmit, isLoading }: InputProps, ref) => {
     return (
-      <Box w="70%" marginTop="20px">
+      <Box w="100%">
         <form onSubmit={handleSubmit}>
           <Flex>
             <Input

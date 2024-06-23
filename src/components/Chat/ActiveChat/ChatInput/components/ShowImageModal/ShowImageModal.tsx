@@ -42,7 +42,7 @@ const ShowImageModal = ({
         inputRef.current.focus();
       }
     };
-    requestAnimationFrame(setFocus);
+    setFocus();
   }, []);
   return (
     <>
@@ -55,12 +55,9 @@ const ShowImageModal = ({
       >
         <ModalOverlay />
         <ModalContent
-          minW="40%"
-          h="50%"
-          position="relative"
           justifyContent="center"
           alignItems="center"
-          padding="30px"
+          padding="40px 40px 20px 40px"
         >
           <ModalCloseButton />
 
@@ -75,7 +72,16 @@ const ShowImageModal = ({
             </Box>
           ) : (
             <>
-              <Image src={preview as string} objectFit="cover" h="80%" />
+              <Box h="100%">
+                <Image
+                  src={preview as string}
+                  objectFit="contain"
+                  height="100%"
+                  borderRadius="3px"
+                  marginBottom="10px"
+                />
+              </Box>
+
               <ShowImageModalInput
                 isLoading={uploadingImageIsLoading}
                 ref={inputRef}

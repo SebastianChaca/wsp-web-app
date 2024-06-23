@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import {
-  Box,
   Image,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalCloseButton,
+  Flex,
 } from '@chakra-ui/react';
 
 const MessageImage = ({ url }: { url?: string }) => {
@@ -14,23 +14,29 @@ const MessageImage = ({ url }: { url?: string }) => {
   return (
     <>
       {url && (
-        <Box
+        <Flex
+          justifyContent="right"
           cursor="pointer"
           position="relative"
-          zIndex={10000}
           onClick={() => {
             setShowImageModal(true);
           }}
         >
-          <Image src={url} boxSize="250px" objectFit="contain" />
-        </Box>
+          <Image src={url} w="300px" borderRadius="3px" marginBottom="4px" />
+        </Flex>
       )}
 
       <Modal isOpen={showImageModal} onClose={() => setShowImageModal(false)}>
         <ModalOverlay />
         <ModalContent padding="30px" minW="40%">
           <ModalCloseButton />
-          <Image src={url} objectFit="contain" boxSize="100%" />
+          <Image
+            src={url}
+            objectFit="contain"
+            boxSize="100%"
+            borderRadius="3px"
+            marginTop="10px"
+          />
         </ModalContent>
       </Modal>
     </>
