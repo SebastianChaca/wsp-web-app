@@ -12,7 +12,7 @@ import { useDropImageContext } from '../../../Messages/components/DropImage/cont
 import ShowImageModalInput from './ShowImageModalInput';
 
 type InputProps = {
-  message: string;
+  message: string | null;
   handleSubmit: FormEventHandler<HTMLFormElement>;
   handleChange: ChangeEventHandler<HTMLInputElement>;
 };

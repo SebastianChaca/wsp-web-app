@@ -5,12 +5,18 @@ import { ResponseTo } from '../../../../../Ui';
 
 const ResponseToMessage: FC = () => {
   const activeChat = useAppSelector((state) => state.activeChatSlice);
-  if (activeChat?.responseTo?.nameTo && activeChat?.responseTo?.message) {
+  if (
+    activeChat?.responseTo?.nameTo &&
+    (activeChat?.responseTo?.message || !!activeChat?.responseTo?.image)
+  ) {
     return (
       <>
         <GridItem marginBottom="20px">
           <SlideFade
-            in={!!activeChat?.responseTo?.message}
+            in={
+              !!activeChat?.responseTo?.message ||
+              !!activeChat?.responseTo?.image
+            }
             offsetY="40px"
             unmountOnExit
           >
@@ -19,7 +25,7 @@ const ResponseToMessage: FC = () => {
                 <ResponseTo.Decoration />
                 <ResponseTo.Message
                   nameTo={activeChat.responseTo.nameTo}
-                  message={activeChat.responseTo.message}
+                  message={activeChat?.responseTo?.message}
                   image={activeChat.responseTo.image}
                 />
               </Box>
@@ -37,7 +43,13 @@ const ResponseToMessage: FC = () => {
           display="flex"
           marginBottom="20px"
         >
-          <SlideFade in={!!activeChat?.responseTo?.message} offsetY="40px">
+          <SlideFade
+            in={
+              !!activeChat?.responseTo?.message ||
+              !!activeChat?.responseTo?.image
+            }
+            offsetY="40px"
+          >
             <ResponseTo.CloseButton />
           </SlideFade>
         </GridItem>

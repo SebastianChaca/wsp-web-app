@@ -3,7 +3,7 @@ import { Box, Input, IconButton, Flex } from '@chakra-ui/react';
 import { IoMdSend } from 'react-icons/io';
 
 type InputProps = {
-  message: string;
+  message: string | null;
   handleSubmit: FormEventHandler<HTMLFormElement | HTMLButtonElement>;
   handleChange: ChangeEventHandler<HTMLInputElement>;
   isLoading: boolean;
@@ -20,7 +20,7 @@ const ShowImageModalInput = forwardRef<HTMLInputElement, InputProps>(
               border="1px"
               bg="white"
               autoFocus
-              value={message}
+              value={message ?? ''}
               onChange={handleChange}
               marginRight="10px"
             />

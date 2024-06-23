@@ -2,7 +2,7 @@ import { Input, FormControl, Box } from '@chakra-ui/react';
 import { forwardRef, Ref, ChangeEventHandler, FormEventHandler } from 'react';
 
 type InputProps = {
-  message: string;
+  message: string | null;
   handleSubmit: FormEventHandler<HTMLFormElement>;
   handleChange: ChangeEventHandler<HTMLInputElement>;
 };
@@ -22,7 +22,7 @@ const InputComponent = forwardRef(
               variant="unstyled"
               bg="#E2E8F0"
               p="8px"
-              value={message}
+              value={message ?? ''}
               onChange={handleChange}
               type="text"
             />

@@ -19,7 +19,7 @@ import { useDropImageContext } from '../Messages/components/DropImage/context/Dr
 import ShowImageModal from './components/ShowImageModal/ShowImageModal';
 
 const ChatInput = () => {
-  const [message, setMessage] = useState<string>('');
+  const [message, setMessage] = useState<string | null>('');
   const { friendId } = useAppSelector((state) => state.friendsSlice);
   const { messages } = useAppSelector((state) => state.messagesSlice);
   const {
@@ -78,13 +78,14 @@ const ChatInput = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if ((message.length === 0 && !showModal) || uploadingImageIsLoading) return;
+    if ((message?.length === 0 && !showModal) || uploadingImageIsLoading)
+      return;
     if (showModal) {
       setShowModal(false);
     }
     await submitEvent();
     setPreview(null);
-    setMessage('');
+    setMessage(null);
     dispatch(setResponseTo(null));
   };
 
