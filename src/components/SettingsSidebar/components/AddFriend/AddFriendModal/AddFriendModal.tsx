@@ -9,13 +9,14 @@ import {
 import { Formik } from 'formik';
 import { useRef, useEffect, useState } from 'react';
 import * as Yup from 'yup';
-import { useAppDispatch } from '../../../../../../../../redux/hooks';
-import { addFriendRequest } from '../../../../../../../../services/friends/addFriends';
+
+import ModalForm from './components/ModalForm';
+import { useAppDispatch } from '../../../../../redux/hooks';
+import { addFriendRequest } from '../../../../../services/friends/addFriends';
 import {
   addFierndToList,
   setFriendId,
-} from '../../../../../../../../redux/friends/friendsSlice';
-import ModalForm from './components/ModalForm';
+} from '../../../../../redux/friends/friendsSlice';
 
 interface Props {
   isOpen: boolean;

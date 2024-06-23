@@ -99,9 +99,6 @@ const ChatPage = () => {
   return (
     <Grid templateColumns="30% 70%" height="100vh" overflow="hidden">
       <LeftContainer>
-        {/*
-        <LeftUtilitySidebar/>
-        */}
         <SideBar.TopBar />
         <SideBar.FriendsList />
       </LeftContainer>
@@ -118,9 +115,6 @@ const ChatPage = () => {
         ) : (
           <ActiveChat.EmptyState />
         )}
-        {/*
-        <RightUtilitySidebar/>
-        */}
       </RightContainer>
     </Grid>
   );
