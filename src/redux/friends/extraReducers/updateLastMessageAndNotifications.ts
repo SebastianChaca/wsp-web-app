@@ -12,7 +12,14 @@ import { formatDateMessage } from '../../../utils/date';
 
 export const updateLastMessageAndNotifications = (
   builder: ActionReducerMapBuilder<ChatState>,
-  sendMessages: AsyncThunk<serverMessageResponse, messageToServer, {}>
+  sendMessages: AsyncThunk<
+    serverMessageResponse,
+    {
+      message: messageToServer;
+      imagePreview: ArrayBuffer | undefined | null | string;
+    },
+    {}
+  >
 ) => {
   builder
     // get messages
@@ -25,7 +32,7 @@ export const updateLastMessageAndNotifications = (
     })
     .addCase(sendMessages.pending, (state, action) => {
       const payload: messageUI = {
-        ...action.meta.arg,
+        ...action.meta.arg.message,
         id: action.meta.requestId,
         responseTo: undefined,
         seen: false,

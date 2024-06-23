@@ -12,6 +12,7 @@ import {
   IconReaction,
   MainContainer,
   IconReactionDropDown,
+  MessageImage,
 } from './components';
 
 interface Props {
@@ -36,6 +37,7 @@ const ChatMessage = ({ msg, isOutgoing, showDate, isLastElement }: Props) => {
             <DropDownOptions />
             <Box zIndex={0} position="relative">
               <MessageText />
+              <MessageImage url={msg.image as string} />
               <Status />
             </Box>
             <IconReaction />

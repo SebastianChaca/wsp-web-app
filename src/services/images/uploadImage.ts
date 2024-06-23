@@ -2,7 +2,6 @@ import {
   imageServerResponse,
   uploadImage as uploadImageType,
 } from '../../types/Images/image';
-import { serverMessageResponse } from '../../types/message/message';
 import { makePrivateRequest } from '../makePrivateRequest';
 
 export const uploadImage = async (props: uploadImageType) => {

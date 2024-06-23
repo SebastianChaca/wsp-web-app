@@ -30,6 +30,8 @@ export const sanitizeMessage = (message: serverMessageResponse) => {
       id: reaction.id,
       createdAt: reaction.createdAt,
     })),
+    image: message.image?.secureUrl,
+    hasImage: message.hasImage,
   };
   return messageObj;
 };

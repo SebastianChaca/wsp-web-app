@@ -17,6 +17,7 @@ const DropImage = ({ children }: Props) => {
             flexDirection="column"
             flexGrow={1}
             margin="0px"
+            overflow="auto"
             {...getRootProps()}
           >
             <DropImageOverlay />

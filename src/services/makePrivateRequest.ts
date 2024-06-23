@@ -20,7 +20,6 @@ export function makePrivateRequest<T>(
     .request<T>({
       url,
       ...options,
-      headers: { 'Content-Type': 'multipart/form-data' },
     })
     .then((res) => res.data)
     .catch((error) => Promise.reject(error?.response?.data));

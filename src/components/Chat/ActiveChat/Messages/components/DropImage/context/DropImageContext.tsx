@@ -10,9 +10,11 @@ import {
   useDropzone,
   DropzoneRootProps,
   DropzoneInputProps,
+  FileRejection,
 } from 'react-dropzone';
 import { uploadImage } from '../../../../../../../services/images/uploadImage';
 import { imageServerResponse } from '../../../../../../../types/Images/image';
+import useToastCustom from '../../../../../../../hooks/useToastCustom';
 
 interface DropImageContextProps {
   isDragAccept: boolean;
@@ -26,6 +28,7 @@ interface DropImageContextProps {
   getInputProps: <T extends DropzoneInputProps>(props?: T) => T;
   uploadedImage: imageServerResponse | null;
   uploadingImageIsLoading: boolean;
+  fileRejections: FileRejection[];
 }
 interface DropImageProviderProps {
   children: ReactNode | ((values: DropImageContextProps) => ReactNode);
@@ -39,41 +42,65 @@ const DropImageProvider = ({ children }: DropImageProviderProps) => {
   const [uploadedImage, setUploadedImage] =
     useState<imageServerResponse | null>(null);
   const [uploadingImageIsLoading, setUploadingImageisLoading] = useState(false);
+  const { errorToast } = useToastCustom();
 
-  const onDrop = useCallback(async (acceptedFiles: Array<File>) => {
-    const file = new FileReader();
+  const onDrop = useCallback(
+    async (acceptedFiles: Array<File>, fileRejections: FileRejection[]) => {
+      const file = new FileReader();
 
-    file.onload = () => {
-      setPreview(file.result);
-    };
+      file.onload = () => {
+        setPreview(file.result);
+      };
 
-    file.readAsDataURL(acceptedFiles[0]);
-    if (acceptedFiles.length > 0) {
-      setShowModal(true);
+      if (acceptedFiles.length > 0) {
+        file.readAsDataURL(acceptedFiles[0]);
+      }
+
+      if (acceptedFiles.length > 0 || fileRejections.length > 0) {
+        setShowModal(true);
+      }
+
+      if (fileRejections.length === 0) {
+        try {
+          setUploadingImageisLoading(true);
+          setUploadedImage(
+            await uploadImage({
+              image: acceptedFiles[0],
+              folder: 'messages',
+            })
+          );
+        } catch (error) {
+          // TODO: handle image error
+          errorToast();
+        } finally {
+          setUploadingImageisLoading(false);
+        }
+      }
+    },
+    [errorToast]
+  );
+  const weigthValidation = (file: File) => {
+    if (file.size > 2000000) {
+      return {
+        code: 'file-too-large',
+        message: `File is larger than 2 mb`,
+      };
     }
-
-    try {
-      setUploadingImageisLoading(true);
-      setUploadedImage(
-        await uploadImage({
-          image: acceptedFiles[0],
-          folder: 'messages',
-        })
-      );
-    } catch (error) {
-      // TODO: handle image error
-      console.log(error);
-    } finally {
-      setUploadingImageisLoading(false);
-    }
-  }, []);
+    return null;
+  };
   const {
     getRootProps,
     getInputProps,
     isDragAccept,
     isDragReject,
     acceptedFiles,
-  } = useDropzone({ accept: { 'image/*': [] }, noClick: true, onDrop });
+    fileRejections,
+  } = useDropzone({
+    accept: { 'image/*': ['.png', '.jpeg', '.jpg', '.svg'] },
+    noClick: true,
+    onDrop,
+    validator: weigthValidation,
+  });
 
   const values = useMemo(
     () => ({
@@ -88,6 +115,7 @@ const DropImageProvider = ({ children }: DropImageProviderProps) => {
       getInputProps,
       uploadedImage,
       uploadingImageIsLoading,
+      fileRejections,
     }),
     [
       isDragAccept,
@@ -101,6 +129,7 @@ const DropImageProvider = ({ children }: DropImageProviderProps) => {
       getInputProps,
       uploadedImage,
       uploadingImageIsLoading,
+      fileRejections,
     ]
   );
 

@@ -8,7 +8,11 @@ import { sendMessage, updateSeenMessage } from '../../services/messages';
 import { updateFriendship } from '../../services/friends/updateFrienship';
 import useToastCustom from '../../hooks/useToastCustom';
 
-const useInputSocket = (messageProps: string) => {
+const useInputSocket = (
+  messageProps: string,
+  image?: string,
+  preview?: ArrayBuffer | undefined | null | string
+) => {
   const { messages } = useAppSelector((state) => state.messagesSlice);
   const activeChat = useAppSelector((state) => state.activeChatSlice);
   const session = useAppSelector((state) => state.sessionSlice);
@@ -22,8 +26,15 @@ const useInputSocket = (messageProps: string) => {
       to: activeChat.uid ?? '',
       message: messageProps,
       responseTo: activeChat.responseTo?.id,
+      image,
     }),
-    [messageProps, session.uid, activeChat.uid, activeChat.responseTo?.id]
+    [
+      messageProps,
+      session.uid,
+      activeChat.uid,
+      activeChat.responseTo?.id,
+      image,
+    ]
   );
   const setTypingEvent = useCallback(() => {
     socket?.emit('typing', msg);
@@ -34,13 +45,13 @@ const useInputSocket = (messageProps: string) => {
       if (activeChat.status === 0 && !messages.length) {
         await updateFriendship({ friendId: msg.to });
       }
-      dispatch(sendMessage(msg));
+      dispatch(sendMessage({ message: msg, imagePreview: preview }));
     } catch (error) {
       errorToast();
     }
 
     // socket?.emit('personal-message', msg);
-  }, [dispatch, msg, activeChat.status, messages.length, errorToast]);
+  }, [dispatch, msg, activeChat.status, messages.length, errorToast, preview]);
 
   const seenEvent = useCallback(async () => {
     // filtrar los mensajes que me mandaron y que seen === false y mandarlos al back

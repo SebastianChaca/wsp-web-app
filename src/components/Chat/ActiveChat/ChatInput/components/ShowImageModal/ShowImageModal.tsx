@@ -5,6 +5,8 @@ import {
   ModalContent,
   ModalCloseButton,
   Image,
+  Text,
+  Box,
 } from '@chakra-ui/react';
 import { useDropImageContext } from '../../../Messages/components/DropImage/context/DropImageContext';
 import ShowImageModalInput from './ShowImageModalInput';
@@ -19,7 +21,7 @@ const ShowImageModal = ({
   handleChange,
   handleSubmit,
 }: InputProps) => {
-  const { showModal, setShowModal, preview, setPreview } =
+  const { showModal, setShowModal, preview, setPreview, fileRejections } =
     useDropImageContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -56,13 +58,26 @@ const ShowImageModal = ({
         >
           <ModalCloseButton />
 
-          <Image src={preview as string} objectFit="cover" h="80%" />
-          <ShowImageModalInput
-            ref={inputRef}
-            message={message}
-            handleChange={handleChange}
-            handleSubmit={handleSubmit}
-          />
+          {fileRejections.length > 0 ? (
+            <Box textAlign="center">
+              <Text color="brand.error" fontWeight={700} fontSize="24px">
+                {fileRejections[0].errors[0].message}
+              </Text>
+              <Text color="brand.error" fontSize="14px">
+                Please, choose a new image.
+              </Text>
+            </Box>
+          ) : (
+            <>
+              <Image src={preview as string} objectFit="cover" h="80%" />
+              <ShowImageModalInput
+                ref={inputRef}
+                message={message}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+              />
+            </>
+          )}
         </ModalContent>
       </Modal>
     </>
