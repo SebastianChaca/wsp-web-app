@@ -19,12 +19,19 @@ const ChatInput = () => {
   const [message, setMessage] = useState<string>('');
   const { friendId } = useAppSelector((state) => state.friendsSlice);
   const { messages } = useAppSelector((state) => state.messagesSlice);
-  const { showModal, setShowModal, uploadedImage, setPreview, preview } =
-    useDropImageContext();
+  const {
+    showModal,
+    setShowModal,
+    uploadedImage,
+    setPreview,
+    preview,
+    uploadingImageIsLoading,
+  } = useDropImageContext();
   const activeChat = useAppSelector((state) => state.activeChatSlice);
   const dispatch = useDispatch();
   const { setTypingEvent, submitEvent, seenEvent } = useInputSocket(
     message,
+
     uploadedImage?.id,
     preview
   );
@@ -68,7 +75,7 @@ const ChatInput = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (message.length === 0 || !showModal) return;
+    if ((message.length === 0 && !showModal) || uploadingImageIsLoading) return;
     if (showModal) {
       setShowModal(false);
     }
