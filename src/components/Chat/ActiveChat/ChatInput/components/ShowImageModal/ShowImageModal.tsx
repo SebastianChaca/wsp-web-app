@@ -21,8 +21,14 @@ const ShowImageModal = ({
   handleChange,
   handleSubmit,
 }: InputProps) => {
-  const { showModal, setShowModal, preview, setPreview, fileRejections } =
-    useDropImageContext();
+  const {
+    showModal,
+    setShowModal,
+    preview,
+    setPreview,
+    fileRejections,
+    uploadingImageIsLoading,
+  } = useDropImageContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const handleClose = () => {
@@ -54,7 +60,7 @@ const ShowImageModal = ({
           position="relative"
           justifyContent="center"
           alignItems="center"
-          padding="20px"
+          padding="30px"
         >
           <ModalCloseButton />
 
@@ -71,6 +77,7 @@ const ShowImageModal = ({
             <>
               <Image src={preview as string} objectFit="cover" h="80%" />
               <ShowImageModalInput
+                isLoading={uploadingImageIsLoading}
                 ref={inputRef}
                 message={message}
                 handleChange={handleChange}

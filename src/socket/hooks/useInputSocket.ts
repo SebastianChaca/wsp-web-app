@@ -10,6 +10,7 @@ import useToastCustom from '../../hooks/useToastCustom';
 
 const useInputSocket = (
   messageProps: string,
+
   image?: string,
   preview?: ArrayBuffer | undefined | null | string
 ) => {
