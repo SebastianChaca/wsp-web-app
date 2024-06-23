@@ -1,7 +1,7 @@
-import { Flex, Text, Box } from '@chakra-ui/react';
-import { MdPhotoCamera } from 'react-icons/md';
+import { Flex, Text } from '@chakra-ui/react';
 import { MessageCheck } from '../../../ActiveChat/Messages/components/ChatMessage/components/MessageStatus/components';
 import { useSideBarContext } from './SideBarProvider';
+import { PhotoIcon } from '../../../../Ui';
 
 const LastMessage = () => {
   const { friend, session } = useSideBarContext();
@@ -17,11 +17,7 @@ const LastMessage = () => {
           seen={lastMessage?.seen}
           onSideBar
         />
-        {lastMessage.image && (
-          <Box marginLeft="4px" color="black">
-            <MdPhotoCamera size="20px" />
-          </Box>
-        )}
+        {lastMessage.image && <PhotoIcon />}
         <Text fontSize="12px" ml="5px" noOfLines={1} w="80%">
           {lastMessage.image ? 'Photo' : lastMessage?.message}
         </Text>

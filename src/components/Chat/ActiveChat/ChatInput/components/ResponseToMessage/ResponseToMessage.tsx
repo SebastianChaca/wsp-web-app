@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Box, GridItem, SlideFade } from '@chakra-ui/react';
+import { Box, GridItem, Image, SlideFade } from '@chakra-ui/react';
 import { useAppSelector } from '../../../../../../redux/hooks';
 import { ResponseTo } from '../../../../../Ui';
 
@@ -20,8 +20,13 @@ const ResponseToMessage: FC = () => {
                 <ResponseTo.Message
                   nameTo={activeChat.responseTo.nameTo}
                   message={activeChat.responseTo.message}
+                  image={activeChat.responseTo.image}
                 />
               </Box>
+              <Image
+                src={activeChat.responseTo.image as string}
+                boxSize="50px"
+              />
             </ResponseTo.Container>
           </SlideFade>
         </GridItem>

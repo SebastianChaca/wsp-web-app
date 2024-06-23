@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { FiPlus } from 'react-icons/fi';
-import { Flex, GridItem, IconButton } from '@chakra-ui/react';
+
+import { GridItem } from '@chakra-ui/react';
 import { useAppSelector } from '../../../../redux/hooks';
 import useInputSocket from '../../../../socket/hooks/useInputSocket';
 
