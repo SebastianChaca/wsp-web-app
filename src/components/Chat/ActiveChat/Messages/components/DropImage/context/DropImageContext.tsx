@@ -29,6 +29,7 @@ interface DropImageContextProps {
   uploadedImage: imageServerResponse | null;
   uploadingImageIsLoading: boolean;
   fileRejections: FileRejection[];
+  open: () => void;
 }
 interface DropImageProviderProps {
   children: ReactNode | ((values: DropImageContextProps) => ReactNode);
@@ -95,6 +96,7 @@ const DropImageProvider = ({ children }: DropImageProviderProps) => {
     isDragReject,
     acceptedFiles,
     fileRejections,
+    open,
   } = useDropzone({
     accept: { 'image/*': ['.png', '.jpeg', '.jpg', '.svg'] },
     noClick: true,
@@ -116,6 +118,7 @@ const DropImageProvider = ({ children }: DropImageProviderProps) => {
       uploadedImage,
       uploadingImageIsLoading,
       fileRejections,
+      open,
     }),
     [
       isDragAccept,
@@ -130,6 +133,7 @@ const DropImageProvider = ({ children }: DropImageProviderProps) => {
       uploadedImage,
       uploadingImageIsLoading,
       fileRejections,
+      open,
     ]
   );
 

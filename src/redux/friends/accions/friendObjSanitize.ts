@@ -23,6 +23,7 @@ export const friendObjSanitize = (payload: friendFromApi): friend => {
       seen: payload.lastMessage?.seen,
       date: payload.lastMessage?.createdAt,
       id: payload.lastMessage?._id,
+      image: payload.lastMessage?.image,
     },
     isTyping: false,
     statusIsApproved: payload.isAccepted,

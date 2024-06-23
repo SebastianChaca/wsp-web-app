@@ -6,3 +6,4 @@ export { default as LastActive } from './LastActive/LastActive';
 export { default as UserName } from './UserName/Username';
 export { default as Spinner } from './Spinner/Spinner';
 export { default as FadeTransparentOverlay } from './Transitions/FadeTransparentOverlay/FadeTransparentOverlay';
+export { default as PhotoIcon } from './PhotoIcon/PhotoIcon';

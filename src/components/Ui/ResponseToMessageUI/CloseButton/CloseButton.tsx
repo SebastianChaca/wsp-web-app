@@ -9,7 +9,7 @@ const CloseButton: FC = () => {
   const handleClose = () => {
     dispatch(setResponseTo(null));
   };
-  return <Close onClick={handleClose} fontSize="15px" />;
+  return <Close onClick={handleClose} size="32px" />;
 };
 
 export default CloseButton;

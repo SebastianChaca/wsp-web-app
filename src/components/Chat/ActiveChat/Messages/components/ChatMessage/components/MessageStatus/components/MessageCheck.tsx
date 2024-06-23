@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/react';
 import { BsCheck2All } from 'react-icons/bs';
 
 interface Props {
@@ -11,12 +12,20 @@ const MessageCheck = ({ isOutgoing, seen, onSideBar = false }: Props) => {
       return 'blue';
     }
     if (onSideBar && !seen) {
-      return 'brand.gray2';
+      return 'black';
     }
     return '#718096';
   };
 
-  return <>{isOutgoing && <BsCheck2All color={getCheckColor()} />}</>;
+  return (
+    <>
+      {isOutgoing && (
+        <Box color={getCheckColor()}>
+          <BsCheck2All />
+        </Box>
+      )}
+    </>
+  );
 };
 
 export default MessageCheck;

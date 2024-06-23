@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 import { useDispatch } from 'react-redux';
+
+import { GridItem } from '@chakra-ui/react';
 import { useAppSelector } from '../../../../redux/hooks';
 import useInputSocket from '../../../../socket/hooks/useInputSocket';
 
@@ -9,6 +11,7 @@ import {
   FriendRequest,
   InputComponent,
   InputGrid,
+  InputMenuDropdown,
   ResponseToMessage,
 } from './components';
 import { setResponseTo } from '../../../../redux/activeChat/activeChatSlice';
@@ -16,7 +19,7 @@ import { useDropImageContext } from '../Messages/components/DropImage/context/Dr
 import ShowImageModal from './components/ShowImageModal/ShowImageModal';
 
 const ChatInput = () => {
-  const [message, setMessage] = useState<string>('');
+  const [message, setMessage] = useState<string | null>('');
   const { friendId } = useAppSelector((state) => state.friendsSlice);
   const { messages } = useAppSelector((state) => state.messagesSlice);
   const {
@@ -75,13 +78,14 @@ const ChatInput = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if ((message.length === 0 && !showModal) || uploadingImageIsLoading) return;
+    if ((message?.length === 0 && !showModal) || uploadingImageIsLoading)
+      return;
     if (showModal) {
       setShowModal(false);
     }
     await submitEvent();
     setPreview(null);
-    setMessage('');
+    setMessage(null);
     dispatch(setResponseTo(null));
   };
 
@@ -100,15 +104,25 @@ const ChatInput = () => {
   return (
     <>
       <FriendRequest />
-      <InputGrid>
-        {/* agregar animation a responde to message */}
+      <InputGrid padding="20px 10px 0px 10px" borderTop=" 1px solid #c4c4c4">
+        <GridItem />
         <ResponseToMessage />
-        <InputComponent
-          message={message}
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-          ref={inputRef}
-        />
+      </InputGrid>
+
+      <InputGrid padding="10px 10px 20px 10px">
+        {/* agregar animation a responde to message */}
+        <GridItem>
+          <InputMenuDropdown />
+        </GridItem>
+
+        <GridItem>
+          <InputComponent
+            message={message}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            ref={inputRef}
+          />
+        </GridItem>
       </InputGrid>
     </>
   );

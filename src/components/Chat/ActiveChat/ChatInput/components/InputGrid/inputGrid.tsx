@@ -1,18 +1,21 @@
-import { FC, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { Grid } from '@chakra-ui/react';
+import { useAppSelector } from '../../../../../../redux/hooks';
 
 interface inputGridProps {
   children: ReactNode;
+  padding?: string;
+  borderTop?: string;
 }
 
-const inputGrid: FC<inputGridProps> = ({ children }) => {
+const InputGrid = ({ children, padding, borderTop }: inputGridProps) => {
+  const { isMobile } = useAppSelector((state) => state.uiSlice);
   return (
     <Grid
-      gridTemplateColumns="95% 5%"
-      gridTemplateRows="auto auto"
-      borderTop=" 1px solid #c4c4c4"
+      gridTemplateColumns={isMobile ? '10% 85% 5%' : '5% 90% 5%'}
+      borderTop={borderTop}
+      p={padding}
       bg="message.in.bg"
-      p="20px"
       zIndex={100}
     >
       {children}
@@ -20,4 +23,4 @@ const inputGrid: FC<inputGridProps> = ({ children }) => {
   );
 };
 
-export default inputGrid;
+export default InputGrid;

@@ -9,8 +9,7 @@ import { updateFriendship } from '../../services/friends/updateFrienship';
 import useToastCustom from '../../hooks/useToastCustom';
 
 const useInputSocket = (
-  messageProps: string,
-
+  messageProps: string | null,
   image?: string,
   preview?: ArrayBuffer | undefined | null | string
 ) => {
