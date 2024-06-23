@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { FiPlus } from 'react-icons/fi';
-import { IconButton } from '@chakra-ui/react';
+import { Flex, GridItem, IconButton } from '@chakra-ui/react';
 import { useAppSelector } from '../../../../redux/hooks';
 import useInputSocket from '../../../../socket/hooks/useInputSocket';
 
@@ -11,6 +11,7 @@ import {
   FriendRequest,
   InputComponent,
   InputGrid,
+  InputMenuDropdown,
   ResponseToMessage,
 } from './components';
 import { setResponseTo } from '../../../../redux/activeChat/activeChatSlice';
@@ -102,16 +103,25 @@ const ChatInput = () => {
   return (
     <>
       <FriendRequest />
-      <InputGrid>
-        {/* agregar animation a responde to message */}
+      <InputGrid padding="20px 10px 0px 10px" borderTop=" 1px solid #c4c4c4">
+        <GridItem />
         <ResponseToMessage />
-        <InputComponent
-          message={message}
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-          ref={inputRef}
-        />
-        <IconButton icon={<FiPlus />} aria-label="open-file" bg="trasnparent" />
+      </InputGrid>
+
+      <InputGrid padding="10px 10px 20px 10px">
+        {/* agregar animation a responde to message */}
+        <GridItem>
+          <InputMenuDropdown />
+        </GridItem>
+
+        <GridItem>
+          <InputComponent
+            message={message}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            ref={inputRef}
+          />
+        </GridItem>
       </InputGrid>
     </>
   );

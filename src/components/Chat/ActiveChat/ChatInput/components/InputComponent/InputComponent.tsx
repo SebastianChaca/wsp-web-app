@@ -1,10 +1,5 @@
-import { Input, GridItem, FormControl } from '@chakra-ui/react';
-import React, {
-  forwardRef,
-  Ref,
-  ChangeEventHandler,
-  FormEventHandler,
-} from 'react';
+import { Input, FormControl, Box } from '@chakra-ui/react';
+import { forwardRef, Ref, ChangeEventHandler, FormEventHandler } from 'react';
 
 type InputProps = {
   message: string;
@@ -18,7 +13,7 @@ const InputComponent = forwardRef(
     ref: Ref<HTMLInputElement>
   ) => {
     return (
-      <GridItem>
+      <Box w="100%">
         <form onSubmit={handleSubmit}>
           <FormControl>
             <Input
@@ -33,7 +28,7 @@ const InputComponent = forwardRef(
             />
           </FormControl>
         </form>
-      </GridItem>
+      </Box>
     );
   }
 );
