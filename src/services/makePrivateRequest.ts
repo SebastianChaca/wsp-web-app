@@ -17,7 +17,10 @@ export function makePrivateRequest<T>(
   options?: AxiosRequestConfig
 ): Promise<T> {
   return api
-    .request<T>({ url, ...options })
+    .request<T>({
+      url,
+      ...options,
+    })
     .then((res) => res.data)
     .catch((error) => Promise.reject(error?.response?.data));
 }

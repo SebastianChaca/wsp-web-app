@@ -1,4 +1,5 @@
 import { Pagination } from '../common/pagination';
+import { imageServerResponse } from '../Images/image';
 import { userFromServer } from '../session/session';
 
 export interface message {
@@ -36,6 +37,8 @@ export interface messageUI extends message {
   isLoading?: boolean;
   hasFailed?: boolean;
   iconReactions?: IconReactions[];
+  image?: string | ArrayBuffer | null | undefined;
+  hasImage?: boolean;
 }
 
 export interface messageToServer extends message {
@@ -61,6 +64,8 @@ export interface serverMessageResponse {
     message: string | null;
   };
   iconReactions?: IconReactions[];
+  image: imageServerResponse | null;
+  hasImage: boolean;
 }
 
 export interface serverMessageResponseNotPopulated {

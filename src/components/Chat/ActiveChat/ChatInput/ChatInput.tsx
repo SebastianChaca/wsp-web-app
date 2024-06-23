@@ -12,14 +12,22 @@ import {
   ResponseToMessage,
 } from './components';
 import { setResponseTo } from '../../../../redux/activeChat/activeChatSlice';
+import { useDropImageContext } from '../Messages/components/DropImage/context/DropImageContext';
+import ShowImageModal from './components/ShowImageModal/ShowImageModal';
 
 const ChatInput = () => {
   const [message, setMessage] = useState<string>('');
   const { friendId } = useAppSelector((state) => state.friendsSlice);
   const { messages } = useAppSelector((state) => state.messagesSlice);
+  const { showModal, setShowModal, uploadedImage, setPreview, preview } =
+    useDropImageContext();
   const activeChat = useAppSelector((state) => state.activeChatSlice);
   const dispatch = useDispatch();
-  const { setTypingEvent, submitEvent, seenEvent } = useInputSocket(message);
+  const { setTypingEvent, submitEvent, seenEvent } = useInputSocket(
+    message,
+    uploadedImage?.id,
+    preview
+  );
   const inputRef = useRef<HTMLInputElement>(null);
   const isTabActive = useActiveTab();
 
@@ -60,14 +68,27 @@ const ChatInput = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (message.length === 0) return;
+    if (message.length === 0 || !showModal) return;
+    if (showModal) {
+      setShowModal(false);
+    }
     await submitEvent();
+    setPreview(null);
     setMessage('');
     dispatch(setResponseTo(null));
   };
 
   if (activeChat.statusIsBlocked) {
     return null;
+  }
+  if (showModal) {
+    return (
+      <ShowImageModal
+        message={message}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+      />
+    );
   }
   return (
     <>

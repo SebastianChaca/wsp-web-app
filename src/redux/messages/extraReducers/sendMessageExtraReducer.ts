@@ -12,7 +12,14 @@ import { MessagesState } from '../../../types/MessagesState/messageSlicestate';
 
 export const sendMessagesExtraReducer = (
   builder: ActionReducerMapBuilder<MessagesState>,
-  sendMessages: AsyncThunk<serverMessageResponse, messageToServer, {}>
+  sendMessages: AsyncThunk<
+    serverMessageResponse,
+    {
+      message: messageToServer;
+      imagePreview: ArrayBuffer | undefined | null | string;
+    },
+    {}
+  >
 ) => {
   builder
     .addCase(sendMessages.fulfilled, (state, action) => {
@@ -24,7 +31,7 @@ export const sendMessagesExtraReducer = (
     })
     .addCase(sendMessages.pending, (state, action) => {
       const payload: messageUI = {
-        ...action.meta.arg,
+        ...action.meta.arg.message,
         id: action.meta.requestId,
         responseTo: undefined,
         seen: false,
@@ -33,6 +40,7 @@ export const sendMessagesExtraReducer = (
           formatDateMessage(new Date().toLocaleString())
         ),
         isLoading: true,
+        image: action.meta.arg.imagePreview,
       };
 
       state.messages.push(payload);

@@ -9,3 +9,4 @@ export { default as MessageText } from './MessageText/MessageText';
 export { default as IconReaction } from './IconReaction/IconReaction';
 export { default as MainContainer } from './MainContainer/MainContainer';
 export { default as IconReactionDropDown } from './IconReactionDropdown/IconReactionDropDown';
+export { default as MessageImage } from './MessageImage/MessageImage';
