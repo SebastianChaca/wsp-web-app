@@ -1,12 +1,6 @@
-import { Flex } from '@chakra-ui/react';
-import { useAppSelector } from '../../../../redux/hooks';
-
-import Avatar from '../../../Ui/Avatar/Avatar';
-import UserTopBarMenu from './Menu/UserTopBarMenu';
+import { Flex, Text } from '@chakra-ui/react';
 
 const UserTopBar = () => {
-  const { name } = useAppSelector((state) => state.sessionSlice);
-
   return (
     <>
       <Flex
@@ -17,8 +11,9 @@ const UserTopBar = () => {
         justifyContent="left"
         alignItems="center"
       >
-        <Avatar name={name} />
-        <UserTopBarMenu />
+        <Text fontSize="25px" fontWeight={700}>
+          Chats
+        </Text>
       </Flex>
     </>
   );

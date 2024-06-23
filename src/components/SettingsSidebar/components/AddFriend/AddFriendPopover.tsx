@@ -7,13 +7,12 @@ import {
   PopoverArrow,
   PopoverCloseButton,
 } from '@chakra-ui/react';
-import { useAppSelector } from '../../../../../redux/hooks';
+import { useAppSelector } from '../../../../redux/hooks';
 
 interface PopOverTypes {
   children: ReactNode;
-  menuIsOpen: boolean;
 }
-const AddFriendPopover = ({ children, menuIsOpen }: PopOverTypes) => {
+const AddFriendPopover = ({ children }: PopOverTypes) => {
   const { friends, friendsLoading } = useAppSelector(
     (state) => state.friendsSlice
   );
@@ -25,19 +24,13 @@ const AddFriendPopover = ({ children, menuIsOpen }: PopOverTypes) => {
     }
   }, [friends, friendsLoading]);
 
-  useEffect(() => {
-    if (showPopover && menuIsOpen) {
-      setShowPopover(false);
-    }
-  }, [menuIsOpen, showPopover]);
-
   if (friendsLoading) {
     return null;
   }
   return (
     <Popover isOpen={showPopover}>
       <PopoverTrigger>{children}</PopoverTrigger>
-      <PopoverContent>
+      <PopoverContent w="220px">
         <PopoverArrow />
         <PopoverCloseButton
           onClick={() => {
