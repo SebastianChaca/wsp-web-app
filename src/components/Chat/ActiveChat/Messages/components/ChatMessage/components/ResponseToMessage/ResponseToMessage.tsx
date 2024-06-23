@@ -4,13 +4,17 @@ import { useMessageContext } from '../Provider/MessageProvider';
 
 const ResponseToMessage = () => {
   const { msg } = useMessageContext();
-  if (msg.responseTo?.nameTo && msg.responseTo?.message) {
+  if (
+    msg.responseTo?.nameTo &&
+    (msg.responseTo?.message || msg.responseTo.image)
+  ) {
     return (
       <ResponseTo.Container>
         <ResponseTo.Decoration />
         <ResponseTo.Message
           nameTo={msg.responseTo.nameTo}
           message={msg.responseTo.message}
+          image={msg.responseTo.image}
         />
         <Image
           src={msg.responseTo.image as string}

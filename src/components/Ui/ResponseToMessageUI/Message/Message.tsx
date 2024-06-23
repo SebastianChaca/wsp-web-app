@@ -9,15 +9,19 @@ interface MessageProps {
 }
 
 const Message: FC<MessageProps> = ({ nameTo, message, image }) => {
-  console.log(!!message);
   return (
     <Box>
       <Text fontWeight={500} color="brand.primary">
         {nameTo}
       </Text>
       <Flex alignItems="center">
-        {image && <PhotoIcon />}
-        <Text color="message.responseTo" as="i" marginLeft="4px">
+        {image && (
+          <Box marginRight="4px">
+            <PhotoIcon />
+          </Box>
+        )}
+
+        <Text color="message.responseTo" as="i">
           {message ?? 'Photo'}
         </Text>
       </Flex>
