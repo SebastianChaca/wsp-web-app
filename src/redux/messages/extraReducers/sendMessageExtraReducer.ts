@@ -24,6 +24,8 @@ export const sendMessagesExtraReducer = (
   builder
     .addCase(sendMessages.fulfilled, (state, action) => {
       const parsedMessage = sanitizeMessage(action.payload);
+      // to avoid fetching the image from cloud i replace the response with the image in memory
+      parsedMessage.image = action.meta.arg.imagePreview;
       const findIndex = state.messages.findIndex(
         (msg) => msg.id === action.meta.requestId
       );
