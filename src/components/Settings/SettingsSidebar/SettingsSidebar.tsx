@@ -1,20 +1,19 @@
 import { IoChatbubblesOutline } from 'react-icons/io5';
-import { Box, Flex, IconButton } from '@chakra-ui/react';
+import { Flex, IconButton } from '@chakra-ui/react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CgLogOut } from 'react-icons/cg';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { Avatar } from '../Ui';
+import { GrSettingsOption } from 'react-icons/gr';
+import { useAppDispatch } from '../../../redux/hooks';
+import { signOut } from '../../../redux/session/sessionSlice';
+import { resetActiveChatState } from '../../../redux/activeChat/activeChatSlice';
+import { resetChatState } from '../../../redux/friends/friendsSlice';
+import { removeUser } from '../../../services/session/utils/setUser';
 import { AddFriend } from './components';
-import { signOut } from '../../redux/session/sessionSlice';
-import { resetActiveChatState } from '../../redux/activeChat/activeChatSlice';
-import { resetChatState } from '../../redux/friends/friendsSlice';
-import { removeUser } from '../../services/session/utils/setUser';
 
 const SettingsSidebar = () => {
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
   const pathName = location.pathname;
-  const { name } = useAppSelector((state) => state.sessionSlice);
   const dispatch = useAppDispatch();
 
   const handleSignOut = () => {
@@ -32,7 +31,7 @@ const SettingsSidebar = () => {
       height="100vh"
       justifyContent="space-between"
     >
-      <Box>
+      <Flex flexDirection="column" alignContent="center">
         <IconButton
           icon={<IoChatbubblesOutline size="35px" />}
           aria-label="messages"
@@ -45,15 +44,24 @@ const SettingsSidebar = () => {
         />
 
         <AddFriend />
-      </Box>
-      <IconButton
-        icon={<CgLogOut size="35px" />}
-        onClick={handleSignOut}
-        aria-label="singout"
-        bg="transparent"
-      />
-
-      {/* <Avatar name={name} /> */}
+      </Flex>
+      <Flex flexDirection="column" alignContent="center">
+        <IconButton
+          icon={<CgLogOut size="35px" />}
+          onClick={handleSignOut}
+          aria-label="singout"
+          bg="transparent"
+        />
+        <IconButton
+          padding="10px"
+          aria-label="settings"
+          bg={pathName === '/settings' ? 'brand.gray' : 'transparent'}
+          icon={<GrSettingsOption size="35px" />}
+          onClick={() => {
+            navigate('/settings');
+          }}
+        />
+      </Flex>
     </Flex>
   );
 };

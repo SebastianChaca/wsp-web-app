@@ -3,8 +3,9 @@ import { Suspense } from 'react';
 import { Grid } from '@chakra-ui/react';
 import { useAppSelector } from '../../redux/hooks';
 import { Spinner } from '../../components/Ui';
-import SettingsSidebar from '../../components/SettingsSidebar/SettingsSidebar';
+
 import { LeftContainer } from '../../components/AppLayoutContainers';
+import SettingsSidebar from '../../components/Settings/SettingsSidebar/SettingsSidebar';
 
 const PrivateRoute = () => {
   const { token } = useAppSelector((state) => state.sessionSlice);

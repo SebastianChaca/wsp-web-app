@@ -1,7 +1,7 @@
 import { Form } from 'formik';
 import React from 'react';
 import { Button } from '@chakra-ui/react';
-import FormikInput from '../../../../../FormComponents/FormikInput/FormikInput';
+import FormikInput from '../../../../../../FormComponents/FormikInput/FormikInput';
 
 interface ModalFormTypes {
   isValid: string | null;
