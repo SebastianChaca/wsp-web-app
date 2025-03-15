@@ -1,10 +1,10 @@
-import { createSystem, defaultConfig } from '@chakra-ui/react';
+import { extendTheme } from '@chakra-ui/react';
 import { buttonTheme } from './buttons/buttonTheme';
 
 const gray = '#CBD5E0';
 const primary = '#923DA8';
 const secondary = '#CE93D8';
-export const system = createSystem(defaultConfig, {
+export const theme = extendTheme({
   components: {
     Button: buttonTheme,
   },
