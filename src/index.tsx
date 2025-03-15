@@ -2,12 +2,12 @@ import { ColorModeScript } from '@chakra-ui/react';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { App } from './App';
-import reportWebVitals from './reportWebVitals';
+import { App } from '../src/App';
+import reportWebVitals from '../src/reportWebVitals';
 
-import { store } from './redux/store';
+import { store } from '../src/redux/store';
 
-import { SidebarEvents, SocketProvider, MessageEvents } from './socket';
+import { SidebarEvents, SocketProvider, MessageEvents } from '../src/socket';
 
 const container = document.getElementById('root');
 if (!container) throw new Error('Failed to find the root element');

@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { getUser } from './session/utils/setUser';
 
 export const api = axios.create({
-  baseURL: `${process.env.REACT_APP_API_URL}/api/v2` || '',
+  baseURL: `${import.meta.env.VITE_API_URL}/api/v2` || '',
 });
 api.interceptors.request.use((config) => {
   config.headers = config.headers || {};

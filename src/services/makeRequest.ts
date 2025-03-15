@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 // Next we make an 'instance' of it
 export const api = axios.create({
   // .. where we make our configurations
-  baseURL: `${process.env.REACT_APP_API_URL}/api/v2` || '',
+  baseURL: `${import.meta.env.VITE_API_URL}/api/v2` || '',
 });
 
 export function makeRequest<T>(
